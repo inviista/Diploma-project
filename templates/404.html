@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% load today_tags %}
+
+{% block content %}
+        <main>
+            <section>
+                <div class="container">
+                    <div class="wrap">
+                        {% include "popular_news.html" %}
+                        <div class="main-news">
+                            <div class="error404">
+                                <ul class="main-news__bread-crumb">
+                                    <li><a href="{% url 'news:index' %}">Главная</a></li>
+                                    <li><a class="current">Ошибка404</a></li> 
+                                  </ul>
+                                  <img class="error404__img" src="{% static 'img/404.svg' %}" alt="">
+                               
+                               </div>
+                        </div>
+                        {% include "category_news.html" %}
+                    </div>
+                </div>
+            </section>
+        </main>
+{% endblock %}

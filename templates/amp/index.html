@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8" />
+        <script async src="https://cdn.ampproject.org/v0.js"></script>
+        <title>Самая актуальная информация для жителей Астаны 👉 Политика, экономика, спорт, курс валют, прогноз погоды 👉 01.imaq.kz</title>
+        <meta name="description" content="Новости Астаны ✅ Картина дня, происшествия, новости экономики, события в искусстве и культуре✍ Все то, что важно для жителей крупнейшего мегаполиса Казахстана⚡01.imaq.kz ⚡" />
+        <link rel="canonical" href="https://amp.dev/documentation/guides-and-tutorials/start/create/basic_markup/" />
+        <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <script async custom-element="amp-position-observer" src="https://cdn.ampproject.org/v0/amp-position-observer-0.1.js"></script>
+        <script async custom-element="amp-animation" src="https://cdn.ampproject.org/v0/amp-animation-0.1.js"></script>
+        <amp-script layout="container" src="https://yourserver.com/custom.js"></amp-script>
+        <noscript>
+            <style amp-boilerplate>
+                body {
+                    animation: none;
+                }
+            </style>
+        </noscript>
+        <style amp-custom>
+            body {
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            p {
+                line-height: 1.4em;
+            }
+            .card__img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            .card_img img {
+                filter: brightness(90%);
+            }
+            a {
+                transition: 0.3s;
+                color: #000;
+                text-decoration: none;
+            }
+            a:hover {
+                color: #336cda;
+            }
+            ul {
+                list-style: none;
+                margin: 0px;
+                padding: 0px;
+                text-decoration: none;
+            }
+
+            ul li:hover {
+                opacity: 0.5;
+            }
+            ul li:active {
+                opacity: 0.5;
+            }
+            .container {
+                width: 100%;
+                padding: 0 20px;
+            }
+
+            .header {
+                position: fixed;
+                top: 0px;
+                z-index: 1000;
+                transition: top 0.5s;
+            }
+
+            header .container {
+                padding: 0px;
+            }
+
+            .header-wrap {
+                width: 100%;
+                justify-content: space-between;
+                padding: 0px;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                background-color: #144c66;
+                padding-left: 20px;
+            }
+            .header-wrap__menu {
+                padding: 15px 18px;
+                background: #ffe500;
+                width: 58px;
+                height: 50px;
+            }
+
+            #hamburger {
+                height: 48px;
+                width: 48px;
+                position: relative;
+                cursor: pointer;
+                outline: none;
+                display: flex;
+                justify-content: center;
+            }
+
+            #hamburger span {
+                display: block;
+                position: absolute;
+                height: 2px;
+                width: 22px;
+                background: #000;
+                border-radius: 9px;
+                opacity: 1;
+                left: 0;
+                transform: rotate(0deg);
+                transition: 0.5s ease-in-out;
+            }
+
+            #hamburger span:nth-child(1) {
+                top: 1px;
+                transform-origin: left center;
+            }
+
+            #hamburger span:nth-child(2) {
+                top: 8px;
+                transform-origin: left center;
+            }
+
+            #hamburger span:nth-child(3) {
+                top: 16px;
+                transform-origin: left center;
+            }
+
+            #hamburger.close span:nth-child(1) {
+                transform: rotate(45deg);
+            }
+
+            #hamburger.close span:nth-child(2) {
+                width: 0%;
+                opacity: 0;
+                transition: 0.1s;
+            }
+
+            #hamburger.close span:nth-child(3) {
+                transform: rotate(-45deg);
+            }
+
+            #nav-menu {
+                position: fixed;
+                transform: translateX(-100vw);
+                opacity: 0;
+                z-index: 10;
+                transition: transform 0.5s ease, opacity 0.5s ease 0.2s;
+                background-color: #242424;
+            }
+
+            #nav-menu.now-active {
+                transform: translateX(0);
+                opacity: 1;
+                background-color: #242424;
+            }
+
+            .header-menu {
+                position: fixed;
+                width: 100%;
+                height: 60vh;
+                display: grid;
+                grid-template-columns: 1fr;
+                justify-content: space-between;
+            }
+
+            .header-menu .header-menu__nav {
+                display: flex;
+                flex-direction: column;
+                padding-top: 20px;
+            }
+            .header-menu .header-menu__nav li a {
+                display: flex;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 28px;
+                color: #ababab;
+                padding: 7px 0 8px;
+                text-decoration: none;
+                justify-content: center;
+                align-items: center;
+            }
+            .header-menu .header-menu__bottom {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                width: 100%;
+                line-height: 39px;
+            }
+            .header-menu .header-menu__bottom a {
+                width: 100%;
+                border: 1px solid #fff;
+                text-align: center;
+                font-weight: 400px;
+                color: #fff;
+            }
+
+            .main-news__cards .middle-card .middle-card__content .middle-card__date {
+                display: none;
+            }
+            .main-new__category {
+                display: none;
+            }
+
+            .card_all {
+                display: none;
+            }
+            button {
+                padding: 0;
+                border: none;
+                font: inherit;
+                color: inherit;
+                background-color: transparent;
+                /* отображаем курсор в виде руки при наведении; некоторые
+            считают, что необходимо оставлять стрелочный вид для кнопок */
+                cursor: pointer;
+            }
+
+            .wrap {
+                display: flex;
+                flex-direction: column;
+            }
+            .main-news {
+                order: 1;
+                margin-bottom: 34px;
+            }
+            .main-new {
+                position: relative;
+                margin-bottom: 17px;
+                margin-left: -20px;
+                margin-right: -20px;
+                display: block;
+                height: 360px;
+            }
+            .main-new__img {
+                height: 360px;
+                position: relative;
+                width: 100%;
+            }
+
+            .amp-sidebar-mask {
+                background-color: rgba(0, 0, 0, 0);
+            }
+            .main-new .main-new__content {
+                padding: 15px 28px 16px 15px;
+                border-radius: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
+                background: linear-gradient(180deg, rgba(36, 36, 36, 0) 11.46%, #1b1b1b 93.96%);
+
+                position: absolute;
+                top: 0;
+                width: 100%;
+            }
+            main-new__top {
+                display: none;
+            }
+            .main-new__title {
+                font-weight: 700;
+                line-height: 25px;
+                font-size: 22px;
+                color: #fff;
+                margin-bottom: 13px;
+            }
+
+            .main-new__date {
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 18px;
+                color: #ABABAB;
+            }
+
+            .main-news__advertising .main-news__img {
+                height: auto;
+                width: auto;
+                margin-bottom: 34px;
+                border-radius: 7px;
+            }
+
+            .main-news__cards {
+                margin-bottom: 31px;
+            }
+
+            .main-news__cards .middle-card {
+                margin-bottom: 14px;
+                padding-bottom: 17px;
+                border-bottom: 1px dashed #e0e0e0;
+            }
+
+            .main-news__cards .middle-card {
+                display: grid;
+                grid-template-columns: 126px 1fr;
+                column-gap: 14px;
+            }
+
+            .main-news__cards .middle-card .middle-card__content {
+                order: 2;
+            }
+
+            .middle-card__block-img, .city-new__block-img, .main-new__block-img{
+                background-image: url(../img/plug.jpg);
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .middle-card__img, .middle-card__block-img {
+                height: 86px;
+                border-radius: 3px;
+            }
+
+            .main-news__cards .middle-card .middle-card__content .middle-card__title {
+                font-weight: 600;
+                font-size: 17px;
+                line-height: 22px;
+                color: #242424;
+                letter-spacing: -0.08px;
+            }
+
+            .cards_more {
+                margin-top: 19px;
+                background: #e0e0e0;
+                border-radius: 4px;
+                width: 100%;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                text-align: center;
+                padding: 9px 0;
+                border: none;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 14px;
+                color: #000;
+                justify-content: center;
+            }
+
+            .cards_more::after {
+                padding-top: 1px;
+                content: url(../img/vectorstrelka.svg);
+                padding-left: 8px;
+            }
+
+            .popular-news {
+                order: 2;
+                margin-bottom: 38px;
+            }
+
+            .popular-news__sticky {
+                padding: 20px 28px 22px 26px;
+                background-color: #f1f1f1;
+                border-radius: 2px;
+            }
+
+            .popular-news__main-title {
+                font-size: 20px;
+                font-weight: 700;
+                line-height: 24px;
+                color: #242424;
+                margin-bottom: 26px;
+                position: relative;
+                padding-bottom: 5px;
+            }
+
+            .popular-news__main-title::before {
+                position: absolute;
+                height: 3px;
+                width: 60px;
+                background-color: #000000;
+                display: block;
+                bottom: 0;
+                content: "";
+            }
+
+            .popular-news:hover .popular-news__title {
+                opacity: 0.5;
+            }
+
+            .popular-news .popular-news__info {
+                display: flex;
+                color: #4f4f4f;
+                font-family: "Arial";
+                font-size: 11px;
+                font-weight: 400;
+                line-height: 12px;
+                margin-bottom: 10px;
+            }
+
+            .popular-news .popular-news__info .popular-news__date {
+                padding-right: 3px;
+            }
+
+            .popular-news .popular-news__info .popular-news__category {
+                padding-left: 3px;
+                font-weight: 700;
+                font-size: 10px;
+                line-height: 12px;
+                color: #144c66;
+            }
+
+            .popular-news .popular-news__title {
+                font-family: "Bahnschrift";
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 22px;
+                color: #000000;
+                padding-bottom: 12px;
+                border-bottom: 1px dashed #e0e0e0;
+                margin-bottom: 15px;
+            }
+
+            .popular-news__link{
+                color: #242424 !important;
+                text-decoration: underline 2px solid #242424 !important;
+            }
+
+
+            .news__link:hover {
+                opacity: 0.5;
+            }
+
+            .city-news {
+                order: 3;
+                margin-bottom: 26px;
+            }
+
+            .city-news__sticky {
+                background: #242424;
+                padding: 19px 12px 22px 16px;
+                border-radius: 0px;
+            }
+
+            .city-news__title {
+                font-weight: 700;
+                font-size: 20px;
+                line-height: 24px;
+                color: #ffe500;
+                padding-left: 7px;
+                margin-bottom: 22px;
+                position: relative;
+                padding-bottom: 8px;
+            }
+
+            .city-news__title::before {
+                position: absolute;
+                height: 3px;
+                width: 45px;
+                background-color: #ffe500;
+                display: block;
+                bottom: 0;
+                content: "";
+            }
+
+            .news__link {
+                color: #ffffff;
+                text-decoration: underline 2px solid #ffffff;
+                font-size: 13px;
+                font-weight: 400;
+                line-height: 24px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+            }
+
+            .city-new {
+                padding-bottom: 21px;
+                border-bottom: 1px dashed #565656;
+                margin-bottom: 14px;
+                display: grid;
+                grid-template-columns: 1fr 86px;
+                align-items: center;
+            }
+
+            .city-new:last-child {
+                margin-bottom: 15px;
+            }
+
+            .city-new:hover .city-new__title {
+                opacity: 0.5;
+            }
+
+            .city-new__content {
+                height: 100%;
+                margin-right: 28px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .city-new__date {
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 20px;
+                display: flex;
+                align-items: center;
+                color: #ffe500;
+                margin-bottom: 11px;
+            }
+
+            .city-new__title {
+                font-style: normal;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 22px;
+                order: 2;
+                color: #ffffff;
+            }
+            .city-new__img,.city-new__block-img {
+                height: 79px;
+                border-radius: 4px;
+            }
+            .i-amphtml-fill-content{
+                border-radius: 3px;
+            }
+
+            .footer {
+                color: white;
+            }
+
+            .footer a {
+                color: white;
+            }
+
+            .container__display_flex {
+                display: flex;
+                align-items: center;
+                column-gap: 20px;
+            }
+
+            .footer-top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #191919;
+                border-top: 13px solid #144c66;
+                padding: 20px 0px 35px 0px;
+                border-bottom: 1px solid #313131;
+            }
+
+            .footer-top__socialnetwork-text {
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 24px;
+                color: #dddddd;
+            }
+
+            .footer-top__socialnetwork-img {
+                width: 32px;
+                height: 32px;
+            }
+
+            .footer-top__socialnetwork-img img {
+                width: 32px;
+                height: 32px;
+            }
+
+            .footer-top__socialnetwork-img img:active {
+                opacity: 0.6;
+            }
+
+            .footer-bottom {
+                background-color: #1a1a1a;
+            }
+
+            .footer-bottom__wrap {
+                padding: 24px 0px 36px 0px;
+                align-items: start;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid #313131;
+            }
+
+            .footer-bottom__contact {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                order: 2;
+            }
+
+            .footer-bottom__contact_left {
+                width: 160px;
+                padding-bottom: 21px;
+                border-bottom: 1px solid #313131;
+                margin-bottom: 15px;
+            }
+
+            .footer-bottom__socialnetwork {
+                display: flex;
+                align-items: center;
+            }
+
+            .footer-bottom__number {
+                margin-right: 10px;
+                color: #ffffff;
+                font-size: 14px;
+                font-weight: 700;
+                line-height: 15px;
+            }
+
+            .footer-bottom__mail {
+                padding-top: 6px;
+                display: flex;
+                align-items: center;
+                font-size: 13px;
+                font-weight: 400;
+                line-height: 15px;
+                letter-spacing: 0em;
+                color: #ffffff;
+            }
+            .footer-bottom__img {
+                width: 18px;
+                height: 17px;
+            }
+
+            .footer-bottom__contact_right {
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 19px;
+                color: #ffffff;
+                width: 160px;
+                display: flex;
+                align-self: center;
+            }
+
+            .foooter-bottom__list {
+                display: flex;
+                order: 1;
+                flex-direction: column;
+            }
+
+            .foooter-bottom__list li {
+                margin-bottom: 19px;
+            }
+            .foooter-bottom__list li:last-child {
+                margin-bottom: 0px;
+            }
+
+            .foooter-bottom__list li a {
+                margin-left: 0px;
+                color: #e0e0e0;
+                font-weight: 400;
+                font-size: 12.8px;
+                line-height: 15px;
+            }
+
+            .foooter-bottom__list li a span {
+                font-style: normal;
+                font-weight: 400;
+                font-size: 12.8px;
+                line-height: 20px;
+                color: #ffffff;
+            }
+
+            .footer-bottom__copyright {
+                padding: 24px 0px;
+                text-align: center;
+                font-style: normal;
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 16px;
+                display: flex;
+                justify-content: center;
+                color: #ffffff;
+            }
+
+            :root {
+                --color-primary: #144c66;
+
+                --space-2: 1rem; /* 16px */
+            }
+            .scrollToTop {
+                width: 46px;
+                height: 44px;
+                border-radius: 50%;
+                border: none;
+                outline: none;
+                background: var(--color-primary);
+                z-index: 9999;
+                bottom: var(--space-2);
+                right: var(--space-2);
+                position: fixed;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            /* we move the anchor down to componsate the fixed header */
+            .target {
+                position: relative;
+            }
+
+            .menu__close {
+                padding: 15px 18px;
+                background: #ffe500;
+                height: 50px;
+                display: flex;
+                min-height: 20px;
+                position: fixed;
+                z-index: 9999999999;
+                top: -30px;
+                right: 0px;
+            }
+
+            .main-news__cards .card {
+                padding-bottom: 17px;
+                border-bottom: 1px dashed #e0e0e0;
+                margin-bottom: 20px;
+            }
+            .main-news__cards .card a {
+                display: grid;
+                grid-template-columns: 126px 1fr;
+            }
+            .main-news__cards .card a .card_content {
+                order: 2;
+            }
+            .main-news__cards .card a .card_text {
+                font-weight: 600;
+                font-size: 17px;
+                line-height: 22px;
+                display: flex;
+                align-items: center;
+                color: #242424;
+                margin-bottom: 7px;
+            }
+
+            .main-news__cards .card a .card_img {
+                width: 100%;
+                height: 86px;
+                position: relative;
+            }
+
+            .pagination {
+                display: flex;
+                column-gap: 10px;
+                justify-content: center;
+                margin-top: 40px;
+            }
+
+            .pagination a {
+                font-weight: 500;
+                padding: 7px 12px;
+                background-color: #f1f1f1;
+                font-size: 15px;
+                line-height: 23px;
+                color: #333333;
+                border-radius: 2px;
+            }
+
+            .pagination a:hover {
+                filter: brightness(85%);
+            }
+
+            .pagination .current a {
+                background-color: #144c66;
+                color: #ffffff;
+            }
+
+            .pagination .page-item.disabled a {
+                pointer-events: none;
+                opacity: 0.5;
+            }
+
+
+            @media screen and (max-width:992px) {
+                .main-news__advertising .main-news__img {
+                height: auto;
+                width: 100%;
+                margin-bottom: 34px;
+                border-radius: 7px;
+            }
+            }
+
+            
+            @media screen and (max-width: 600px) {
+                .main-new__img,.main-new__block-img {
+                    height: 320px;
+                }
+            }
+            @media screen and (max-width: 550px) {
+                .main-news__advertising .main-news__img {
+                    height: auto;
+                    margin-bottom: 16px;
+                }
+                .main-new__img,.main-new__block-img {
+                height: 308px;
+            }
+            }
+            @media screen and (max-width: 450px) {
+                .main-new__img, .main-new__block-img {
+                    height: 245px;
+                }
+                .main-new {
+                    height: 245px;
+                }
+                .main-news__cards .middle-card {
+                    grid-template-columns: 108px 1fr;
+                }
+                 .middle-card__img, .middle-card__block-img {
+                    height: 77px;
+                    width: 108px;
+                    border-radius: 3px;
+                }
+            }
+        </style>
+    </head>
+    <body [class]="'headerMenu ' + (mainmenuopen ? 'menu-open ' : 'menu-close')">
+        <div class="wrapper">
+            <header>
+                <a class="target-anchor" href="#" id="top" aria-label="#"></a>
+                <amp-position-observer on="enter:hideAnim.start; exit:showAnim.start" layout="nodisplay"> </amp-position-observer>
+                <div class="header-wrap">
+                    <a class="header-wrap__logo" href="#" aria-label="#">
+                        <img src="../img/mobile_Logo.svg" alt="" />
+                    </a>
+                    <div class="header-wrap__menu">
+                        <div id="hamburger" role="button" aria-label="#" on="tap:hamburger.toggleClass(class='close'),nav-menu.toggleClass(class='now-active')">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="header-menu" id="nav-menu">
+                    <ul class="header-menu__nav">
+                        <li><a href="#">Новости</a></li>
+                        <li><a href="#">Происшествия</a></li>
+                        <li><a href="#">Криминал</a></li>
+                        <li><a href="#">Область</a></li>
+                        <li><a href="#">Спорт</a></li>
+                        <li><a href="#">МИР</a></li>
+                    </ul>
+                    <div class="header-menu__bottom">
+                        <a href="#"><div class="ad">РЕКЛАМА</div></a>
+                    </div>
+                </div>
+
+                <amp-animation id="showAnim" layout="nodisplay">
+                    <script type="application/json">
+                        {
+                            "duration": "200ms",
+                            "fill": "both",
+                            "iterations": "1",
+                            "direction": "alternate",
+                            "animations": [
+                                {
+                                    "selector": "#scrollToTopButton",
+                                    "keyframes": [{ "opacity": "1", "visibility": "visible" }]
+                                }
+                            ]
+                        }
+                    </script>
+                </amp-animation>
+                <!-- ... and the second one is for adding the button.-->
+                <amp-animation id="hideAnim" layout="nodisplay">
+                    <script type="application/json">
+                        {
+                            "duration": "200ms",
+                            "fill": "both",
+                            "iterations": "1",
+                            "direction": "alternate",
+                            "animations": [
+                                {
+                                    "selector": "#scrollToTopButton",
+                                    "keyframes": [{ "opacity": "0", "visibility": "hidden" }]
+                                }
+                            ]
+                        }
+                    </script>
+                </amp-animation>
+            </header>
+            <main>
+                <section>
+                    <div class="container">
+                        <div class="wrap">
+                            <div class="main-news">
+                                <a class="main-news__main-new main-new" href="#">
+                                    <div class="main-new__block-img">
+                                        <amp-img src="../img/card_img3.jpg" alt="#" layout="fill"  loading="lazy" class="main-new__img card__img"></amp-img>
+                                    </div>
+                                    <div class="main-new__content">
+                                        <div class="main-new__top">
+                                            <div class="main-new__category">
+                                                Общество
+                                            </div>
+                                        </div>
+                                        <div class="main-new__bottom">
+                                            <div class="main-new__title">Ключевые особенности нового штамма коронавируса "Кракен": заразнее "Омикрона" и неотличим от ОРВИ</div>
+                                            <div class="main-new__date">Сегодня, 14:50</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" aria-label="#" class="main-news__advertising">
+                                    <img class="main-news__img" src="../img/advertising1.png"  alt="" />
+                                </a>
+                                <div class="main-news__cards">
+                                    <a class="middle-card" href="#">
+                                        <div class="middle-card__content">
+                                            <div class="middle-card__title">Название</div>
+                                            <div class="middle-card__date">1 февраля</div>
+                                        </div>
+                                        <div class="middle-card__block-img">
+                                            <amp-img src="../img/card_img3.jpg" alt="#"  height="86px" width="126" layout="responsive" loading="lazy" class="middle-card__img  card__img "></amp-img>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="popular-news">
+                                <div class="popular-news__sticky block__position_sticky">
+                                    <div class="popular-news__main-title"><span>Популя</span>рное</div>
+                                    <a href="#" class="popular-news">
+                                        <div class="popular-news__info">
+                                            <div class="popular-news__date">Сегодня 09:56</div>
+                                            /
+                                            <div class="popular-news__category">Судебный репортаж</div>
+                                        </div>
+                                        <div class="popular-news__content">
+                                            <div class="popular-news__title">По каким причинам казахстанцам отказывают в получении льготного автокредита</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="popular-news">
+                                        <div class="popular-news__info">
+                                            <div class="popular-news__date">Сегодня 09:56</div>
+                                            /
+                                            <div class="popular-news__category">Судебный репортаж</div>
+                                        </div>
+                                        <div class="popular-news__content">
+                                            <div class="popular-news__title">По каким причинам казахстанцам отказывают в получении льготного автокредита</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="popular-news">
+                                        <div class="popular-news__info">
+                                            <div class="popular-news__date">Сегодня 09:56</div>
+                                            /
+                                            <div class="popular-news__category">Судебный репортаж</div>
+                                        </div>
+                                        <div class="popular-news__content">
+                                            <div class="popular-news__title">По каким причинам казахстанцам отказывают в получении льготного автокредита</div>
+                                        </div>
+                                    </a>
+                                    <a class="popular-news__link news__link" href="#">все новости</a>
+                                </div>
+                            </div>
+                            <div class="city-news">
+                                <div class="city-news__sticky block__position_sticky">
+                                    <div class="city-news__title"><span>Жизнь города</span></div>
+                                    <a href="#" class="city-new">
+                                        <div class="city-new__content">
+                                            <div class="city-new__title">"Айкумис в Париже": как казахстанка прошла стажировку в Dior</div>
+                                            <div class="city-new__date">10 января, 14:06</div>
+                                        </div>
+                                        <div class="city-new__block-img">
+                                            <amp-img src="../img/card_img3.jpg" height="79px" width="86px" alt="#"  layout="responsive" loading="lazy" class="city-new__img card__img "></amp-img>
+                                        </div>
+                                    </a>
+
+                                    <a class="city-news__link news__link" href="#">все новости</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <footer>
+                <div class="footer-top">
+                    <div class="container container__display_flex">
+                        <div class="footer-top__socialnetwork-text">01.iMaq.kz в социальных сетях:</div>
+                        <a class="footer-top__socialnetwork-img" aria-label="#" href="#">
+                            <img src="../img/footer_telegramm.svg" alt="" />
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="container">
+                        <div class="footer-bottom__wrap">
+                            <div class="footer-bottom__contact">
+                                <div class="footer-bottom__contact_left">
+                                    <a class="footer-bottom__socialnetwork" href="#">
+                                        <div class="footer-bottom__number">+7 707 122 47 55</div>
+                                        <img class="footer-bottom__img" src="../img/footer_Whatsapp.svg" alt="" />
+                                    </a>
+                                    <a class="footer-bottom__mail" href="#">press@imaq.kz</a>
+                                </div>
+                                <div class="footer-bottom__contact_right">
+                                    г. Астана, ул. Кабанбай батыра, 74
+                                </div>
+                            </div>
+                            <ul class="foooter-bottom__list">
+                                <li>
+                                    <a href="#"><span>Реклама на сайте</span></a>
+                                </li>
+                                <li><a href="#">Политика конфендонциналности </a></li>
+                                <li><a href="#">Пользовательское соглошение</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-bottom__copyright">
+                            © 2023 Все права на авторские публикации принадлежат их авторам. Мнение редакции может не совпадать с мнением авторов статей
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <button id="scrollToTopButton" on="tap:top.scrollTo(duration=200)" class="scrollToTop">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" fill="none">
+                    <path d="M11.6574 5.96219L10.2399 7.37309L6.98495 4.10285L6.97126 17.7079L4.97126 17.7059L4.98491 4.13806L1.75465 7.35324L0.34375 5.93572L6.01383 0.292114L11.6574 5.96219Z" fill="white" />
+                </svg>
+            </button>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+{% load today_tags %}
+
+<div class="popular-news">
+    <div class="popular-news__sticky block__position_sticky">
+        <div class="popular-news__main-title"><span>Популя</span>рное</div>
+             {% for article in popular_news %}
+            <a href="{% url 'news:news_detail' article.alias %}" class="popular-news">
+                <div class="popular-news__info">
+                    <div class="popular-news__date">{{ article.published_date | pretty_date }}</div>
+                    <div class="popular-news__category">{{ article.category }}</div>
+                </div>
+                <div class="popular-news__content">
+                    <div class="popular-news__title">{{ article.title }}</div>
+                </div>
+            </a>
+            {% endfor %}
+            <a class="popular-news__link news__link" href="{% url 'news:all_news' %}">все новости</a>
+    </div>
+</div>

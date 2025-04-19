@@ -1,0 +1,99 @@
+{% extends "base.html" %} {% load static %}{% load today_tags %} {% block meta_data %}
+<title>Самая актуальная информация для жителей Астаны 👉 Политика, экономика, спорт, курс валют, прогноз погоды 👉 01.imaq.kz</title>
+<meta name="description" content="Новости Астаны ✅ Картина дня, происшествия, новости экономики, события в искусстве и культуре✍ Все то, что важно для жителей крупнейшего мегаполиса Казахстана⚡01.imaq.kz ⚡" />
+<meta property="og:image" content="{% static 'img/@1x/preview.jpg' %}" />
+<link rel="canonical" href="https://01.imaq.kz/" />
+        <script type="application/ld+json">
+            {
+                "@context":"http://schema.org",
+                "@type":"Organization",
+                "name":"01.imaq.kz",
+                "url":"https://01.imaq.kz/",
+                "logo":"https://01.imaq.kz/static/img/logo_img.svg"
+            }
+        </script>
+        <script type="application/ld+json">
+            {
+              "@context": "http://schema.org",
+              "@type": "WebSite",
+              "url": "https://01.imaq.kz/",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://01.imaq.kz/",
+                "query-input": "required name=search_term_string"
+              }
+            }
+        </script>
+{% endblock meta_data %} {% block content %}
+<main>
+    <section>
+        <div class="container">
+            <div class="wrap">
+                <div class="main-news">
+                    {% for article in fixed_article %}
+                    {% if forloop.counter == 1 %}
+                    <link rel="preload" href="{{ article.article.image.new_image_800_webp }}" as="image">
+                    <a class="main-news__main-new main-new" href="{% url 'news:news_detail' article.article.alias %}">
+                        <div class="main-news__block-img">
+                            <picture>
+                                <source media="(max-width: 699px)" data-srcset="{{ article.article.image.new_image_800_webp }}" class="lazy">
+                                <source media="(min-width: 700px)" data-srcset="{{ article.article.image.new_image_800_webp }}" class="lazy">
+                                <img data-src="{% static 'img/plug.jpg' %}" alt="{{ article.image.alt }}" class="main-new__img card__img lazy">
+                              </picture>
+                        </div>
+                        <div class="main-new__content">
+                            <div class="main-new__top">
+                                <div class="main-new__category">
+                                    {{ article.article.categories.last }}
+                                </div>
+                            </div>
+                            <div class="main-new__bottom">
+                                <h1 class="main-new__title">{{ article.article.title }}</h1>
+                                <div class="main-new__date">{{ article.article.published_date | pretty_date }}</div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                    {% include "ad.html" %}
+                    <div class="main-news__cards">
+                        {% for article in fixed_article %}
+                        {% if forloop.counter > 1 %}
+                        <a class="middle-card" href="{% url 'news:news_detail' article.article.alias %}">
+                            <div class="middle-card__content">
+                                <div class="middle-card__title">{{ article.article.title }}</div>
+                                <div class="middle-card__date">{{ article.article.published_date | pretty_date }}</div>
+                            </div>
+                            <div class="middle-card__block-img">
+                                <picture>
+                                    <source data-srcset="{{ article.article.image.new_image_150_webp }}" class="lazy">
+                                    <img data-src="{% static 'img/plug.jpg' %}" alt="{{ article.article.image.alt }}" class="middle-card__img card__img lazy">
+                                  </picture>
+                            </div>
+                        </a>
+                        {% endif %}
+                        {% endfor %}
+                        {% for article in page %}
+                        <a class="middle-card" href="{% url 'news:news_detail' article.alias %}">
+                            <div class="middle-card__content">
+                                <div class="middle-card__title">{{ article.title }}</div>
+                                <div class="middle-card__date">{{ article.published_date | pretty_date }}</div>
+                            </div>
+                            <div class="middle-card__block-img">
+                                <picture>
+                                    <source data-srcset="{{ article.image.new_image_150_webp }}" class="lazy">
+                                    <img data-src="{% static 'img/plug.jpg' %}" alt="{{ article.image.alt }}" class="middle-card__img card__img lazy">
+                                  </picture>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% include "pagination.html" %}
+                </div>
+                {% include "popular_news.html" %}
+                {% include "category_news.html" %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

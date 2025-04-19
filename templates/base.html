@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZMX6GZNJZ"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-EZMX6GZNJZ');
+	</script>
+        <meta charset="utf-8" />
+        {% block meta_data %}
+        <title>Самая актуальная информация для жителей Астаны 👉 Политика, экономика, спорт, курс валют, прогноз погоды 👉 01.imaq.kz</title>
+        <meta name="description" content="Новости Казахстана ✅ Картина дня, происшествия, новости экономики, события в искусстве и культуре✍ Все то, что важно для жителей Казахстана⚡imaq.kz ⚡" />
+        <meta property="og:image" content="{% static 'img/@1x/preview.jpg' %}" />
+        {% endblock meta_data %}
+        <link rel="preconnect" href="https://d2z6dsbl451t3b.cloudfront.net" />
+        <link rel="dns-prefetch" href="https://d2z6dsbl451t3b.cloudfront.net" />
+        <link rel="dns-prefetch" href="https://01.imaq.kz" />
+        <link rel="shortcut icon" href="{% static 'img/fav.svg' %}" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="stylesheet" href="{% static 'css/styles.min.css' %}?v=2" async />
+        <meta name="keywords" content="" />
+    </head>
+    <body>
+        <div class="wrapper">
+            <header>
+                <div class="container">
+                    <div class="header-top">
+                        <div class="header-top__left">
+                            <div class="header-top__menu">
+                                <div class="header-top__btn" id="headerBtn">
+                                    <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line y1="1" x2="22" y2="1" stroke="white" stroke-width="2" />
+                                        <line y1="8" x2="22" y2="8" stroke="white" stroke-width="2" />
+                                        <line y1="15" x2="22" y2="15" stroke="white" stroke-width="2" />
+                                    </svg>
+                                </div>
+                                <div class="header-top__btn header-top__btn--close" id="closeBtn">
+                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 1L11 11M21 21L11 11M11 11L21 1L1 21" stroke="white" stroke-width="2" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <a class="header-top__logo" href="{% url 'news:index' %}">
+                                <img class="header-top__logo-img" src="{% static 'img/logo_img.svg' %}" aria-label="logo" alt="logo" />
+                            </a>
+
+                            <ul class="header-top__menu-list">
+                                {% for menu in fixed_menu %}
+                                <li><a class="header-top__menu-link" href="{{ menu.url }}">{{ menu.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="header-top__right">
+                            <img class="header-top__search" src="{% static 'img/Search.svg' %}" id="search--btn" alt="" />
+                            <img class="header-top__info-img" src="{% static 'img/18+.svg' %}" alt="icon" />
+                        </div>
+                    </div>
+                    <div class="header-bottom">
+                        <div class="header-bottom__left">
+                            <div class="header-bottom__title">Главные новости Астаны</div>
+                        </div>
+                        <div class="header-bottom__right">
+                            <div class="header-bottom__currencies" id="сurrencies"></div>
+                            <a href="https://wa.me/message/EAGPTKXUAMUGO1" class="header-bottom__contact" aria-label="#">
+                                <svg class="header-bottom__contact-img" xmlns="http://www.w3.org/2000/svg" width="24" height="26" viewBox="0 0 24 26" fill="none">
+                                    <path d="M5.96605 21.8594L6.3798 22.0563C8.10398 23.0406 10.0349 23.5 11.9659 23.5C18.0347 23.5 23 18.775 23 13C23 10.2438 21.8276 7.55314 19.7587 5.58436C17.6898 3.61558 14.9312 2.5 11.9659 2.5C5.89714 2.5 0.931704 7.225 1.00071 13.0657C1.00071 15.0344 1.62138 16.9376 2.65579 18.5781L2.93162 18.9719L1.8283 22.8438L5.96605 21.8594Z" fill="#00E676"/>
+                                    <path d="M20.534 4.14864C18.3106 1.78382 15.237 0.5 12.0981 0.5C5.42785 0.5 0.0654365 6.10809 0.130779 12.9324C0.130779 15.0946 0.719333 17.1892 1.70032 19.0811L0 25.5L6.34331 23.8108C8.10897 24.8244 10.0707 25.2974 12.0327 25.2974C18.6376 25.2974 24 19.6892 24 12.865C24 9.55409 22.7575 6.44595 20.5341 4.14864H20.534ZM12.0981 23.2028C10.3324 23.2028 8.56674 22.7299 7.06264 21.7839L6.6703 21.5812L2.87742 22.5947L3.85831 18.7434L3.59676 18.3379C0.719333 13.5407 2.09265 7.18918 6.80108 4.21616C11.5095 1.24323 17.5913 2.66218 20.4687 7.52704C23.346 12.3919 21.9727 18.6757 17.2644 21.6487C15.7602 22.6622 13.9292 23.2027 12.0981 23.2027V23.2028ZM17.8528 15.7029L17.1335 15.365C17.1335 15.365 16.0872 14.892 15.4333 14.5542C15.3678 14.5542 15.3025 14.4866 15.237 14.4866C15.0408 14.4866 14.91 14.5542 14.7793 14.6218C14.7793 14.6218 14.7139 14.6893 13.7984 15.7704C13.7329 15.9055 13.6022 15.9731 13.4714 15.9731H13.4059C13.3406 15.9731 13.2098 15.9055 13.1444 15.838L12.8174 15.7029C12.0981 15.365 11.4442 14.9595 10.921 14.419C10.7902 14.2839 10.594 14.1488 10.4632 14.0137C10.0054 13.5407 9.54763 13.0001 9.22073 12.392L9.15529 12.2569C9.08995 12.1893 9.08995 12.1217 9.02452 11.9866C9.02452 11.8515 9.02452 11.7164 9.08995 11.6488C9.08995 11.6488 9.35151 11.3109 9.54763 11.1083C9.67851 10.973 9.74385 10.7704 9.87463 10.6353C10.0054 10.4325 10.0708 10.1623 10.0054 9.95956C9.94006 9.6217 9.1553 7.79738 8.95917 7.39201C8.8283 7.18927 8.69761 7.12176 8.5014 7.05415H7.78207C7.65119 7.05415 7.52051 7.12176 7.38963 7.12176L7.3242 7.18927C7.19342 7.25688 7.06264 7.39201 6.93186 7.45952C6.80108 7.59474 6.73565 7.72977 6.60487 7.86499C6.14709 8.4731 5.88553 9.21633 5.88553 9.95956C5.88553 10.5001 6.01631 11.0407 6.21253 11.5136L6.27797 11.7164C6.86652 13.0001 7.65119 14.1488 8.69761 15.1623L8.95917 15.4325C9.1553 15.6353 9.35151 15.7704 9.48229 15.973C10.8556 17.1893 12.4251 18.0677 14.1907 18.5407C14.3869 18.6082 14.6485 18.6082 14.8447 18.6758H15.4986C15.8256 18.6758 16.2179 18.5407 16.4796 18.4055C16.6757 18.2704 16.8065 18.2704 16.9373 18.1353L17.0681 18.0001C17.1989 17.865 17.3297 17.7974 17.4605 17.6623C17.5913 17.5272 17.722 17.3921 17.7875 17.2568C17.9183 16.9866 17.9836 16.6487 18.049 16.311V15.838C18.049 15.838 17.9836 15.7704 17.8528 15.7029Z" fill="white"/>
+                                </svg>
+                                <div class="header-bottom__contact-title">
+                                    присылайте новости
+                                    на WhatsApp
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="header-menu" id="header-menu">
+                        <ul class="header-menu__nav">
+                            {% for menu in fixed_menu %}
+                            <li><a href="{{ menu.url }}">{{ menu.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <div class="header-menu__bottom">
+                            <a class="header-menu__link" href="{% url 'news:advertising' %}">РЕКЛАМА</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            {% block content %} {% endblock content %}
+            <footer>
+                <div class="footer-top">
+                    <div class="container container__display_flex">
+                        <div class="footer-top__socialnetwork">
+                            <div class="footer-top__text">01.iMaq.kz в социальных сетях:</div>
+                            <a class="footer-top__socialnetwork-img" href="https://t.me/imaq01" target="_blank">
+                                <img src="{% static 'img/footer_telegramm.svg' %}" alt="icon" />
+                            </a>
+                        </div>
+                        <ul class="footer-top__list">
+                            {% for menu in fixed_menu %}
+                            <li><a href="{{ menu.url }}">{{ menu.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="container">
+                        <div class="footer-bottom__wrap">
+                            <div class="footer-bottom__contact">
+                                <div class="footer-bottom__contact_left">
+                                    <a class="footer-bottom__socialnetwork" href="tel:+7 (700) 39 69 700">
+                                        <div class="footer-bottom__number">+7 700 39 69 700</div>
+                                    </a>
+                                    <a class="footer-bottom__mail" href="mailto:press@imaq.kz">press@imaq.kz</a>
+                                </div>
+                                <div class="footer-bottom__contact_right">
+                                    г. Астана, ул. Беимбета Майлина 19, БЦ «Таутас»
+                                </div>
+                            </div>
+                            <ul class="foooter-bottom__list">
+                                <li>
+                                    <a href="{% url 'news:advertising' %}"><span>Реклама на сайте</span></a>
+                                </li>
+                                <li><a href="{% url 'news:rules' %}">Политика конфиденциальности </a></li>
+                                <li><a href="{% url 'news:maps' %}">Карта сайта</a></li>
+                                <li><a href="{% url 'news:about' %}">О проекте</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-bottom__copyright">
+                            © 2023 imaq.kz. Все права защищены. 18+
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <div class="up_button" id="toTop">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" fill="none">
+                    <path d="M11.6574 5.96219L10.2399 7.37309L6.98495 4.10285L6.97126 17.7079L4.97126 17.7059L4.98491 4.13806L1.75465 7.35324L0.34375 5.93572L6.01383 0.292114L11.6574 5.96219Z" fill="white" />
+                </svg>
+            </div>
+
+            <div class="searchBlock">
+                <div class="mobMenuBg" id="mobMenuBg"></div>
+                <div class="container">
+                    <div class="mobile-search_content" id="mobile-search_content">
+                        <form action="{% url 'news:search_results' %}" class="header-search">
+                            <input type="text" name="search" class="mobile-search_search" placeholder="Поиск" />
+                            <button>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.5 15.5L19 19" stroke="#4A4342" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path
+                                        d="M5 11C5 14.3137 7.68629 17 11 17C12.6597 17 14.1621 16.3261 15.2483 15.237C16.3308 14.1517 17 12.654 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11Z"
+                                        stroke="#4A4342"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="{% static 'js/scripts.min.js' %}"></script>
+    </body>
+</html>

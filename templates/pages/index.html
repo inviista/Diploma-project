@@ -1,4 +1,7 @@
-{% extends "base.html" %} {% load static %}{% load today_tags %} {% block meta_data %}
+{% extends "base.html" %}
+{% load static %}
+{% load today_tags %}
+{% block meta_data %}
 <title>Самая актуальная информация для жителей Астаны 👉 Политика, экономика, спорт, курс валют, прогноз погоды 👉 01.imaq.kz</title>
 <meta name="description" content="Новости Астаны ✅ Картина дня, происшествия, новости экономики, события в искусстве и культуре✍ Все то, что важно для жителей крупнейшего мегаполиса Казахстана⚡01.imaq.kz ⚡" />
 <meta property="og:image" content="{% static 'img/@1x/preview.jpg' %}" />
@@ -24,7 +27,8 @@
               }
             }
         </script>
-{% endblock meta_data %} {% block content %}
+{% endblock meta_data %}
+{% block content %}
 <main>
     <section>
         <div class="container">

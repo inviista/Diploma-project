@@ -1,8 +1,18 @@
 FROM python:3.7
-RUN mkdir /app
-COPY requirements.txt /app
+# Set the working directory inside the container
 WORKDIR /app
-RUN pip3 install -r /app/requirements.txt --no-cache-dir
-COPY . /app
+
+# Install dependencies
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code
+COPY . .
+
 RUN python manage.py collectstatic --noinput
-#CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000
+
+# Expose the port Django runs on
+EXPOSE 8000
+
+# Default command to run the application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

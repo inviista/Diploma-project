@@ -63,7 +63,7 @@ class Tag(UUIDMixin):
 
 
 class Article(UUIDMixin):
-    image = models.JSONField('Картинки', default=dict)
+    image = models.ImageField('Картинки', null=True, blank=True)
     title = models.CharField('Заголовок', max_length=1000, null=False, blank=True)
     alias = models.CharField('Алиас', max_length=1000, unique=True, blank=True, null=True, db_index=True)
     description = models.TextField('Лид', null=True, blank=True)

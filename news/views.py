@@ -47,39 +47,31 @@ def search_results(request):
     context = {'page': page, 'popular_news': popular_news, 'fixed_menu': menu, 'query': query}
     return render(request, 'pages/search_results.html', context)
 
+VALID_CATEGORIES = [
+    'korporativnaya-kultura-bezopasnosti',
+    'ecologicheskaya-bezopasnost',
+    'izmeneniya-v-zakonodatelstve',
+    'ohrana-truda'
+]
+DEFAULT_CATEGORY = 'ohrana-truda'
 
 def index(request):
-    menu = FixedMenu.objects.all()
-    fixed_article = FixedArticle.objects.all()
-    remove_article = FixedArticle.objects.all().values_list('article', flat=True)
-    category_news = Article.objects.filter(categories__slug='obshchestvo', article_status=True, article_type='P')[:5]
-    last_news = Article.objects.filter(article_status=True, article_type='P').exclude(id__in=remove_article)
-    popular_news = Article.objects.filter(article_status=True, article_type='P',
-                                          published_date__gte=three_days_ago).order_by('-view_count')[:6]
-
-    paginator = Paginator(last_news, 10)
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
-
-    context = {'category_news': category_news, 'popular_news': popular_news, 'fixed_menu': menu, 'page': page,
-               'fixed_article': fixed_article}
+    selected_category = request.GET.get('category', DEFAULT_CATEGORY)
+    categories = Category.objects.all()
+    if selected_category:
+        articles = Article.objects.filter(categories__slug=selected_category)
+    elif categories.exists():
+        articles = Article.objects.filter(categories=categories.first())
+    else:
+        articles = Article.objects.all()
+    context = {'articles': articles, 'categories': categories, 'selected_category': selected_category}
     return render(request, 'pages/index.html', context)
 
 
 @counted
-def news_detail(request, slug):
-    news = get_object_or_404(Article.objects.prefetch_related('categories', 'tags'), alias=slug)
-    category_news = Article.objects.filter(categories__slug='obshchestvo', article_status=True,
-                                           article_type='P').order_by('-published_date')[:5]
-    popular_news = Article.objects.filter(article_status=True, article_type='P',
-                                          published_date__gte=three_days_ago).order_by('-view_count')[:6]
-    last_news = Article.objects.filter(article_status=True, article_type='P', categories=news.categories.last()
-                                       ).exclude(id__in=[news.id])[:10]
-    menu = FixedMenu.objects.all()
-
-    context = {'news': news, 'category_news': category_news, 'popular_news': popular_news, 'last_news': last_news,
-               'fixed_menu': menu}
-
+def news_detail(request, alias):
+    article = get_object_or_404(Article, alias=alias)
+    context = {'article': article}
     return render(request, 'pages/article.html', context)
 
 

@@ -1,4 +1,4 @@
-{% load static %}
+ {% load static %}
 <html lang="ru">
     <head>
         <!-- Google tag (gtag.js) -->
@@ -24,12 +24,35 @@
         <meta name="keywords" content="" />
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
-    <body>
-        <header class="flex p-4 bg-black">
-            <label>
-                <input />
-            </label>
+    <body class="bg-[#F5F5F5]">
+        <header class="p-4 h-[100px] bg-white">
+          <div class="flex items-center justify-between mx-auto max-w-6xl pt-[8px]">
+            <div class="flex space-x-1">
+                <img class="h-[50px] w-[196px]" src="{% static 'img/_src/icons/Asset_5.png' %}">
+                <a href="" class="flex items-center justify-center pl-[15px]">Главная</a>
+                <a href="" class="flex p-3 items-center justify-center">HSE Prime</a>
+                <a href="" class="flex p-3 items-center justify-center" >Мероприятия</a>
+                <a href="" class="flex p-3 items-center justify-center">Задай вопрос</a>
+                <a href="" class="flex p-3 items-center justify-center">Qauipedia</a>
+            </div>
+              <!-- Регистрация -->
+            <div class="flex items-center space-x-1">
+              <a href="/register" class="px-3 py-1 border-1 bg-red-500 text-white rounded-[10px] content-center h-[43px] border-solid">Зарегистрироваться</a>
+                <!-- Кнопка для локализации -->
+              <script src="//unpkg.com/alpinejs" defer></script>
+                <div x-data="{ lang: 'KZ' }" class="flex items-center px-4 py-2 space-x-2">
+                  <span :class="{'text-black': lang === 'KZ', 'text-gray-400': lang !== 'KZ'}" @click="lang = 'KZ'" class="cursor-pointer font-semibold">
+                    KZ
+                  </span>
+                  <span class="border-l h-4"></span>
+                  <span :class="{'text-red-500': lang === 'RU', 'text-gray-400': lang !== 'RU'}" @click="lang = 'RU'" class="cursor-pointer font-semibold">
+                    RU
+                  </span>
+                </div>
+            </div>
+          </div>
         </header>
+
         {% block content %} {% endblock content %}
     </body>
 </html>

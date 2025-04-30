@@ -31,73 +31,91 @@
 {% block content %}
 <main>
     <section>
-        <div class="container">
-            <div class="wrap">
-                <div class="main-news">
-                    {% for article in fixed_article %}
-                    {% if forloop.counter == 1 %}
-                    <link rel="preload" href="{{ article.article.image.new_image_800_webp }}" as="image">
-                    <a class="main-news__main-new main-new" href="{% url 'news:news_detail' article.article.alias %}">
-                        <div class="main-news__block-img">
-                            <picture>
-                                <source media="(max-width: 699px)" data-srcset="{{ article.article.image.new_image_800_webp }}" class="lazy">
-                                <source media="(min-width: 700px)" data-srcset="{{ article.article.image.new_image_800_webp }}" class="lazy">
-                                <img data-src="{% static 'img/plug.jpg' %}" alt="{{ article.image.alt }}" class="main-new__img card__img lazy">
-                              </picture>
-                        </div>
-                        <div class="main-new__content">
-                            <div class="main-new__top">
-                                <div class="main-new__category">
-                                    {{ article.article.categories.last }}
-                                </div>
-                            </div>
-                            <div class="main-new__bottom">
-                                <h1 class="main-new__title">{{ article.article.title }}</h1>
-                                <div class="main-new__date">{{ article.article.published_date | pretty_date }}</div>
-                            </div>
-                        </div>
-                    </a>
-                    {% endif %}
-                    {% endfor %}
-                    {% include "ad.html" %}
-                    <div class="main-news__cards">
-                        {% for article in fixed_article %}
-                        {% if forloop.counter > 1 %}
-                        <a class="middle-card" href="{% url 'news:news_detail' article.article.alias %}">
-                            <div class="middle-card__content">
-                                <div class="middle-card__title">{{ article.article.title }}</div>
-                                <div class="middle-card__date">{{ article.article.published_date | pretty_date }}</div>
-                            </div>
-                            <div class="middle-card__block-img">
-                                <picture>
-                                    <source data-srcset="{{ article.article.image.new_image_150_webp }}" class="lazy">
-                                    <img data-src="{% static 'img/plug.jpg' %}" alt="{{ article.article.image.alt }}" class="middle-card__img card__img lazy">
-                                  </picture>
-                            </div>
-                        </a>
-                        {% endif %}
-                        {% endfor %}
-                        {% for article in page %}
-                        <a class="middle-card" href="{% url 'news:news_detail' article.alias %}">
-                            <div class="middle-card__content">
-                                <div class="middle-card__title">{{ article.title }}</div>
-                                <div class="middle-card__date">{{ article.published_date | pretty_date }}</div>
-                            </div>
-                            <div class="middle-card__block-img">
-                                <picture>
-                                    <source data-srcset="{{ article.image.new_image_150_webp }}" class="lazy">
-                                    <img data-src="{% static 'img/plug.jpg' %}" alt="{{ article.image.alt }}" class="middle-card__img card__img lazy">
-                                  </picture>
-                            </div>
-                        </a>
-                        {% endfor %}
-                    </div>
-                    {% include "pagination.html" %}
+        <img class="w-full" src="{% static 'img/_src/icons/Hero.png' %}">
+            <div class="flex flex-col">
+                <div class="pt-[32px] flex justify-between w-full">
+                    <h1 class="flex text-4xl font-bold pl-[150px]">Новости</h1>
+                    <button class="flex items-center pt-[15px] pr-[150px]">
+                        <h1 class="flex pr-[8px] ">Смотреть все</h1>
+                        <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">
+                    </button>
                 </div>
-                {% include "popular_news.html" %}
-                {% include "category_news.html" %}
+                <div class="pl-[150px] pt-[8px] leading-5 text-base">
+                    <h1>Следите за последними новостями в сфере охраны труда и безопасности.</h1>
+                    <h1>Здесь мы делимся актуальными событиями, аналитикой, передовыми практиками и новыми цифровыми решениями.</h1>
+                    <h1>Будьте в курсе тенденций, которые формируют культуру безопасности сегодня и определяют её завтра.</h1>
+                </div>
+                <div class="pl-[150px] pt-[16px] ">
+                                    <!-- 1. Охрана труда -->
+                    <a href="?category=ohrana-truda"
+                       class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
+                              {% if not selected_category or selected_category == 'ohrana-truda' %}bg-red-500 text-white{% else %}border-black{% endif %}">
+                        Охрана труда
+                    </a>
+
+                    <!-- 2. Экологическая безопасность -->
+                    <a href="?category=ecologicheskaya-bezopasnost"
+                       class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
+                              {% if selected_category == 'ecologicheskaya-bezopasnost' %}bg-red-500 text-white{% else %}border-black{% endif %}">
+                        Экологическая безопасность
+                    </a>
+
+                    <!-- 3. Корпоративная культура -->
+                    <a href="?category=korporativnaya-kultura-bezopasnosti"
+                       class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
+                              {% if selected_category == 'korporativnaya-kultura-bezopasnosti' %}bg-red-500 text-white{% else %}border-black{% endif %}">
+                        Корпоративная культура
+                    </a>
+
+                    <!-- 4. Изменения в законодательстве -->
+                    <a href="?category=izmeneniya-v-zakonodatelstve"
+                       class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
+                              {% if selected_category == 'izmeneniya-v-zakonodatelstve' %}bg-red-500 text-white{% else %}border-black{% endif %}">
+                        Изменения в законодательстве
+                    </a>
+                </div>
+                <div class="main-news pl-[150px] flex pt-[16px]">
+                    {% for article in articles %}
+                    {% if forloop.counter == 1 %}
+                    <div class="flex flex-row">
+                        <img class="flex h-[251px] w-[447px]" src="{{ article.image.url }}">
+                        <div class="flex flex-col">
+                            <div class="pr-[50px] pl-[16px] text-[14px] text-[#ED1A39] font-medium">{{article.categories.last}}</div>
+                            <div class="pr-[200px] pl-[16px] text-[20px] text-[#000000] font-bold">{{ article.title }}</div>
+                            <div class=" text-[13px] pl-[16px] text-[#BDBEC0] font-normal mt-[5px]">{{article.published_date}}</div>
+                            <div class=" text-[16px] pl-[16px] text-[#000000] font-normal mt-[5px] pr-[200px]">{{article.description}}</div>
+                            <button class="flex flex-row ml-[16px] mt-[11px] justify-center items-center border-1 bg-[#AF1E2A] text-white rounded-[10px] content-center h-[36px] w-[137px] border-solid">
+                                <a href="{% url 'news:news_detail' article.alias %}" class="text-[16px] pb-[3px] pr-[8px]">Подробнее</a>
+                                <img class="" src="{% static 'img/_src/icons/arrow.png' %}">
+                            </button>
+                        </div>
+                            {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
+                  {% for article in articles %}
+                    {% if forloop.counter > 1 %}
+
+                    <div class="inline-block w-64 mx-2 p-4 border rounded-lg bg-white">
+                      <h3 class="font-bold truncate">{{ article.title }}</h3>
+                      <p class="text-sm mt-2 line-clamp-3">{{ article.content|truncatewords:20 }}</p>
+                      <span class="text-xs text-gray-500">{{ article.pub_date|date:"d.m.Y" }}</span>
+                    </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+
+                <style>
+                  .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                  }
+                  .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                  }
+                </style>
             </div>
-        </div>
     </section>
 </main>
 {% endblock %}

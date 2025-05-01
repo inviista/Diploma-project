@@ -80,6 +80,10 @@ def news_detail(request, alias):
     context = {'article': article}
     return render(request, 'pages/article.html', context)
 
+def qauipmedia(request):
+    articles = Article.objects.all()
+    context = {'articles': articles}
+    return render(request, 'pages/qauipmedia.html', context)
 
 def all_news(request):
     articles = Article.objects.all()

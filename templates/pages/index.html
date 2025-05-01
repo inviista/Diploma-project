@@ -153,20 +153,39 @@
                             0px 23px 6px 0px #00000000;
                     }
             </style>
-            <div class="bg-white mt-[30px]">
-                <div class="pt-[32px] flex justify-between w-full">
+            <div class="bg-white mt-[30px] h-[580px]">
+                <div class="pt-[32px] flex justify-between w-full mb-[16px]">
                     <h1 class="flex text-4xl font-bold pl-[150px]">Qauipmedia</h1>
-                    <a href="{% url 'news:all_news' %}" class="flex items-center pt-[15px] pr-[150px]">
+                    <a href="{% url 'news:qauipmedia' %}" class="flex items-center pt-[15px] pr-[150px]">
                         <h1 class="flex pr-[8px] ">Подробнее</h1>
                         <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">
                     </a>
                 </div>
-                <div>
-                    <div>
-
+                <div class="flex justify-center gap-[16px] ">
+                    <div class="h-[489px] w-[600px] leading-5">
+                        <div class="border-b-2 pb-[8px] border-red-500 text-[18px] font-[600]">Техника безопасности — это не про каски.
+                           <h1 class="text-[18px] font-[600]">Это про детство!</h1>
+                        </div>
+                        <h1 class="text-[14px]">Первый эпизод подкаста ‪@HSEQauipsizAnalytics‬ — не про каски, а про то, как привычки из детства и семейные ценности формируют культуру безопасности. Гость — Максат Кубейсинов, HSE-специалист с 15-летним опытом и отец троих детей, делится личными историями, инсайтами и важными вопросами, о которых обычно молчат.</h1>
+                        <div class="video-container">
+                            <iframe
+                                    class="w-[600px] h-[316px] mt-[16px]"
+                                src="https://www.youtube.com/embed/E5qEnuEF0tc?si=VcBIkbeOMZ40hrHV"
+                                title="YouTube video"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
                     </div>
-                    <div>
-
+                    <div class="h-[489px] w-[600px] leading-5">
+                        <div class="border-b-2 pb-[8px] text-[18px] border-red-500 h-[49.6px] font-[600]">Вебинар "Эффективное управление безопасностью"</div>
+                        <h1 class="text-[14px]">Обсуждаем, почему международные HSE-стандарты не всегда приживаются, какие цифровые решения действительно работают и как формировать культуру безопасности без давления — с фокусом на казахстанский контекст и реальные кейсы.</h1>
+                        <div class="video-container">
+                            <iframe class="h-[316px] w-[600px] mt-[37px]"
+                                src="https://www.youtube.com/embed/ohEQtydX4Kc?si=B4Lj3U_3dukhVI3m"
+                                title="YouTube video"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
                     </div>
                 </div>
             </div>

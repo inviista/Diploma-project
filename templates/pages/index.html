@@ -31,21 +31,21 @@
 {% block content %}
 <main>
     <section>
-        <img class="w-full" src="{% static 'img/_src/icons/Hero.png' %}">
-            <div class="flex flex-col">
-                <div class="pt-[32px] flex justify-between w-full">
-                    <h1 class="flex text-4xl font-bold pl-[150px]">Новости</h1>
-                    <a href="{% url 'news:all_news' %}" class="flex items-center pt-[15px] pr-[150px]">
-                        <h1 class="flex pr-[8px] ">Смотреть все</h1>
-                        <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">
-                    </a>
-                </div>
-                <div class="pl-[150px] pt-[8px] leading-5 text-base">
-                    <h1>Следите за последними новостями в сфере охраны труда и безопасности.</h1>
-                    <h1>Здесь мы делимся актуальными событиями, аналитикой, передовыми практиками и новыми цифровыми решениями.</h1>
-                    <h1>Будьте в курсе тенденций, которые формируют культуру безопасности сегодня и определяют её завтра.</h1>
-                </div>
-                <div class="pl-[150px] pt-[16px] ">
+        <img class="w-full" src="{% static 'img/_src/icons/Hero1.png' %}">
+        <div class="flex flex-col">
+            <div class="pt-[32px] flex justify-between w-full">
+                <h1 class="flex text-4xl font-bold pl-[150px]">Новости</h1>
+                <a href="{% url 'news:all_news' %}" class="flex items-center pt-[15px] pr-[150px]">
+                    <h1 class="flex pr-[8px] ">Смотреть все</h1>
+                    <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">
+                </a>
+            </div>
+            <div class="pl-[150px] pt-[8px] leading-5 text-base">
+                <h1>Следите за последними новостями в сфере охраны труда и безопасности.</h1>
+                <h1>Здесь мы делимся актуальными событиями, аналитикой, передовыми практиками и новыми цифровыми решениями.</h1>
+                <h1>Будьте в курсе тенденций, которые формируют культуру безопасности сегодня и определяют её завтра.</h1>
+            </div>
+            <div class="pl-[150px] pt-[16px] ">
                                     <!-- 1. Охрана труда -->
                     <a href="?category=ohrana-truda"
                        class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
@@ -60,11 +60,11 @@
                         Экологическая безопасность
                     </a>
 
-                    <!-- 3. Корпоративная культура -->
-                    <a href="?category=korporativnaya-kultura-bezopasnosti"
+                    <!-- 3.Культура безопасности -->
+                    <a href="?category=kultura-bezopasnosti"
                        class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
-                              {% if selected_category == 'korporativnaya-kultura-bezopasnosti' %}bg-red-500 text-white{% else %}border-black{% endif %}">
-                        Корпоративная культура
+                              {% if selected_category == 'kultura-bezopasnosti' %}bg-red-500 text-white{% else %}border-black{% endif %}">
+                        Культура безопасности
                     </a>
 
                     <!-- 4. Изменения в законодательстве -->
@@ -73,8 +73,13 @@
                               {% if selected_category == 'izmeneniya-v-zakonodatelstve' %}bg-red-500 text-white{% else %}border-black{% endif %}">
                         Изменения в законодательстве
                     </a>
-                </div>
-                <div class="main-news pl-[150px] flex pt-[16px]">
+                    <a href="?category=proizvodstvennaia-bezopasnost"
+                       class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
+                              {% if selected_category == 'proizvodstvennaia-bezopasnost' %}bg-red-500 text-white{% else %}border-black{% endif %}">
+                        Производственная безопасность
+                    </a>
+            </div>
+            <div class="main-news pl-[150px] flex pt-[16px]">
                     {% for article in articles %}
                     {% if forloop.counter == 1 %}
                     <div class="flex flex-row">
@@ -92,9 +97,9 @@
                             {% endif %}
                     {% endfor %}
                     </div>
-                </div>
-                <div class="flex w-full justify-center ">
-                    <div class="w-[1246px] bg-white h-[178px] rounded-[16px]">
+            </div>
+            <div class="flex w-full justify-center ">
+                    <div class="mt-[16px] w-[1246px] bg-white h-[178px] rounded-[16px]">
                         <div class="no-scroll-arrows  mt-[15px] w-[1232px] overflow-x-auto bg-white h-[150px] rounded-l-[16px] flex">
                             {% for article in articles %}
                               {% if forloop.counter > 1 %}
@@ -118,38 +123,54 @@
                         {% endfor %}
                         </div>
                     </div>
-                </div>
-<style>
-    .no-scroll-arrows::-webkit-scrollbar{
-        width: 0;
-        height: 4px;
-    }
-    .no-scroll-arrows::-webkit-scrollbar-thumb{
-        background-color: #ff0000;
-        margin: 0 40px;
-        border-radius: 4px;
-
-    }
-    .no-scroll-arrows::-webkit-scrollbar-track {
-  margin-left: 20px;
-        background-color: #F5F5F5;
-}
-
-    .hover-shadow-transition {
-  transition: box-shadow 0.3s ease;
-}
-
-.hover-shadow-transition:hover {
-  box-shadow:
-    0px 1px 2px 0px #00000033,
-    0px 4px 4px 0px #0000002B,
-    0px 8px 5px 0px #0000001A,
-    0px 15px 6px 0px #00000008,
-    0px 23px 6px 0px #00000000;
-}
-</style>
-
             </div>
+            <style>
+                    .no-scroll-arrows::-webkit-scrollbar{
+                        width: 0;
+                        height: 4px;
+                    }
+                    .no-scroll-arrows::-webkit-scrollbar-thumb{
+                        background-color: #ff0000;
+                        margin: 0 40px;
+                        border-radius: 4px;
+
+                    }
+                    .no-scroll-arrows::-webkit-scrollbar-track {
+                        margin-left: 20px;
+                        background-color: #F5F5F5;
+                    }
+
+                    .hover-shadow-transition {
+                        transition: box-shadow 0.3s ease;
+                    }
+
+                    .hover-shadow-transition:hover {
+                        box-shadow:
+                            0px 1px 2px 0px #00000033,
+                            0px 4px 4px 0px #0000002B,
+                            0px 8px 5px 0px #0000001A,
+                            0px 15px 6px 0px #00000008,
+                            0px 23px 6px 0px #00000000;
+                    }
+            </style>
+            <div class="bg-white mt-[30px]">
+                <div class="pt-[32px] flex justify-between w-full">
+                    <h1 class="flex text-4xl font-bold pl-[150px]">Qauipmedia</h1>
+                    <a href="{% url 'news:all_news' %}" class="flex items-center pt-[15px] pr-[150px]">
+                        <h1 class="flex pr-[8px] ">Подробнее</h1>
+                        <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">
+                    </a>
+                </div>
+                <div>
+                    <div>
+
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </main>
 {% endblock %}

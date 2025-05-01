@@ -47,25 +47,31 @@ def search_results(request):
     context = {'page': page, 'popular_news': popular_news, 'fixed_menu': menu, 'query': query}
     return render(request, 'pages/search_results.html', context)
 
-VALID_CATEGORIES = [
-    'korporativnaya-kultura-bezopasnosti',
-    'ecologicheskaya-bezopasnost',
-    'izmeneniya-v-zakonodatelstve',
-    'ohrana-truda'
-]
-DEFAULT_CATEGORY = 'ohrana-truda'
 
 def index(request):
-    selected_category = request.GET.get('category', DEFAULT_CATEGORY)
+    selected_category = request.GET.get('category')
     categories = Category.objects.all()
-    if selected_category:
+
+    if selected_category and categories.filter(slug=selected_category).exists():
         articles = Article.objects.filter(categories__slug=selected_category)
+    elif categories.filter(slug='ohrana-truda').exists():
+        default_category = categories.get(slug='ohrana-truda')
+        articles = Article.objects.filter(categories=default_category)
+        selected_category = default_category.slug
     elif categories.exists():
-        articles = Article.objects.filter(categories=categories.first())
+        default_category = categories.first()
+        articles = Article.objects.filter(categories=default_category)
+        selected_category = default_category.slug
     else:
         articles = Article.objects.all()
-    context = {'articles': articles, 'categories': categories, 'selected_category': selected_category}
+
+    context = {
+        'articles': articles,
+        'categories': categories,
+        'selected_category': selected_category,
+    }
     return render(request, 'pages/index.html', context)
+
 
 
 @counted
@@ -76,7 +82,7 @@ def news_detail(request, alias):
 
 
 def all_news(request):
-    articles = Article.objects.filter(article_status=True, article_type='P').order_by('-view_count')
+    articles = Article.objects.all()
     context = {'articles': articles}
     return render(request, 'pages/all_news.html', context)
 

@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block content %}
-                   <div class="main-news pl-[150px] flex pt-[16px]">
+                   <div class="main-news flex flex-col pl-[150px] flex pt-[16px]">
                     {% for article in articles %}
-                    <div class="flex flex-row">
+                    <div class="flex flex-row m-3">
                         <img class="flex h-[251px] w-[447px]" src="{{ article.image.url }}">
                         <div class="flex flex-col">
                             <div class="pr-[50px] pl-[16px] text-[14px] text-[#ED1A39] font-medium">{{article.categories.last}}</div>
@@ -16,7 +16,7 @@
                                 <img class="" src="{% static 'img/_src/icons/arrow.png' %}">
                             </button>
                         </div>
-                    {% endfor %}
                     </div>
+                       {% endfor %}
                 </div>
 {% endblock %}

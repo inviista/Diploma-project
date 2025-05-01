@@ -93,11 +93,6 @@ class Article(UUIDMixin):
     def get_absolute_url(self):
         return reverse('news:news_detail', args=[str(self.alias)])
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        if self.alias is None or self.alias == '':
-            self.alias = slugify(self.title)
-        return super(Article, self).save()
-
     class Meta:
         ordering = ['-published_date']
         verbose_name = 'News Article'

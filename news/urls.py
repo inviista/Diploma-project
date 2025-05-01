@@ -12,6 +12,7 @@ sitemaps = {
 
 urlpatterns = [
     path('news/<str:slug>/', views.news_detail, name='news_detail'),
+    path('news/', views.all_news, name='all_news'),
     path('search_results/', views.search_results, name='search_results'),
     path('category/<str:slug>/', views.category_detail, name='category'),
     path('tag/<str:slug>/', views.tag_detail, name='tag_detail'),
@@ -20,7 +21,6 @@ urlpatterns = [
     path('author/<str:uid>/', views.author, name='author'),
     path('about/', views.about, name='about'),
     path('site_maps/', views.maps, name='maps'),
-    path('popular_news/', views.all_news, name='all_news'),
     path('', views.index, name='index'),
     # AMP
     path('amp/<str:alias>/', views.amp_views, name='amp'),

@@ -35,10 +35,10 @@
             <div class="flex flex-col">
                 <div class="pt-[32px] flex justify-between w-full">
                     <h1 class="flex text-4xl font-bold pl-[150px]">Новости</h1>
-                    <button class="flex items-center pt-[15px] pr-[150px]">
+                    <a href="{% url 'news:all_news' %}" class="flex items-center pt-[15px] pr-[150px]">
                         <h1 class="flex pr-[8px] ">Смотреть все</h1>
                         <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">
-                    </button>
+                    </a>
                 </div>
                 <div class="pl-[150px] pt-[8px] leading-5 text-base">
                     <h1>Следите за последними новостями в сфере охраны труда и безопасности.</h1>
@@ -93,28 +93,62 @@
                     {% endfor %}
                     </div>
                 </div>
-                <div class="overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
-                  {% for article in articles %}
-                    {% if forloop.counter > 1 %}
-
-                    <div class="inline-block w-64 mx-2 p-4 border rounded-lg bg-white">
-                      <h3 class="font-bold truncate">{{ article.title }}</h3>
-                      <p class="text-sm mt-2 line-clamp-3">{{ article.content|truncatewords:20 }}</p>
-                      <span class="text-xs text-gray-500">{{ article.pub_date|date:"d.m.Y" }}</span>
+                <div class="flex w-full justify-center ">
+                    <div class="w-[1246px] bg-white h-[178px] rounded-[16px]">
+                        <div class="no-scroll-arrows  mt-[15px] w-[1232px] overflow-x-auto bg-white h-[150px] rounded-l-[16px] flex">
+                            {% for article in articles %}
+                              {% if forloop.counter > 1 %}
+                            <a href="{% url 'news:news_detail' article.alias %}" class="hover-shadow-transition ml-[15px] inline-block flex-shrink-0 h-[140px] w-[430px] bg-white rounded-[10px]">
+                                <div class="flex">
+                                    <img class="mt-[7px] ml-[7px] h-[114px] w-[203px]" src="{{ article.image.url }}">
+                                    <div class="w-[220px] h-[114px]">
+                                        <h1 class="pl-[6px] text-[12px] text-[#ED1A39] font-medium">
+                                            {{ article.categories.last }}
+                                        </h1>
+                                        <div class="flex flex-col h-[108px] justify-between">
+                                            <h1 class="leading-4.5 pl-[6px] text-[14px] text-[#000000] font-bold">
+                                                {{ article.title }}
+                                            </h1>
+                                            <span class="pl-[6px] text-[12px] text-[#BDBEC0]">{{ article.published_date }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                          {% endif %}
+                        {% endfor %}
+                        </div>
                     </div>
-                    {% endif %}
-                  {% endfor %}
                 </div>
+<style>
+    .no-scroll-arrows::-webkit-scrollbar{
+        width: 0;
+        height: 4px;
+    }
+    .no-scroll-arrows::-webkit-scrollbar-thumb{
+        background-color: #ff0000;
+        margin: 0 40px;
+        border-radius: 4px;
 
-                <style>
-                  .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                  }
-                  .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                  }
-                </style>
+    }
+    .no-scroll-arrows::-webkit-scrollbar-track {
+  margin-left: 20px;
+        background-color: #F5F5F5;
+}
+
+    .hover-shadow-transition {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-shadow-transition:hover {
+  box-shadow:
+    0px 1px 2px 0px #00000033,
+    0px 4px 4px 0px #0000002B,
+    0px 8px 5px 0px #0000001A,
+    0px 15px 6px 0px #00000008,
+    0px 23px 6px 0px #00000000;
+}
+</style>
+
             </div>
     </section>
 </main>

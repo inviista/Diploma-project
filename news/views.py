@@ -77,16 +77,8 @@ def news_detail(request, alias):
 
 def all_news(request):
     articles = Article.objects.filter(article_status=True, article_type='P').order_by('-view_count')
-    menu = FixedMenu.objects.all()
-
-    paginator = Paginator(articles, 10)
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
-
-    popular_news = Article.objects.filter(article_status=True, article_type='P',
-                                          published_date__gte=three_days_ago).order_by('-view_count')[:6]
-    context = {'popular_news': popular_news, 'page': page, 'fixed_menu': menu}
-    return render(request, 'pages/popular_news.html', context)
+    context = {'articles': articles}
+    return render(request, 'pages/all_news.html', context)
 
 
 def author(request, uid):

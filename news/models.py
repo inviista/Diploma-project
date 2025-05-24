@@ -63,7 +63,7 @@ class Tag(UUIDMixin):
 
 
 class Article(UUIDMixin):
-    image = models.ImageField('Картинки', null=True, blank=True)
+    image = models.JSONField('Картинки', default=dict)
     title = models.CharField('Заголовок', max_length=1000, null=False, blank=True)
     alias = models.CharField('Алиас', max_length=1000, unique=True, blank=True, null=True, db_index=True)
     description = models.TextField('Лид', null=True, blank=True)
@@ -92,6 +92,11 @@ class Article(UUIDMixin):
 
     def get_absolute_url(self):
         return reverse('news:news_detail', args=[str(self.alias)])
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.alias is None or self.alias == '':
+            self.alias = slugify(self.title)
+        return super(Article, self).save()
 
     class Meta:
         ordering = ['-published_date']

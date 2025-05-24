@@ -1,9 +1,9 @@
 import os
-from datetime import timedelta
 from pathlib import Path
 from corsheaders.defaults import default_headers
+from dotenv import load_dotenv
 
-
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,10 +13,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SEC_KEY') or 'x4k9@#=z1&qw2^sdf9%a7$z!m3h2n*o+p8l6v@r&t$jg5k1'
+SECRET_KEY = os.getenv('SEC_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -83,6 +83,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE'),
@@ -134,11 +135,11 @@ USE_TZ = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATICFILES_DIRS = (
-   os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, 'static'),
+# )
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

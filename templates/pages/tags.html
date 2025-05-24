@@ -1,48 +1,67 @@
-{% extends "base.html" %} {% load static %}{% load today_tags %} {% block meta_data %}
+{% extends "base.html" %} {% load static %}{% load today_tags %} {% block
+meta_data %}
 <title>Новости 👉 {{ tag }} 👉 01.imaq.kz</title>
-<meta name="description" content="Подборка самой свежей и актуальной информации на сегодня по теме {{ tag }} ⚡Мы публикуем по-настоящему интересные новости на сайте 01.imaq.kz⚡ Главные новости и события по теме {{ tag }} " />
+<meta
+  name="description"
+  content="Подборка самой свежей и актуальной информации на сегодня по теме {{ tag }} ⚡Мы публикуем по-настоящему интересные новости на сайте 01.imaq.kz⚡ Главные новости и события по теме {{ tag }} "
+/>
 <link rel="canonical" href="https://01.imaq.kz/tag/{{ tag.slug }}/" />
 
 {% endblock meta_data %} {% block content %}
 <main>
-    <section>
-        <div class="container">
-            <div class="wrap wrap__category">
-                {% include "popular_news.html" %}
-                <div class="main-news category-new__title">
-                    <h1 class="category-new__title">#<span>{{ tag }}</span></h1>
-                    <ul class="main-news__bread-crumb">
-                        <li><a href="{% url 'news:index' %}">Главная</a></li>
-                        <li><span class="current">{{ tag }}</span></li>
-                    </ul>
-                    <div class="category-new">
-                        {% for article in page %}
-                        <a href="{% url 'news:news_detail' article.alias %}" class="main-new">
-                            <div class="main-news__block-img">
-                                <picture>
-                                    <source media="(max-width: 699px)" data-srcset="{{ article.image.new_image_150_webp }}" class="lazy">
-                                    <source media="(min-width: 700px)" data-srcset="{{ article.image.new_image_800_webp }}" class="lazy">
-                                    <img data-src="{% static 'img/plug.jpg' %}" alt="{{ article.image.alt }}" class="main-new__img card__img lazy">
-                                  </picture>
-                            </div>
-                            <div class="main-new__content">
-                                <div class="main-new__top">
-                                    <div class="main-new__category">
-                                        {{ article.categories.last }}
-                                    </div>
-                                </div>
-                                <div class="main-new__bottom">
-                                    <div class="main-new__title">{{ article.title }}</div>
-                                    <div class="main-new__date">{{ article.published_date }}</div>
-                                </div>
-                            </div>
-                        </a>
-                        {% endfor %}
-                    </div>
-                    {% include "pagination.html" %}
+  <section>
+    <div class="container">
+      <div class="wrap wrap__category">
+        {% include "popular_news.html" %}
+        <div class="main-news category-new__title">
+          <h1 class="category-new__title">#<span>{{ tag }}</span></h1>
+          <ul class="main-news__bread-crumb">
+            <li><a href="{% url 'news:index' %}">Главная</a></li>
+            <li><span class="current">{{ tag }}</span></li>
+          </ul>
+          <div class="category-new">
+            {% for article in page %}
+            <a
+              href="{% url 'news:news_detail' article.alias %}"
+              class="main-new"
+            >
+              <div class="main-news__block-img">
+                <picture>
+                  <source
+                    media="(max-width: 699px)"
+                    data-srcset="{{ article.image.new_image_150_webp }}"
+                    class="lazy"
+                  />
+                  <source
+                    media="(min-width: 700px)"
+                    data-srcset="{{ article.image.new_image_800_webp }}"
+                    class="lazy"
+                  />
+                  <img
+                    data-src="{% static 'img/plug.jpg' %}"
+                    alt="{{ article.image.alt }}"
+                    class="main-new__img card__img lazy"
+                  />
+                </picture>
+              </div>
+              <div class="main-new__content">
+                <div class="main-new__top">
+                  <div class="main-new__category">
+                    {{ article.categories.last }}
+                  </div>
                 </div>
-            </div>
+                <div class="main-new__bottom">
+                  <div class="main-new__title">{{ article.title }}</div>
+                  <div class="main-new__date">{{ article.published_date }}</div>
+                </div>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+          {% include "pagination.html" %}
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </main>
 {% endblock %}

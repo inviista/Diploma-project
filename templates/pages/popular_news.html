@@ -1,64 +1,73 @@
-{% extends "base.html" %}
-{% load static %}
-{% load today_tags %}
-  {% block meta_data %}
-    <title>Самая актуальная информация Астаны 👉 {{ category }} 👉 01.imaq.kz </title>
-    <meta name="description" content="{{ category.desc }}⚡01.imaq.kz ⚡">
-    <link rel="canonical" href="https://01.imaq.kz/popular_news/">
-  {% endblock meta_data %}
-{% block content %}
-        <main>
-            <section>
-                <div class="container">
-                    <div class="wrap wrap__category">
-                        {% include "popular_news.html" %}
-                        <div class="main-news category-new__title">
-                            <h1 class="category-new__title"><span>Попу</span>лярные новости</h1>
-                            <ul class="main-news__bread-crumb" >
-                                <li>
-                                  <a href="{% url 'news:index' %}" >
-                                    Главная
-                                  </a>
-                                </li>
-                                <li >
-                                  <a href="{% url 'news:all_news' %}" >
-                                    Популярные новости
-                                  </a>
-                                </li>
-                              </ul>
-                              
-                              <div class="category-new">
-                                  {% for article in page %}
-                                        <a href="{% url 'news:news_detail' article.alias %}" class="main-new">
-                                              <div class="main-news__block-img">
-                                                <picture>
-                                                  <source media="(max-width: 699px)" data-srcset="{{ article.image.new_image_150_webp }}" class="lazy">
-                                                  <source media="(min-width: 700px)" data-srcset="{{ article.image.new_image_800_webp }}" class="lazy">
-                                                  <img data-src="{% static 'img/plug.jpg' %}" alt="{{ article.image.alt }}" class="main-new__img card__img lazy">
-                                                </picture>
-                                              </div>
-                                                <div class="main-new__content">
-                                                    <div class="main-new__top">
-                                                        <div class="main-new__category">
-                                                             {{ article.categories.last }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="main-new__bottom">
-                                                        <div class="main-new__title">{{ article.title }}</div>
-                                                        <div class="main-new__date">{{ article.published_date | pretty_date }}</div>
-                                                    </div>
-                                                </div>
-                                        </a>
-                                  {% endfor %}
-                              </div>
+{% extends "base.html" %} {% load static %} {% load today_tags %} {% block
+meta_data %}
+<title>
+  Самая актуальная информация Астаны 👉 {{ category }} 👉 01.imaq.kz
+</title>
+<meta name="description" content="{{ category.desc }}⚡01.imaq.kz ⚡" />
+<link rel="canonical" href="https://01.imaq.kz/popular_news/" />
+{% endblock meta_data %} {% block content %}
+<main>
+  <section>
+    <div class="container">
+      <div class="wrap wrap__category">
+        {% include "popular_news.html" %}
+        <div class="main-news category-new__title">
+          <h1 class="category-new__title"><span>Попу</span>лярные новости</h1>
+          <ul class="main-news__bread-crumb">
+            <li>
+              <a href="{% url 'news:index' %}"> Главная </a>
+            </li>
+            <li>
+              <a href="{% url 'news:all_news' %}"> Популярные новости </a>
+            </li>
+          </ul>
 
-                            
-                        {% include "pagination.html" %}
-                        </div>
-                        
-                    </div>
-            </div>
-                </section>
-                
-        </main>
+          <div class="category-new">
+            {% for article in page %}
+            <a
+              href="{% url 'news:news_detail' article.alias %}"
+              class="main-new"
+            >
+              <div class="main-news__block-img">
+                <picture>
+                  <source
+                    media="(max-width: 699px)"
+                    data-srcset="{{ article.image.new_image_150_webp }}"
+                    class="lazy"
+                  />
+                  <source
+                    media="(min-width: 700px)"
+                    data-srcset="{{ article.image.new_image_800_webp }}"
+                    class="lazy"
+                  />
+                  <img
+                    data-src="{% static 'img/plug.jpg' %}"
+                    alt="{{ article.image.alt }}"
+                    class="main-new__img card__img lazy"
+                  />
+                </picture>
+              </div>
+              <div class="main-new__content">
+                <div class="main-new__top">
+                  <div class="main-new__category">
+                    {{ article.categories.last }}
+                  </div>
+                </div>
+                <div class="main-new__bottom">
+                  <div class="main-new__title">{{ article.title }}</div>
+                  <div class="main-new__date">
+                    {{ article.published_date | pretty_date }}
+                  </div>
+                </div>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+
+          {% include "pagination.html" %}
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 {% endblock %}

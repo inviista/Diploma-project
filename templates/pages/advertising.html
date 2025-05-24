@@ -1,22 +1,27 @@
-{% extends "base.html" %} {% load static %} {% load today_tags %} {% block content %}
+{% extends "base.html" %} {% load static %} {% load today_tags %} {% block
+content %}
 <main>
-    <section>
-        <div class="container">
-            <div class="wrap">
-                {% include "popular_news.html" %}
-                <div class="main-news">
-                    <div class="info-site">
-                        <ul class="main-news__bread-crumb">
-                            <li><a href="{% url 'news:index' %}">Главная</a></li>
-                            <li><span class="current">Реклама</span></li>
-                        </ul>
-                        <h1>Реклама</h1>
-                        <p>По вопросам размещения рекламных и PR-материалов, условиям сотрудничества с 01.imaq.kz обращайтесь по номеру телефона: +77003969700. Или пишите на электронную почту: press@imaq.kz</p>
-                    </div>
-                </div>
-                {% include "category_news.html" %}
-            </div>
+  <section>
+    <div class="container">
+      <div class="wrap">
+        {% include "popular_news.html" %}
+        <div class="main-news">
+          <div class="info-site">
+            <ul class="main-news__bread-crumb">
+              <li><a href="{% url 'news:index' %}">Главная</a></li>
+              <li><span class="current">Реклама</span></li>
+            </ul>
+            <h1>Реклама</h1>
+            <p>
+              По вопросам размещения рекламных и PR-материалов, условиям
+              сотрудничества с 01.imaq.kz обращайтесь по номеру телефона:
+              +77003969700. Или пишите на электронную почту: press@imaq.kz
+            </p>
+          </div>
         </div>
-    </section>
+        {% include "category_news.html" %}
+      </div>
+    </div>
+  </section>
 </main>
 {% endblock %}

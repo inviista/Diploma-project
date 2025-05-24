@@ -1,65 +1,92 @@
-{% extends "base.html" %}
-{% load static %}
-{% load today_tags %}
+{% extends "base.html" %} {% load static %} {% load today_tags %} {% block
+content %}
+<main>
+  <section>
+    <div class="container">
+      <div class="wrap wrap__category">
+        {% include "popular_news.html" %}
+        <div class="main-news category-new__title">
+          <h1 class="category-new__title">
+            <span>Результат поиска: {{ query }}</span>
+          </h1>
 
-{% block content %}
-        <main>
-            <section>
-                <div class="container">
-                    <div class="wrap wrap__category">
-                    {% include "popular_news.html" %}
-                        <div class="main-news category-new__title">
-                            <h1 class="category-new__title"><span>Результат поиска: {{ query }}</span></h1>
-
-                              <div class="category-new">
-                                  {% for article in page %}
-                                    <a href="{% url 'news:news_detail' article.alias %}" class="main-new">
-                                        <div class="main-news__block-img">
-                                            <picture>
-                                                <source media="(max-width: 699px)" data-srcset="{{ article.image.new_image_150_webp }}" class="lazy">
-                                                <source media="(min-width: 700px)" data-srcset="{{ article.image.new_image_800_webp }}" class="lazy">
-                                                <img data-src="{% static 'img/plug.jpg' %}" alt="{{ article.image.alt }}" class="main-new__img card__img lazy">
-                                              </picture>
-                                        </div>
-                                            <div class="main-new__content">
-                                                <div class="main-new__top">
-                                                    <div class="main-new__category">
-                                                         {{ article.categories.last }}
-                                                    </div>
-                                                </div>
-                                                <div class="main-new__bottom">
-                                                    <div class="main-new__title">{{ article.title }}</div>
-                                                    <div class="main-new__date">{{ article.published_date }}</div>
-                                                </div>
-                                            </div>
-                                    </a>
-                                  {% endfor %}
-                            </div>
-                            <ul class="pagination">
-                                {% if page.has_previous %}
-                                    <li class="page-item"><a class="page-link" href="?{{ request.GET.urlencode }}&page={{ page.previous_page_number }}">«</a></li>
-                                {% else %}
-                                    <li class="page-item disabled"><a class="page-link">«</a></li>
-                                {% endif %}
-                                {% for i in page.paginator.page_range %}
-                                    {% if i > page.number|add:"-3" and i < page.number|add:"3" %}
-                                        {% if page.number == i %}
-                                            <li class="current"><a class="current">{{ i }}</a></li>
-                                        {% else %}
-                                            <li class="page-item"><a class="page-link" href="?{{ request.GET.urlencode }}&page={{ i }}">{{ i }}</a></li>
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
-                                {% if page.has_next %}
-                                    <li class="page-item"><a class="page-link" href="?{{ request.GET.urlencode }}&page={{ page.next_page_number }}">»</a></li>
-                                {% else %}
-                                    <li class="page-item disabled"><a class="page-link">»</a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </div>
-            </div>
-                </section>
-                
-        </main>
+          <div class="category-new">
+            {% for article in page %}
+            <a
+              href="{% url 'news:news_detail' article.alias %}"
+              class="main-new"
+            >
+              <div class="main-news__block-img">
+                <picture>
+                  <source
+                    media="(max-width: 699px)"
+                    data-srcset="{{ article.image.new_image_150_webp }}"
+                    class="lazy"
+                  />
+                  <source
+                    media="(min-width: 700px)"
+                    data-srcset="{{ article.image.new_image_800_webp }}"
+                    class="lazy"
+                  />
+                  <img
+                    data-src="{% static 'img/plug.jpg' %}"
+                    alt="{{ article.image.alt }}"
+                    class="main-new__img card__img lazy"
+                  />
+                </picture>
+              </div>
+              <div class="main-new__content">
+                <div class="main-new__top">
+                  <div class="main-new__category">
+                    {{ article.categories.last }}
+                  </div>
+                </div>
+                <div class="main-new__bottom">
+                  <div class="main-new__title">{{ article.title }}</div>
+                  <div class="main-new__date">{{ article.published_date }}</div>
+                </div>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+          <ul class="pagination">
+            {% if page.has_previous %}
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="?{{ request.GET.urlencode }}&page={{ page.previous_page_number }}"
+                >«</a
+              >
+            </li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link">«</a></li>
+            {% endif %} {% for i in page.paginator.page_range %} {% if i >
+            page.number|add:"-3" and i < page.number|add:"3" %} {% if
+            page.number == i %}
+            <li class="current"><a class="current">{{ i }}</a></li>
+            {% else %}
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="?{{ request.GET.urlencode }}&page={{ i }}"
+                >{{ i }}</a
+              >
+            </li>
+            {% endif %} {% endif %} {% endfor %} {% if page.has_next %}
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="?{{ request.GET.urlencode }}&page={{ page.next_page_number }}"
+                >»</a
+              >
+            </li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link">»</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 {% endblock %}

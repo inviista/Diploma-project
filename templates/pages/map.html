@@ -1,29 +1,34 @@
-{% extends "base.html" %} {% load static %}{% load today_tags %} {% block content %}
+{% extends "base.html" %} {% load static %}{% load today_tags %} {% block
+content %}
 <main>
-    <section>
-        <div class="container">
-            <div class="wrap">
-                {% include "popular_news.html" %}
-                <div class="main-news">
-                    <div class="site-map">
-                        <ul class="site-map__breadcrumb main-news__bread-crumb">
-                            <li><a href="{% url 'news:index' %}">Главная</a></li>
-                            <li><span class="current">Карта сайта</span></li>
-                        </ul>
-                        <h1>Карта сайта</h1>
-                        <div class="site-map__item">
-                            <h2>Категории</h2>
-                            <menu class="site-map__links">
-                                {% for category in categories %}
-                                <li><a href="{% url 'news:category' category.slug %}">{{ category }}</a></li>
-                                {% endfor %}
-                            </menu>
-                        </div>
-                    </div>
-                </div>
-                {% include "category_news.html" %}
+  <section>
+    <div class="container">
+      <div class="wrap">
+        {% include "popular_news.html" %}
+        <div class="main-news">
+          <div class="site-map">
+            <ul class="site-map__breadcrumb main-news__bread-crumb">
+              <li><a href="{% url 'news:index' %}">Главная</a></li>
+              <li><span class="current">Карта сайта</span></li>
+            </ul>
+            <h1>Карта сайта</h1>
+            <div class="site-map__item">
+              <h2>Категории</h2>
+              <menu class="site-map__links">
+                {% for category in categories %}
+                <li>
+                  <a href="{% url 'news:category' category.slug %}"
+                    >{{ category }}</a
+                  >
+                </li>
+                {% endfor %}
+              </menu>
             </div>
+          </div>
         </div>
-    </section>
+        {% include "category_news.html" %}
+      </div>
+    </div>
+  </section>
 </main>
 {% endblock %}

@@ -1,22 +1,35 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
-                   <div class="main-news flex flex-col pl-[150px] flex pt-[16px]">
-                    {% for article in articles %}
-                    <div class="flex flex-row m-3">
-                        <img class="flex h-[251px] w-[447px]" src="{{ article.image.url }}">
-                        <div class="flex flex-col">
-                            <div class="pr-[50px] pl-[16px] text-[14px] text-[#ED1A39] font-medium">{{article.categories.last}}</div>
-                            <div class="pr-[200px] pl-[16px] text-[20px] text-[#000000] font-bold">{{ article.title }}</div>
-                            <div class=" text-[13px] pl-[16px] text-[#BDBEC0] font-normal mt-[5px]">{{article.published_date}}</div>
-                            <div class=" text-[16px] pl-[16px] text-[#000000] font-normal mt-[5px] pr-[200px]">{{article.description}}</div>
-                            <button class="flex flex-row ml-[16px] mt-[11px] justify-center items-center border-1 bg-[#AF1E2A] text-white rounded-[10px] content-center h-[36px] w-[137px] border-solid">
-                                <a href="{% url 'news:news_detail' article.alias %}" class="text-[16px] pb-[3px] pr-[8px]">Подробнее</a>
-                                <img class="" src="{% static 'img/_src/icons/arrow.png' %}">
-                            </button>
-                        </div>
-                    </div>
-                       {% endfor %}
-                </div>
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="main-news flex flex-col pl-[150px] flex pt-[16px]">
+  {% for article in articles %}
+  <div class="flex flex-row m-3">
+    <img class="flex h-[251px] w-[447px]" src="{{ article.image.url }}" />
+    <div class="flex flex-col">
+      <div class="pr-[50px] pl-[16px] text-[14px] text-[#ED1A39] font-medium">
+        {{article.categories.last}}
+      </div>
+      <div class="pr-[200px] pl-[16px] text-[20px] text-[#000000] font-bold">
+        {{ article.title }}
+      </div>
+      <div class="text-[13px] pl-[16px] text-[#BDBEC0] font-normal mt-[5px]">
+        {{article.published_date}}
+      </div>
+      <div
+        class="text-[16px] pl-[16px] text-[#000000] font-normal mt-[5px] pr-[200px]"
+      >
+        {{article.description}}
+      </div>
+      <button
+        class="flex flex-row ml-[16px] mt-[11px] justify-center items-center border-1 bg-[#AF1E2A] text-white rounded-[10px] content-center h-[36px] w-[137px] border-solid"
+      >
+        <a
+          href="{% url 'news:news_detail' article.alias %}"
+          class="text-[16px] pb-[3px] pr-[8px]"
+          >Подробнее</a
+        >
+        <img class="" src="{% static 'img/_src/icons/arrow.png' %}" />
+      </button>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 {% endblock %}

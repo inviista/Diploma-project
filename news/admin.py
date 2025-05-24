@@ -1,5 +1,22 @@
 from django.contrib import admin
+from django.utils.html import format_html
+
+from .form import ArticleAdminForm
 from.models import *
 
-admin.site.register(Article)
 admin.site.register(Category)
+
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    form = ArticleAdminForm
+    readonly_fields = ('image_preview',)
+
+    def image_preview(self, obj):
+        if obj.image and obj.image.get('path'):
+            return format_html(
+                '<img src="{}" style="max-height: 200px; max-width: 200px;" />',
+                obj.image['path']
+            )
+        return "No image uploaded"
+
+    image_preview.short_description = 'Current Image'

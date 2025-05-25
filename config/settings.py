@@ -88,8 +88,8 @@ DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE'),
         'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
     }
@@ -135,11 +135,14 @@ USE_TZ = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+if DEBUG:
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# STATICFILES_DIRS = (
-#    os.path.join(BASE_DIR, 'static'),
-# )
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

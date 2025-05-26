@@ -51,19 +51,8 @@ def search_results(request):
 def index(request):
     selected_category = request.GET.get('category')
     categories = Category.objects.all()
-
-    if selected_category and categories.filter(slug=selected_category).exists():
-        articles = Article.objects.filter(categories__slug=selected_category)
-    elif categories.filter(slug='ohrana-truda').exists():
-        default_category = categories.get(slug='ohrana-truda')
-        articles = Article.objects.filter(categories=default_category)
-        selected_category = default_category.slug
-    elif categories.exists():
-        default_category = categories.first()
-        articles = Article.objects.filter(categories=default_category)
-        selected_category = default_category.slug
-    else:
-        articles = Article.objects.all()
+    articles = Article.objects.all()
+    print(articles)
 
     context = {
         'articles': articles,

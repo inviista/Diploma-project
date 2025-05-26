@@ -40,28 +40,22 @@
                 <!-- Мэйн-блок и мини-блоки с навигацией -->
                     {% include "includes/index_blocks.html" %}
                 <!-- Инструктажи -->
-                <div class="flex flex-row">
+                <div class="flex flex-row gap-2 pt-[5px]">
                     <div class="flex flex-col">
                         <!-- Инструктажи -->
                         {% include "includes/index_briefing.html" %}
                         <!-- Документы -->
-                        <div>
-
-                        </div>
+                        {% include "includes/index_documents.html" %}
                         <!-- Управление рисками -->
-                        <div>
+                        {% include "includes/index_risks.html" %}
 
-                        </div>
                         <!-- Кауипмедиа -->
-                        <div>
+                        {% include "includes/index_qauipmedia.html" %}
 
-                        </div>
                     </div>
                     <div class="flex flex-col">
                         <!-- Новости -->
-                        <div>
-
-                        </div>
+                        {% include "includes/index_news.html" %}
                         <!-- Аналитика -->
                         <div>
 
@@ -69,13 +63,9 @@
                     </div>
                     <div class="flex flex-col">
                         <!-- Календарь событий -->
-                        <div>
-
-                        </div>
+                        {% include "includes/index_calendar.html" %}
                         <!-- Кейсы автоматизации -->
-                        <div>
-
-                        </div>
+                        {% include "includes/index_autoKeys.html" %}
                         <!-- Законодательство -->
                         <div>
 
@@ -91,212 +81,154 @@
                     </div>
                 </div>
                 <!-- Новости -->
-                <div class="pt-[32px] flex justify-between w-full">
-                    <h1 class="flex text-4xl font-bold">Новости</h1>
-                    <a href="{% url 'news:all_news' %}" class="flex items-center pt-[15px]">
-                        <h1 class="flex pr-[8px]">Смотреть все</h1>
-                        <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">
-                    </a>
-                </div>
-                <div class="pt-[8px] leading-5 text-base">
-                    <h1>Следите за последними новостями в сфере охраны труда и безопасности.</h1>
-                    <h1>Здесь мы делимся актуальными событиями, аналитикой, передовыми практиками и новыми цифровыми решениями.</h1>
-                    <h1>Будьте в курсе тенденций, которые формируют культуру безопасности сегодня и определяют её завтра.</h1>
-                </div>
-                <div class="pt-[16px] ">
-                                        <!-- 1. Охрана труда -->
-                        <a href="?category=ohrana-truda"
-                           class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
-                                  {% if not selected_category or selected_category == 'ohrana-truda' %}bg-red-500 text-white{% else %}border-black{% endif %}">
-                            Охрана труда
-                        </a>
+<!--                <div class="pt-[32px] flex justify-between w-full">-->
+<!--                    <h1 class="flex text-4xl font-bold">Новости</h1>-->
+<!--                    <a href="{% url 'news:all_news' %}" class="flex items-center pt-[15px]">-->
+<!--                        <h1 class="flex pr-[8px]">Смотреть все</h1>-->
+<!--                        <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="pt-[8px] leading-5 text-base">-->
+<!--                    <h1>Следите за последними новостями в сфере охраны труда и безопасности.</h1>-->
+<!--                    <h1>Здесь мы делимся актуальными событиями, аналитикой, передовыми практиками и новыми цифровыми решениями.</h1>-->
+<!--                    <h1>Будьте в курсе тенденций, которые формируют культуру безопасности сегодня и определяют её завтра.</h1>-->
+<!--                </div>-->
+<!--                </div>-->
+<!--                <div class="main-news flex pt-[16px]">-->
+<!--                        {% for article in articles %}-->
+<!--                        {% if forloop.counter == 1 %}-->
+<!--                        <div class="flex flex-row">-->
+<!--                            <img class="flex h-[251px] w-[447px]" src="{{ article.image.url }}">-->
+<!--                            <div class="flex flex-col">-->
+<!--                                <div class=" pl-[16px] text-[14px] text-[#ED1A39] font-medium">{{article.categories.last}}</div>-->
+<!--                                <div class="pl-[16px] text-[20px] text-[#000000] font-bold">{{ article.title }}</div>-->
+<!--                                <div class=" text-[13px] pl-[16px] text-[#BDBEC0] font-normal mt-[5px]">{{article.published_date}}</div>-->
+<!--                                <div class=" text-[16px] pl-[16px] text-[#000000] font-normal mt-[5px]">{{article.description}}</div>-->
+<!--                                <button class="flex flex-row ml-[16px] mt-[11px] justify-center items-center border-1 bg-[#AF1E2A] text-white rounded-[10px] content-center h-[36px] w-[137px] border-solid">-->
+<!--                                    <a href="{% url 'news:news_detail' article.alias %}" class="text-[16px] pb-[3px] pr-[8px]">Подробнее</a>-->
+<!--                                    <img class="" src="{% static 'img/_src/icons/arrow.png' %}">-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                                {% endif %}-->
+<!--                        {% endfor %}-->
+<!--                        </div>-->
+<!--                </div>-->
+<!--                </div>-->
+<!--                <style>-->
+<!--                        .no-scroll-arrows::-webkit-scrollbar{-->
+<!--                            width: 0;-->
+<!--                            height: 4px;-->
+<!--                        }-->
+<!--                        .no-scroll-arrows::-webkit-scrollbar-thumb{-->
+<!--                            background-color: #ff0000;-->
+<!--                            margin: 0 40px;-->
+<!--                            border-radius: 4px;-->
 
-                        <!-- 2. Экологическая безопасность -->
-                        <a href="?category=ecologicheskaya-bezopasnost"
-                           class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
-                                  {% if selected_category == 'ecologicheskaya-bezopasnost' %}bg-red-500 text-white{% else %}border-black{% endif %}">
-                            Экологическая безопасность
-                        </a>
+<!--                        }-->
+<!--                        .no-scroll-arrows::-webkit-scrollbar-track {-->
+<!--                            margin-left: 20px;-->
+<!--                            background-color: #F5F5F5;-->
+<!--                        }-->
 
-                        <!-- 3.Культура безопасности -->
-                        <a href="?category=kultura-bezopasnosti"
-                           class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
-                                  {% if selected_category == 'kultura-bezopasnosti' %}bg-red-500 text-white{% else %}border-black{% endif %}">
-                            Культура безопасности
-                        </a>
+<!--                        .hover-shadow-transition {-->
+<!--                            transition: box-shadow 0.3s ease;-->
+<!--                        }-->
 
-                        <!-- 4. Изменения в законодательстве -->
-                        <a href="?category=izmeneniya-v-zakonodatelstve"
-                           class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
-                                  {% if selected_category == 'izmeneniya-v-zakonodatelstve' %}bg-red-500 text-white{% else %}border-black{% endif %}">
-                            Изменения в законодательстве
-                        </a>
-                        <a href="?category=proizvodstvennaia-bezopasnost"
-                           class="border rounded-[24px] h-[37px] inline-flex items-center px-4 mr-[10px]
-                                  {% if selected_category == 'proizvodstvennaia-bezopasnost' %}bg-red-500 text-white{% else %}border-black{% endif %}">
-                            Производственная безопасность
-                        </a>
-                </div>
-                <div class="main-news flex pt-[16px]">
-                        {% for article in articles %}
-                        {% if forloop.counter == 1 %}
-                        <div class="flex flex-row">
-                            <img class="flex h-[251px] w-[447px]" src="{{ article.image.url }}">
-                            <div class="flex flex-col">
-                                <div class=" pl-[16px] text-[14px] text-[#ED1A39] font-medium">{{article.categories.last}}</div>
-                                <div class="pl-[16px] text-[20px] text-[#000000] font-bold">{{ article.title }}</div>
-                                <div class=" text-[13px] pl-[16px] text-[#BDBEC0] font-normal mt-[5px]">{{article.published_date}}</div>
-                                <div class=" text-[16px] pl-[16px] text-[#000000] font-normal mt-[5px]">{{article.description}}</div>
-                                <button class="flex flex-row ml-[16px] mt-[11px] justify-center items-center border-1 bg-[#AF1E2A] text-white rounded-[10px] content-center h-[36px] w-[137px] border-solid">
-                                    <a href="{% url 'news:news_detail' article.alias %}" class="text-[16px] pb-[3px] pr-[8px]">Подробнее</a>
-                                    <img class="" src="{% static 'img/_src/icons/arrow.png' %}">
-                                </button>
-                            </div>
-                                {% endif %}
-                        {% endfor %}
-                        </div>
-                </div>
-                <div class="flex justify-center">
-                        <div class="mt-[16px] bg-white h-[178px] rounded-[16px] max-w-[100%]">
-                            <div class="no-scroll-arrows  mt-[15px] max-w-[100%] overflow-x-auto bg-white h-[150px] rounded-l-[16px] flex">
-                                {% for article in articles %}
-                                  {% if forloop.counter > 1 %}
-                                <a href="{% url 'news:news_detail' article.alias %}" class="hover-shadow-transition ml-[15px] inline-block flex-shrink-0 h-[140px] w-[430px] bg-white rounded-[10px]">
-                                    <div class="flex">
-                                        <img class="mt-[7px] ml-[7px] h-[114px] w-[203px]" src="{{ article.image.url }}">
-                                        <div class="w-[220px] h-[114px]">
-                                            <h1 class="pl-[6px] text-[12px] text-[#ED1A39] font-medium">
-                                                {{ article.categories.last }}
-                                            </h1>
-                                            <div class="flex flex-col h-[108px] justify-between">
-                                                <h1 class="leading-4.5 pl-[6px] text-[14px] text-[#000000] font-bold">
-                                                    {{ article.title }}
-                                                </h1>
-                                                <span class="pl-[6px] text-[12px] text-[#BDBEC0]">{{ article.published_date }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                              {% endif %}
-                            {% endfor %}
-                            </div>
-                        </div>
-                </div>
-                <style>
-                        .no-scroll-arrows::-webkit-scrollbar{
-                            width: 0;
-                            height: 4px;
-                        }
-                        .no-scroll-arrows::-webkit-scrollbar-thumb{
-                            background-color: #ff0000;
-                            margin: 0 40px;
-                            border-radius: 4px;
+<!--                        .hover-shadow-transition:hover {-->
+<!--                            box-shadow:-->
+<!--                                0px 1px 2px 0px #00000033,-->
+<!--                                0px 4px 4px 0px #0000002B,-->
+<!--                                0px 8px 5px 0px #0000001A,-->
+<!--                                0px 15px 6px 0px #00000008,-->
+<!--                                0px 23px 6px 0px #00000000;-->
+<!--                        }-->
+<!--                </style>-->
+<!--            </div>-->
+<!--            <div class="bg-white mt-[30px] h-[595px]">-->
+<!--                <div class="flex flex-col ml-auto mr-auto max-w-[79%] justify-center">-->
+<!--                    <div class="pt-[32px] flex justify-between w-full mb-[16px]">-->
+<!--                        <h1 class="flex text-4xl font-bold">Qauipmedia</h1>-->
+<!--                        <a href="{% url 'news:qauipmedia' %}" class="flex items-center pt-[15px] ">-->
+<!--                            <h1 class="flex pr-[8px] ">Подробнее</h1>-->
+<!--                            <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <div class="flex justify-center gap-[16px] ">-->
+<!--                        <div class="h-[489px] max-w-[50%] leading-5">-->
+<!--                            <div class="border-b-2 pb-[8px] border-red-500 text-[18px] font-[600]">Техника безопасности — это не про каски.-->
+<!--                                <h1 class="text-[18px] font-[600]">Это про детство!</h1>-->
+<!--                            </div>-->
+<!--                            <h1 class="text-[14px]">Первый эпизод подкаста ‪@HSEQauipsizAnalytics‬ — не про каски, а про то, как привычки из детства и семейные ценности формируют культуру безопасности. Гость — Максат Кубейсинов, HSE-специалист с 15-летним опытом и отец троих детей, делится личными историями, инсайтами и важными вопросами, о которых обычно молчат.</h1>-->
+<!--                            <div class="video-container">-->
+<!--                                <iframe-->
+<!--                                        class="w-full h-[316px] mt-[16px]"-->
+<!--                                        src="https://www.youtube.com/embed/E5qEnuEF0tc?si=VcBIkbeOMZ40hrHV"-->
+<!--                                        title="YouTube video"-->
+<!--                                        allowfullscreen>-->
+<!--                                </iframe>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="h-[489px] max-w-[50%] leading-5">-->
+<!--                            <div class="border-b-2 pb-[8px] text-[18px] border-red-500 h-[49.6px] font-[600]">Вебинар "Эффективное управление безопасностью"</div>-->
+<!--                            <h1 class="text-[14px]">Обсуждаем, почему международные HSE-стандарты не всегда приживаются, какие цифровые решения действительно работают и как формировать культуру безопасности без давления — с фокусом на казахстанский контекст и реальные кейсы.</h1>-->
+<!--                            <div class="video-container">-->
+<!--                                <iframe class="h-[316px] mt-[37px] w-full"-->
+<!--                                        src="https://www.youtube.com/embed/ohEQtydX4Kc?si=B4Lj3U_3dukhVI3m"-->
+<!--                                        title="YouTube video"-->
+<!--                                        allowfullscreen>-->
+<!--                                </iframe>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="mt-[30px] h-[511px]">-->
+<!--                <div class="flex flex-col ml-auto mr-auto max-w-[79%] justify-center">-->
+<!--                    <div class="pt-[32px] flex justify-between w-full mb-[16px]">-->
+<!--                        <h1 class="flex text-4xl font-bold">Мероприятия</h1>-->
+<!--                        <a href="{% url 'news:qauipmedia' %}" class="flex items-center pt-[15px] ">-->
+<!--                            <h1 class="flex pr-[8px] ">Подробнее</h1>-->
+<!--                            <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <div class="flex flex-row gap-[16px]">-->
+<!--                        <form class="w-[308px]" method="post">-->
+<!--                          {% csrf_token %}-->
+<!--                          <input type="hidden" name="date" id="hiddenDate">-->
+<!--                          <div id="cal*+96-->
+<!--                          ,01endar" class="rounded-[11px] h-[334px]"></div>-->
+<!--                          <button type="submit">Отправить</button>-->
+<!--                        </form>-->
+<!--                        <script>-->
+<!--                          flatpickr("#calendar", {-->
+<!--                            inline: true,-->
+<!--                            dateFormat: "Y-m-d",-->
+<!--                            locale: "ru",-->
+<!--                            onChange: function(selectedDates, dateStr) {-->
+<!--                              document.getElementById("hiddenDate").value = dateStr;-->
+<!--                            }-->
+<!--                          });-->
+<!--                        </script>-->
+<!--                        <div class="flex flex-col w-full gap-[16px]">-->
+<!--                            <div class="flex items-center bg-[#ED1A39] text-white rounded-[10px] h-[34px] text-[18px] font-semibold">-->
+<!--                                Qauipsiz Құрылтай: шын ТБ-мамандар осында жиналады!-->
+<!--                            </div>-->
+<!--                            <div class="rounded-[10px] bg-white">-->
+<!--                                <div class="text-[16px] font-semibold">-->
 
-                        }
-                        .no-scroll-arrows::-webkit-scrollbar-track {
-                            margin-left: 20px;
-                            background-color: #F5F5F5;
-                        }
-
-                        .hover-shadow-transition {
-                            transition: box-shadow 0.3s ease;
-                        }
-
-                        .hover-shadow-transition:hover {
-                            box-shadow:
-                                0px 1px 2px 0px #00000033,
-                                0px 4px 4px 0px #0000002B,
-                                0px 8px 5px 0px #0000001A,
-                                0px 15px 6px 0px #00000008,
-                                0px 23px 6px 0px #00000000;
-                        }
-                </style>
-            </div>
-            <div class="bg-white mt-[30px] h-[595px]">
-                <div class="flex flex-col ml-auto mr-auto max-w-[79%] justify-center">
-                    <div class="pt-[32px] flex justify-between w-full mb-[16px]">
-                        <h1 class="flex text-4xl font-bold">Qauipmedia</h1>
-                        <a href="{% url 'news:qauipmedia' %}" class="flex items-center pt-[15px] ">
-                            <h1 class="flex pr-[8px] ">Подробнее</h1>
-                            <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">
-                        </a>
-                    </div>
-                    <div class="flex justify-center gap-[16px] ">
-                        <div class="h-[489px] max-w-[50%] leading-5">
-                            <div class="border-b-2 pb-[8px] border-red-500 text-[18px] font-[600]">Техника безопасности — это не про каски.
-                                <h1 class="text-[18px] font-[600]">Это про детство!</h1>
-                            </div>
-                            <h1 class="text-[14px]">Первый эпизод подкаста ‪@HSEQauipsizAnalytics‬ — не про каски, а про то, как привычки из детства и семейные ценности формируют культуру безопасности. Гость — Максат Кубейсинов, HSE-специалист с 15-летним опытом и отец троих детей, делится личными историями, инсайтами и важными вопросами, о которых обычно молчат.</h1>
-                            <div class="video-container">
-                                <iframe
-                                        class="w-full h-[316px] mt-[16px]"
-                                        src="https://www.youtube.com/embed/E5qEnuEF0tc?si=VcBIkbeOMZ40hrHV"
-                                        title="YouTube video"
-                                        allowfullscreen>
-                                </iframe>
-                            </div>
-                        </div>
-                        <div class="h-[489px] max-w-[50%] leading-5">
-                            <div class="border-b-2 pb-[8px] text-[18px] border-red-500 h-[49.6px] font-[600]">Вебинар "Эффективное управление безопасностью"</div>
-                            <h1 class="text-[14px]">Обсуждаем, почему международные HSE-стандарты не всегда приживаются, какие цифровые решения действительно работают и как формировать культуру безопасности без давления — с фокусом на казахстанский контекст и реальные кейсы.</h1>
-                            <div class="video-container">
-                                <iframe class="h-[316px] mt-[37px] w-full"
-                                        src="https://www.youtube.com/embed/ohEQtydX4Kc?si=B4Lj3U_3dukhVI3m"
-                                        title="YouTube video"
-                                        allowfullscreen>
-                                </iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-[30px] h-[511px]">
-                <div class="flex flex-col ml-auto mr-auto max-w-[79%] justify-center">
-                    <div class="pt-[32px] flex justify-between w-full mb-[16px]">
-                        <h1 class="flex text-4xl font-bold">Мероприятия</h1>
-                        <a href="{% url 'news:qauipmedia' %}" class="flex items-center pt-[15px] ">
-                            <h1 class="flex pr-[8px] ">Подробнее</h1>
-                            <img class="h-[18px] w-[18px]" src="{% static 'img/_src/icons/Vector.png' %}">
-                        </a>
-                    </div>
-                    <div class="flex flex-row gap-[16px]">
-                        <form class="w-[308px]" method="post">
-                          {% csrf_token %}
-                          <input type="hidden" name="date" id="hiddenDate">
-                          <div id="cal*+96
-                          ,01endar" class="rounded-[11px] h-[334px]"></div>
-                          <button type="submit">Отправить</button>
-                        </form>
-                        <script>
-                          flatpickr("#calendar", {
-                            inline: true,
-                            dateFormat: "Y-m-d",
-                            locale: "ru",
-                            onChange: function(selectedDates, dateStr) {
-                              document.getElementById("hiddenDate").value = dateStr;
-                            }
-                          });
-                        </script>
-                        <div class="flex flex-col w-full gap-[16px]">
-                            <div class="flex items-center bg-[#ED1A39] text-white rounded-[10px] h-[34px] text-[18px] font-semibold">
-                                Qauipsiz Құрылтай: шын ТБ-мамандар осында жиналады!
-                            </div>
-                            <div class="rounded-[10px] bg-white">
-                                <div class="text-[16px] font-semibold">
-
-                                    Satbayev University<br>
-                                Горно-металлургический корпус, 265 каб. <br>
-                                26 апреля 2025<br>
-                                10:00 — 13:00<br>
-                                Кофе-брейк и живое общение — включены!<br>
-                                </div>
-                                <button class="flex flex-row ml-[16px] mt-[11px] justify-center items-center border-1 bg-[#ED1A39] text-white rounded-[10px] content-center h-[36px] w-[137px] border-solid">
-                                    <a href="" class="text-[16px] pb-[3px] pr-[8px]">Подробнее</a>
-                                    <img class="" src="{% static 'img/_src/icons/arrow.png' %}">
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+<!--                                    Satbayev University<br>-->
+<!--                                Горно-металлургический корпус, 265 каб. <br>-->
+<!--                                26 апреля 2025<br>-->
+<!--                                10:00 — 13:00<br>-->
+<!--                                Кофе-брейк и живое общение — включены!<br>-->
+<!--                                </div>-->
+<!--                                <button class="flex flex-row ml-[16px] mt-[11px] justify-center items-center border-1 bg-[#ED1A39] text-white rounded-[10px] content-center h-[36px] w-[137px] border-solid">-->
+<!--                                    <a href="" class="text-[16px] pb-[3px] pr-[8px]">Подробнее</a>-->
+<!--                                    <img class="" src="{% static 'img/_src/icons/arrow.png' %}">-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
         </div>
     </section>

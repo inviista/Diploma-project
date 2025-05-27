@@ -1,0 +1,60 @@
+{% load static %}
+<div class="flex flex-col max-w-[646px] w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 p-4 rounded-[16px]">
+    <div class="flex flex-row justify-between w-full gap-[64px] h-[60px] border-b-2 border-[#EFEFEF]">
+        <div class="flex flex-col ">
+            <text class="font-[700] text-[20px]">Аналитика</text>
+            <text class="font-[500] text-[12px]">обзоры, исследования и инфографика на основе реальных данных</text>
+        </div>
+        <a href="{% url 'news:all_news' %}" class="h-[29px]">
+            <img class="w-[29px]" src="{% static 'img/_src/icons/Frame 58 (6).png' %}">
+        </a>
+    </div>
+    <div class="flex flex-col w-full h-auto p-2">
+        <div class="main-news flex flex-col gap-4 pt-[10px]">
+                        <div class="flex flex-col gap-4 border-b-1 border-[#EFEFEF] pb-[16px]">
+                            <div>
+                                <div class="text-[12px] text-[#3F8CFF] font-[400]">Сегодня</div>
+                                <div class="flex flex-row gap-4">
+                                    <img class="flex h-auto pt-1 w-[140px]" src="{% static 'img/_src/icons/image 14.svg' %}">
+                                    <div class="flex flex-col w-full">
+                                        <div class=" text-[16px] text-[#000000] w-full font-[700] leading-6 max-w-[566px]">Данные по производственным травмам в 10 странах за 2020–2024 гг.:</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-row justify-between">
+                                <div class="text-[14px] text-[#ED1A39] font-medium flex w-full gap-2">
+                                    <img class="w-[24px]" src="{% static 'img/_src/icons/sell.svg' %}">
+                                    {% for category in categories %}
+                                    <div class="flex justify-center items-center font-[400] h-[29px] pl-3 pr-3 text-[12px] text-[#444444] bg-[#EAF4FF] rounded-[8px]">{{ category.title }}</div>
+                                    {% empty %}
+                                    <div class="text-gray-400">Без категории</div>
+                                    {% endfor %}
+                                </div>
+                                <div class="text-nowrap flex justify-center items-center text-[12px] text-[#444444]">02.01.2025</div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-4 border-b-1 border-[#EFEFEF] pb-[16px]">
+                            <div>
+                                <div class="text-[12px] text-[#3F8CFF] font-[400]">Сегодня</div>
+                                <div class="flex flex-row gap-4">
+                                    <img class="flex h-auto pt-1 w-[140px]" src="{% static 'img/_src/icons/image 14.svg' %}">
+                                    <div class="flex flex-col w-full">
+                                        <div class=" text-[16px] text-[#000000] w-full font-[700] leading-6 max-w-[566px]">Данные по производственным травмам в 10 странах за 2020–2024 гг.:</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-row justify-between">
+                                <div class="text-[14px] text-[#ED1A39] font-medium flex w-full gap-2">
+                                    <img class="w-[24px]" src="{% static 'img/_src/icons/sell.svg' %}">
+                                    {% for category in categories %}
+                                    <div class="flex justify-center items-center font-[400] h-[29px] pl-3 pr-3 text-[12px] text-[#444444] bg-[#EAF4FF] rounded-[8px]">{{ category.title }}</div>
+                                    {% empty %}
+                                    <div class="text-gray-400">Без категории</div>
+                                    {% endfor %}
+                                </div>
+                                <div class="text-nowrap flex justify-center items-center text-[12px] text-[#444444]">02.01.2025</div>
+                            </div>
+                        </div>
+        </div>
+    </div>
+</div>

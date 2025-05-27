@@ -53,11 +53,14 @@ def index(request):
     categories = Category.objects.all()
     articles = Article.objects.all()
     print(articles)
+    tags = Tag.objects.all()
 
     context = {
         'articles': articles,
         'categories': categories,
         'selected_category': selected_category,
+        'tags': tags,
+
     }
     return render(request, 'pages/index.html', context)
 
@@ -76,7 +79,9 @@ def qauipmedia(request):
 
 def all_news(request):
     articles = Article.objects.all()
-    context = {'articles': articles}
+    categories = Category.objects.prefetch_related('category_article')
+    tags = Tag.objects.all()
+    context = {'articles': articles, 'categories': categories, 'tags': tags}
     return render(request, 'pages/all_news.html', context)
 
 

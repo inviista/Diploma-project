@@ -29,8 +29,8 @@
                             <div class="flex flex-row justify-between">
                                 <div class="text-[14px] text-[#ED1A39] font-medium flex w-full gap-2">
                                     <img class="w-[24px]" src="{% static 'img/_src/icons/sell.svg' %}">
-                                    {% for category in article.categories.all %}
-                                    <div class="flex justify-center items-center font-[400] h-[29px] pl-3 pr-3 text-[12px] text-[#444444] bg-[#EAF4FF] rounded-[8px]">{{ category.title }}</div>
+                                    {% for tags in article.tags.all %}
+                                    <div class="flex justify-center items-center font-[400] h-[29px] pl-3 pr-3 text-[12px] text-[#444444] bg-[#EAF4FF] rounded-[8px]">{{ tags.title }}</div>
                                     {% empty %}
                                     <div class="text-gray-400">Без категории</div>
                                     {% endfor %}

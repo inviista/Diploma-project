@@ -5,6 +5,7 @@ from .form import ArticleAdminForm
 from.models import *
 
 admin.site.register(Category)
+admin.site.register(Tag)
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):

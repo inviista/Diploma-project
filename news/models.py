@@ -100,8 +100,8 @@ class Article(UUIDMixin):
 
     class Meta:
         ordering = ['-published_date']
-        verbose_name = 'News Article'
-        verbose_name_plural = 'News Articles'
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
 
 
 class DraftArticle(UUIDMixin):
@@ -161,16 +161,20 @@ class Instruction(models.Model):
         ('pdf', 'PDF'),
     ]
 
-    title = models.CharField(max_length=255)
-    instruction_type = models.CharField(max_length=50, choices=TYPE_CHOICES)
-    format = models.CharField(max_length=20, choices=FORMAT_CHOICES)
-    categories = models.CharField(max_length=255)  # could be ManyToMany if you want
-    duration_minutes = models.PositiveIntegerField(null=True, blank=True)  # for video, <=15
-    file_url = models.URLField(blank=True, null=True)
-    content = models.TextField(blank=True, null=True)
+    title = models.CharField("Название инструктажа", max_length=255)
+    instruction_type = models.CharField("Тип инструктажа", max_length=50, choices=TYPE_CHOICES)
+    format = models.CharField("Формат", max_length=20, choices=FORMAT_CHOICES)
+    categories = models.CharField("Категории", max_length=255)
+    duration_minutes = models.PositiveIntegerField("Длительность (мин)", null=True, blank=True)
+    file_url = models.URLField("Ссылка на файл", blank=True, null=True)
+    content = models.TextField("Встроенный текст", blank=True, null=True)
 
-    related_checklists = models.ManyToManyField('Checklist', blank=True, related_name='instructions')
-    related_documents = models.ManyToManyField('Document', blank=True, related_name='instructions')
+    related_checklists = models.ManyToManyField('Checklist', blank=True, related_name='instructions', verbose_name="Связанные чек-листы")
+    related_documents = models.ManyToManyField('Document', blank=True, related_name='instructions', verbose_name="Связанные документы")
+
+    class Meta:
+        verbose_name = "Инструктаж"
+        verbose_name_plural = "Инструктажи"
 
     def __str__(self):
         return self.title
@@ -185,12 +189,16 @@ class Document(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255)
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
-    topics = models.CharField(max_length=255, blank=True)  # or ManyToMany if needed
-    file_url = models.URLField()
-    valid_from = models.DateField()
-    valid_to = models.DateField()
+    title = models.CharField("Название", max_length=255)
+    category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
+    topics = models.CharField("Темы", max_length=255, blank=True)
+    file_url = models.URLField("Ссылка на файл")
+    valid_from = models.DateField("Дата начала действия")
+    valid_to = models.DateField("Дата окончания действия")
+
+    class Meta:
+        verbose_name = "Документ"
+        verbose_name_plural = "Документы"
 
     def __str__(self):
         return self.title
@@ -198,10 +206,14 @@ class Document(models.Model):
 
 class Checklist(models.Model):
     id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255)
-    use_case = models.CharField(max_length=255)
-    checkpoints = models.JSONField()  # list of questions/points
-    file_url = models.URLField(blank=True, null=True)
+    title = models.CharField("Название", max_length=255)
+    use_case = models.CharField("Сценарий использования", max_length=255)
+    checkpoints = models.JSONField("Пункты проверки")
+    file_url = models.URLField("Ссылка на файл", blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Чек-лист"
+        verbose_name_plural = "Чек-листы"
 
     def __str__(self):
         return self.title
@@ -215,13 +227,17 @@ class Webinar(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    speakers = models.CharField(max_length=255)
-    video_url = models.URLField(blank=True, null=True)
-    date_time = models.DateTimeField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
-    tags = models.CharField(max_length=255, blank=True)
+    title = models.CharField("Название", max_length=255)
+    description = models.TextField("Описание")
+    speakers = models.CharField("Спикеры", max_length=255)
+    video_url = models.URLField("Ссылка на видео", blank=True, null=True)
+    date_time = models.DateTimeField("Дата и время")
+    status = models.CharField("Статус", max_length=20, choices=STATUS_CHOICES)
+    tags = models.CharField("Теги", max_length=255, blank=True)
+
+    class Meta:
+        verbose_name = "Вебинар"
+        verbose_name_plural = "Вебинары"
 
     def __str__(self):
         return self.title
@@ -240,16 +256,20 @@ class LegalAct(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255)
-    type = models.CharField(max_length=50, choices=TYPE_CHOICES)
-    document_number = models.CharField(max_length=100)
-    file_url = models.URLField(blank=True, null=True)
-    external_link = models.URLField(blank=True, null=True)
-    date_of_issue = models.DateField()
-    relevance_status = models.CharField(max_length=20, choices=RELEVANCE_CHOICES)
-    summary = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    title = models.CharField("Название", max_length=255)
+    type = models.CharField("Тип", max_length=50, choices=TYPE_CHOICES)
+    document_number = models.CharField("Номер документа", max_length=100)
+    file_url = models.URLField("Ссылка на файл", blank=True, null=True)
+    external_link = models.URLField("Внешняя ссылка", blank=True, null=True)
+    date_of_issue = models.DateField("Дата выпуска")
+    relevance_status = models.CharField("Статус актуальности", max_length=20, choices=RELEVANCE_CHOICES)
+    summary = models.TextField("Краткое описание", blank=True)
+    created_at = models.DateTimeField("Создано", auto_now_add=True)
+    updated_at = models.DateTimeField("Обновлено", auto_now=True)
+
+    class Meta:
+        verbose_name = "Нормативный акт"
+        verbose_name_plural = "Нормативные акты"
 
     def __str__(self):
         return self.title
@@ -257,12 +277,16 @@ class LegalAct(models.Model):
 
 class FAQ(models.Model):
     id = models.AutoField(primary_key=True)
-    question = models.TextField()
-    answer = models.TextField()
-    topic = models.CharField(max_length=255)
-    author = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    question = models.TextField("Вопрос")
+    answer = models.TextField("Ответ")
+    topic = models.CharField("Категория", max_length=255)
+    author = models.CharField("Автор", max_length=255)
+    created_at = models.DateTimeField("Создано", auto_now_add=True)
+    updated_at = models.DateTimeField("Обновлено", auto_now=True)
+
+    class Meta:
+        verbose_name = "Вопрос-ответ"
+        verbose_name_plural = "Вопросы и ответы"
 
     def __str__(self):
         return self.question

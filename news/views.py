@@ -56,7 +56,7 @@ def index(request):
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))
     calendar_month = int(request.GET.get('calendar_month', today.month))
-    event_date = request.GET.get('event_date', today)
+    event_date = request.GET.get('event_date', None)
 
     context = {
         'articles': articles,

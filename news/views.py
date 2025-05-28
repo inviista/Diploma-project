@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from datetime import date
+
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.core.paginator import Paginator
-from django.core.cache import cache
-from django.views.decorators.cache import cache_page
-from django.http import HttpResponseRedirect, HttpResponse
 
 from .mixins import three_days_ago
 from .models import Article, Category, Tag, FixedMenu, FixedArticle
@@ -52,18 +51,23 @@ def index(request):
     selected_category = request.GET.get('category')
     categories = Category.objects.all()
     articles = Article.objects.all()
-    print(articles)
     tags = Tag.objects.all()
+
+    today = date.today()
+    calendar_year = int(request.GET.get('calendar_year', today.year))
+    calendar_month = int(request.GET.get('calendar_month', today.month))
+    event_date = request.GET.get('event_date', today)
 
     context = {
         'articles': articles,
         'categories': categories,
         'selected_category': selected_category,
         'tags': tags,
-
+        'calendar_year': calendar_year,
+        'calendar_month': calendar_month,
+        'event_date': event_date
     }
     return render(request, 'pages/index.html', context)
-
 
 
 @counted
@@ -72,10 +76,12 @@ def news_detail(request, alias):
     context = {'article': article}
     return render(request, 'pages/article.html', context)
 
+
 def qauipmedia(request):
     articles = Article.objects.all()
     context = {'articles': articles}
     return render(request, 'pages/qauipmedia.html', context)
+
 
 def all_news(request):
     articles = Article.objects.all()

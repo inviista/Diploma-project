@@ -1,0 +1,88 @@
+{% load calendar_widget %}
+{% load static %}
+
+<div class="flex flex-col max-w-[363px] w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 p-4 rounded-[16px]">
+    <div class="flex flex-row justify-between w-full h-[96px] border-b-2 border-[#EFEFEF]">
+        <div class="flex flex-col max-w-[75%]">
+            <text class="font-[700] text-[20px]">Календарь событий</text>
+            <text class="font-[500] text-[12px]">Следи за важными датами в сфере охраны труда: форумы, проверки,
+                дедлайны и ключевые мероприятия
+            </text>
+        </div>
+        <a href="" class="w-[29px] h-[29px]">
+            <img class="w-[29px]" src="{% static 'img/_src/icons/Frame 58 (6).png' %}">
+        </a>
+    </div>
+    <div class="p-1 pt-3">
+        <div id="calendar">
+            <div class="flex bg-[#3F8CFF] justify-between items-center">
+                <a href="?calendar_year={{ prev_year }}&calendar_month={{ prev_month }}"
+                   class="cursor-pointer w-8 h-8 flex justify-center items-center">
+                    <svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.80737 8.54687L0.697998 4.4375L4.80737 0.328125L5.76623 1.28698L2.61571 4.4375L5.76623 7.58802L4.80737 8.54687Z"
+                              fill="white"/>
+                    </svg>
+                </a>
+                <p class="text-medium text-white">{{ title | upper }}</p>
+                <a href="?calendar_year={{ next_year }}&calendar_month={{ next_month }}"
+                   class="cursor-pointer w-8 h-8 flex justify-center items-center">
+                    <svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.9734 4.4375L0.822876 1.28698L1.78173 0.328125L5.89111 4.4375L1.78173 8.54687L0.822876 7.58802L3.9734 4.4375Z"
+                              fill="white"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="bg-[#73ABFF] flex justify-around item-center">
+                {% for weekday in weekdays %}
+                    <span class="text-white text-sm py-1">
+                        {{ weekday | upper }}
+                     </span>
+                {% endfor %}
+            </div>
+            <div class="flex flex-col">
+                {% for week in month_days %}
+                    <div class="flex justify-around">
+                        {% for day in week %}
+                            {% if day != 0 %}
+                                <a href="?event_date={% format_date_ymd year month day %}" class="w-10 h-10 flex justify-center items-center cursor-pointer rounded-full hover:bg-blue-300 hover:text-white transition duration-150 ease-in-out
+                                        {% if day == today.day and month == today.month and year == today.year %}
+                                            bg-[#F05F4B] text-white
+                                        {% endif %}
+                                        {% if events_by_day|dict_key:day|length > 0 %}
+                                            bg-[#73ABFF] text-white
+                                        {% endif %}
+                                    ">
+                                    {{ day }}
+                                </a>
+                            {% else %}
+                                <div class="w-10 h-10">
+                                </div>
+                            {% endif %}
+
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="p-2">
+            {% with events=events_by_day|dict_key:event_day %}
+                {% if events %}
+                    <div class="flex flex-row justify-between items-center">
+                        <h1 class="text-[16px] font-bold text-primary text-center text-[#F05F4B]">{{ event_day_localized }}</h1>
+                        <img class="w-auto h-[24px]" src="{% static 'img/_src/icons/stat_minus_1.svg' %}">
+                    </div>
+                    <!-- Список мероприятий -->
+                    <ul class="font-medium text-[13px] font-[400]">
+                        {% for event in events %}
+                            <li class="flex items-start pt-2">
+                                <span class="text-accent font-medium mr-2">•</span>
+                                <span class="">{{ event.title }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</div>

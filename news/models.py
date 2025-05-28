@@ -169,8 +169,10 @@ class Instruction(models.Model):
     file_url = models.URLField("Ссылка на файл", blank=True, null=True)
     content = models.TextField("Встроенный текст", blank=True, null=True)
 
-    related_checklists = models.ManyToManyField('Checklist', blank=True, related_name='instructions', verbose_name="Связанные чек-листы")
-    related_documents = models.ManyToManyField('Document', blank=True, related_name='instructions', verbose_name="Связанные документы")
+    related_checklists = models.ManyToManyField('Checklist', blank=True, related_name='instructions',
+                                                verbose_name="Связанные чек-листы")
+    related_documents = models.ManyToManyField('Document', blank=True, related_name='instructions',
+                                               verbose_name="Связанные документы")
 
     class Meta:
         verbose_name = "Инструктаж"
@@ -290,3 +292,27 @@ class FAQ(models.Model):
 
     def __str__(self):
         return self.question
+
+
+class Event(models.Model):
+    title = models.CharField(
+        max_length=200,
+        verbose_name='Название'
+    )
+    date = models.DateField(
+        verbose_name='Дата'
+    )
+    description = models.TextField(
+        verbose_name='Описание'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+
+    class Meta:
+        verbose_name = 'Событие'
+        verbose_name_plural = 'События'
+
+    def __str__(self):
+        return f"{self.title} ({self.date})"

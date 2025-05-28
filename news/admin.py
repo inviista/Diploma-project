@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .form import ArticleAdminForm
-from.models import *
+from .models import *
 
 admin.site.register(Category)
 admin.site.register(Tag)
@@ -12,6 +12,8 @@ admin.site.register(Webinar)
 admin.site.register(Checklist)
 admin.site.register(Document)
 admin.site.register(Instruction)
+admin.site.register(Event)
+
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):

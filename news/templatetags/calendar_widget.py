@@ -69,8 +69,6 @@ def render_calendar(year=None, month=None, event_date_str=None):
         except ValueError:
             pass
 
-    print(event_date, event_date.day)
-
     return {
         'month': month,
         'year': year,
@@ -83,6 +81,6 @@ def render_calendar(year=None, month=None, event_date_str=None):
         'prev_month': prev_month,
         'next_year': next_year,
         'next_month': next_month,
-        'event_day': event_date.day,
+        'event_date': event_date,
         'event_day_localized': event_date.strftime('%d %B'),
     }

@@ -6,6 +6,12 @@ from.models import *
 
 admin.site.register(Category)
 admin.site.register(Tag)
+admin.site.register(FAQ)
+admin.site.register(LegalAct)
+admin.site.register(Webinar)
+admin.site.register(Checklist)
+admin.site.register(Document)
+admin.site.register(Instruction)
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):

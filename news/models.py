@@ -146,3 +146,123 @@ class FixedMenu(UUIDMixin):
     def __str__(self):
         return self.name
 
+
+class Instruction(models.Model):
+    TYPE_CHOICES = [
+        ('introductory', 'Вводный'),
+        ('primary', 'Первичный'),
+        ('repeated', 'Повторный'),
+        ('targeted', 'Целевой'),
+        ('unscheduled', 'Внеплановый'),
+    ]
+    FORMAT_CHOICES = [
+        ('text', 'Текст'),
+        ('video', 'Видео'),
+        ('pdf', 'PDF'),
+    ]
+
+    title = models.CharField(max_length=255)
+    instruction_type = models.CharField(max_length=50, choices=TYPE_CHOICES)
+    format = models.CharField(max_length=20, choices=FORMAT_CHOICES)
+    categories = models.CharField(max_length=255)  # could be ManyToMany if you want
+    duration_minutes = models.PositiveIntegerField(null=True, blank=True)  # for video, <=15
+    file_url = models.URLField(blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+
+    related_checklists = models.ManyToManyField('Checklist', blank=True, related_name='instructions')
+    related_documents = models.ManyToManyField('Document', blank=True, related_name='instructions')
+
+    def __str__(self):
+        return self.title
+
+
+class Document(models.Model):
+    CATEGORY_CHOICES = [
+        ('safety_management', 'Safety management'),
+        ('training_registers', 'Реестры по обучению'),
+        ('incidents', 'Инциденты и расследования'),
+        ('other', 'Другие документы'),
+    ]
+
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    topics = models.CharField(max_length=255, blank=True)  # or ManyToMany if needed
+    file_url = models.URLField()
+    valid_from = models.DateField()
+    valid_to = models.DateField()
+
+    def __str__(self):
+        return self.title
+
+
+class Checklist(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+    use_case = models.CharField(max_length=255)
+    checkpoints = models.JSONField()  # list of questions/points
+    file_url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Webinar(models.Model):
+    STATUS_CHOICES = [
+        ('scheduled', 'Запланирован'),
+        ('completed', 'Прошёл'),
+        ('recording', 'Запись'),
+    ]
+
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    speakers = models.CharField(max_length=255)
+    video_url = models.URLField(blank=True, null=True)
+    date_time = models.DateTimeField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    tags = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.title
+
+
+class LegalAct(models.Model):
+    TYPE_CHOICES = [
+        ('law', 'Закон'),
+        ('code', 'Кодекс'),
+        ('npa', 'НПА'),
+        ('gost', 'ГОСТ'),
+    ]
+    RELEVANCE_CHOICES = [
+        ('actual', 'Актуален'),
+        ('obsolete', 'Устарел'),
+    ]
+
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+    type = models.CharField(max_length=50, choices=TYPE_CHOICES)
+    document_number = models.CharField(max_length=100)
+    file_url = models.URLField(blank=True, null=True)
+    external_link = models.URLField(blank=True, null=True)
+    date_of_issue = models.DateField()
+    relevance_status = models.CharField(max_length=20, choices=RELEVANCE_CHOICES)
+    summary = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+class FAQ(models.Model):
+    id = models.AutoField(primary_key=True)
+    question = models.TextField()
+    answer = models.TextField()
+    topic = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.question

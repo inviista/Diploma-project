@@ -67,7 +67,9 @@
                                                 <text class="text-bold text-[20px]">{{ instruction.title }}</text>
                                             </div>
 
-                                            <text class="text-sm">{{ instruction.description }}</text>
+                                            {% if instruction.description %}
+                                                <text class="text-sm">{{ instruction.description }}</text>
+                                            {% endif %}
                                             <text class="text-sm">{{ instruction.author }}</text>
                                         </div>
                                         <div class="flex gap-3">

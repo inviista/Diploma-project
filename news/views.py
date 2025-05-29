@@ -106,6 +106,19 @@ def all_news(request):
     return render(request, 'pages/all_news.html', context)
 
 
+def instructions(request):
+    categories = Instruction.CATEGORY_CHOICES
+    grouped_instructions = {}
+
+    for key, label in categories:
+        categorized_instructions = Instruction.objects.filter(category=key)
+        if len(categorized_instructions):
+            grouped_instructions[label] = Instruction.objects.filter(category=key)
+
+    context = {'grouped_instructions': grouped_instructions}
+    return render(request, 'pages/instructions.html', context)
+
+
 def author(request, uid):
     menu = FixedMenu.objects.all()
     articles = Article.objects.filter(article_status=True, article_type='P', author=uid)

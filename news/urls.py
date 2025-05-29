@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from django.contrib.sitemaps.views import sitemap
 
 from .sitemaps import ArticleSitemap
@@ -13,6 +13,7 @@ sitemaps = {
 urlpatterns = [
     path('news/<str:slug>/', views.news_detail, name='news_detail'),
     path('news/', views.all_news, name='all_news'),
+    path('instructions/', views.instructions, name='instructions'),
     path('search_results/', views.search_results, name='search_results'),
     path('category/<str:slug>/', views.category_detail, name='category'),
     path('tag/<str:slug>/', views.tag_detail, name='tag_detail'),

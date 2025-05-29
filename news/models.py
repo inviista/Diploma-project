@@ -171,12 +171,13 @@ class Instruction(models.Model):
     ]
 
     title = models.CharField("Название инструктажа", max_length=255)
+    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+    author = models.CharField("Автор", max_length=255)
     instruction_type = models.CharField("Тип инструктажа", max_length=50, choices=TYPE_CHOICES)
     format = models.CharField("Формат", max_length=20, choices=FORMAT_CHOICES)
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES, default='introductory')
     duration_minutes = models.PositiveIntegerField("Длительность (мин)", null=True, blank=True)
     file = models.FileField("Файл", upload_to='uploads/instructions/', null=True, blank=True)
-    content = models.TextField("Встроенный текст", blank=True, null=True)
     external_link = models.URLField("Внешняя ссылка", max_length=500, null=True, blank=True)
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
 
@@ -187,8 +188,8 @@ class Instruction(models.Model):
 
     def clean(self):
         if self.format == 'text':
-            if not self.content:
-                raise ValidationError('Для текстового формата необходимо заполнить поле "Встроенный текст".')
+            if not self.description:
+                raise ValidationError('Для текстового формата необходимо заполнить поле "Краткое описание".')
 
         elif self.format in ['video', 'pdf']:
             if not self.file and not self.external_link:

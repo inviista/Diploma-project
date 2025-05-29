@@ -49,95 +49,63 @@
 </head>
 <body class="bg-[#F5F5F5]">
 <header class="flex justify-center items-center h-[97px] bg-[#7D151E]">
-    <div class="flex ml-auto mr-auto w-full max-w-[90%] gap-[7px]">
-        <div class="text-white flex space-x-1 items-center gap-[7px]">
-            <img
-                    class="h-[49px] w-[177px]"
-                    src="{% static 'img/_src/icons/Asset 6.png' %}"
-            />
-            <h1 class="font-[700] text-[16px] ml-[24px] leading-5 w-full max-w-[228px]">
-                Безопасность — не требование, а культура...
-            </h1>
+    <div class="flex w-full mx-[100px] justify-between text-white flex gap-8 items-center">
+        <div class="flex gap-8">
+            <div class="flex gap-6">
+                <img
+                        class="h-[49px] w-[177px]"
+                        src="{% static 'img/_src/icons/Asset 6.png' %}"
+                />
+                <h1 class="font-[700] text-[16px] leading-5 w-full max-w-[228px]">
+                    Безопасность — не требование, а культура...
+                </h1>
+            </div>
+
             <a
                     href=""
-                    class="flex font-[700] text-[16px] p-2 items-center justify-center"
+                    class="flex font-[700] text-[16px] items-center justify-center"
             >Главная</a
             >
             <a
                     href=""
-                    class="flex font-[700] text-[16px] p-2 items-center justify-center"
+                    class="flex font-[700] text-[16px] items-center justify-center"
             >О нас</a
             >
             <a
                     href=""
-                    class="flex font-[700] text-[16px] p-2 items-center justify-center"
+                    class="flex font-[700] text-[16px] items-center justify-center"
             >Задай вопрос</a
             >
+        </div>
+
+
+        <div class="flex gap-3">
             <a
                     href=""
-                    class="flex ml-[7px] h-[39px] w-[109px] font-[600] text-[12px] p-2 items-center justify-center rounded-[16px] bg-[#3F8CFF] border-solid"
+                    class="flex h-[39px] w-[109px] font-[600] text-[12px] px-6 py-3 items-center justify-center rounded-[16px] bg-[#3F8CFF] border-solid text-nowrap"
             >HSE Prime</a
             >
             <a
                     href=""
-                    class="flex ml-[6px] w-[118px] h-[39px] font-[600] text-[12px] p-2 items-center justify-center rounded-[16px] bg-[#ED1A39] border-solid"
+                    class="flex w-[118px] h-[39px] font-[600] text-[12px] px-6 py-3 items-center justify-center rounded-[16px] bg-[#ED1A39] border-solid"
             >Qauipmedia</a
             >
-
-        </div>
-        <!-- Регистрация -->
-        <div class="flex items-center  gap-[7px]">
-            <form
-                    action="/search"
-                    method="GET"
-                    class="ml-[10px] flex h-[39px] font-[600] text-[12px] items-center rounded-[16px] bg-[#ffffff] border-solid w-full"
-            >
-                <input
-                        type="text"
-                        name="q"
-                        placeholder="Поиск через HSE GPT..."
-                        class="ml-2 placeholder-text-[12px] rounded px-3 py-2 focus:outline-none focus:ring-0 placeholder-black w-full"
-                />
-            </form>
+            <input
+                    type="text"
+                    name="q"
+                    placeholder="Поиск через HSE GPT..."
+                    class="font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] rounded px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] min-w-[300px]"
+            />
             <a
                     href="/register"
-                    class="ml-[6px] h-[39px] flex font-[600] text-[12px] text-[#AF1E2A] w-[84px] justify-center border-1 bg-white rounded-[16px] items-center border-solid"
+                    class="h-[39px] flex font-[600] text-[12px] text-[#AF1E2A] w-[84px] justify-center border-1 bg-white rounded-[16px] items-center border-solid px-6 py-3"
             >Войти</a
             >
             <!-- Кнопка для локализации -->
-            <h1 class="ml-[6px] font-[700] text-[12px] text-white">RU</h1>
+            <h1 class="font-[700] text-[12px] text-white self-center">RU</h1>
         </div>
-    </div>
     </div>
 </header>
 {% block content %} {% endblock content %}
-<footer
-        class="flex flex-col items-center justify-center w-full bg-[#ED1A39] h-[281px]"
->
-    <img
-            class="h-[96px] w-[319px]"
-            src="{% static 'img/_src/icons/Logo variations 1 1.svg' %}"
-    />
-    <div class="flex flex-row pt-[16px] gap-[47px]">
-        <img
-                class="h-[40px] w-[40px]"
-                src="{% static 'img/_src/icons/youtube-168-svgrepo-com 1.svg' %}"
-        />
-        <img
-                class="h-[40px] w-[40px]"
-                src="{% static 'img/_src/icons/telegram-svgrepo-com (2) 1.svg' %}"
-        />
-        <img
-                class="h-[40px] w-[40px]"
-                src="{% static 'img/_src/icons/whatsapp-128-svgrepo-com (1) 1.svg' %}"
-        />
-    </div>
-    <div class="flex flex-row pt-[24px] text-white gap-[15px] text-[18px]">
-        <a href="" class="flex p-3 items-center justify-center">HSE Prime</a>
-        <a href="" class="flex p-3 items-center justify-center">Мероприятия</a>
-        <a href="" class="flex p-3 items-center justify-center">Задай вопрос</a>
-        <a href="" class="flex p-3 items-center justify-center">Qauipedia</a>
-    </div>
-</footer>
 </body>
 </html>

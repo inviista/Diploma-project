@@ -38,31 +38,30 @@
 {% block content %}
     <main>
         <section>
-            <div class="flex flex-col justify-center">
-                <div class="flex flex-col ml-auto mr-auto max-w-[90%] justify-center">
+            <div class="flex flex-col justify-center mx-[100px]">
+                <div class="flex flex-col w-full justify-center">
                     <!-- Мэйн-блок и мини-блоки с навигацией -->
                     {% include "includes/index_blocks.html" %}
                     <!-- Инструктажи -->
                     <div class="flex flex-row gap-2 pt-[5px] justify-between">
-                        <div class="flex flex-col">
+                        <div class="flex flex-col max-w-[438px] w-full">
                             <!-- Инструктажи -->
                             {% include "includes/index_briefing.html" %}
                             <!-- Документы -->
                             {% include "includes/index_documents.html" %}
                             <!-- Управление рисками -->
                             {% include "includes/index_risks.html" %}
-
                             <!-- Кауипмедиа -->
                             {% include "includes/index_qauipmedia.html" %}
 
                         </div>
-                        <div class="flex flex-col">
+                        <div class="flex flex-col max-w-[802px] w-full">
                             <!-- Новости -->
                             {% include "includes/index_news.html" %}
                             <!-- Аналитика -->
                             {% include "includes/index_analytics.html" %}
                         </div>
-                        <div class="flex flex-col">
+                        <div class="flex flex-col max-w-[464px] w-full">
                             <!-- Календарь событий -->
                             {% render_calendar calendar_year calendar_month event_date %}
                             <!-- Кейсы автоматизации -->

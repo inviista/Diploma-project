@@ -1,72 +1,75 @@
 {% load static %}
-<div class="flex flex-col max-w-[343px] w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 p-4 rounded-[16px]">
-    <div class="flex flex-row justify-between w-full h-[96px] border-b-2 border-[#EFEFEF]">
-        <div class="flex flex-col max-w-[75%]">
-            <text class="font-[700] text-[20px]">Qauipmedia</text>
-            <text class="font-[500] text-[12px]">Наш авторский видеопроект о безопасности с лучшими экспертами страны.</text>
+<div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 p-4 rounded-[16px]">
+    <div class="flex flex-col w-full border-b-3 border-[#EFEFEF] pb-3">
+        <div class="flex justify-between">
+            <text class="font-[700] text-[24px]">Qauipmedia</text>
+
+            <a href="{% url 'news:qauipmedia' %}" class="w-[36px] h-fit">
+                <img src="{% static 'img/_src/icons/Frame 58 (6).png' %}">
+            </a>
         </div>
-        <a href="{% url 'news:qauipmedia' %}" class="w-[29px] h-[29px]">
-            <img class="w-[29px]" src="{% static 'img/_src/icons/Frame 58 (6).png' %}">
-        </a>
+        <text class="font-[500] text-[16px]">Наш авторский видеопроект о <br> безопасности с лучшими экспертами <br> страны.
+        </text>
     </div>
-    <div class="flex flex-col w-full p-1 pb-[16px] border-b-2 border-[#EFEFEF] justify-center">
-        <div class="flex flex-col gap-2">
+
+    <div class="flex flex-col w-full pt-1 pb-[16px] border-b-2 border-[#EFEFEF] justify-center">
+        <div class="flex flex-col gap-2 px-3 pt-3">
             <div class="h-auto w-auto">
-                <div class="video-container">
+                <div class="video-container flex justify-center ">
                     <iframe
-                            class="w-full  mt-[16px]"
+                            class="w-full h-[222px] max-w-[366px] mt-[16px]"
                             src="https://www.youtube.com/embed/ohEQtydX4Kc?si=B4Lj3U_3dukhVI3m"
                             title="YouTube video"
                             allowfullscreen>
                     </iframe>
                 </div>
             </div>
-            <div class="text-[11px] text-[#444444] flex justify-end">02.01.2025</div>
+            <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
         </div>
     </div>
-    <div class="flex flex-col w-full p-1 pb-[16px] border-b-2 border-[#EFEFEF] justify-center">
-        <div class="flex flex-col gap-2">
+    <div class="flex flex-col w-full pt-1 pb-[16px] border-b-2 border-[#EFEFEF] justify-center">
+        <div class="flex flex-col gap-2 px-3 pt-3">
             <div class="h-auto w-auto">
-                <div class="video-container">
+                <div class="video-container flex justify-center ">
                     <iframe
-                            class="w-full  mt-[16px]"
+                            class="w-full h-[222px] max-w-[366px] mt-[16px]"
                             src="https://www.youtube.com/embed/E5qEnuEF0tc?si=VcBIkbeOMZ40hrHV"
                             title="YouTube video"
                             allowfullscreen>
                     </iframe>
                 </div>
             </div>
-            <div class="text-[11px] text-[#444444] flex justify-end">02.01.2025</div>
+            <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
         </div>
     </div>
-    <div class="flex flex-col w-full p-1 pb-[16px] border-b-2 border-[#EFEFEF] justify-center">
-        <div class="flex flex-col gap-2">
+    <div class="flex flex-col w-full pt-1 pb-[16px] border-b-2 border-[#EFEFEF] justify-center">
+        <div class="flex flex-col gap-2 px-3 pt-3">
             <div class="h-auto w-auto">
-                <div class="video-container">
+                <div class="video-container flex justify-center ">
                     <iframe
-                            class="w-full  mt-[16px]"
+                            class="w-full h-[222px] max-w-[366px] mt-[16px]"
                             src="https://www.youtube.com/embed/ohEQtydX4Kc?si=B4Lj3U_3dukhVI3m"
                             title="YouTube video"
                             allowfullscreen>
                     </iframe>
                 </div>
             </div>
-            <div class="text-[11px] text-[#444444] flex justify-end">02.01.2025</div>
+            <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
         </div>
     </div>
-    <div class="flex flex-col w-full p-1 pb-[16px] border-b-2 border-[#EFEFEF] justify-center">
-        <div class="flex flex-col gap-2">
+    <div class="flex flex-col w-full pt-1 pb-[16px] border-b-2 border-[#EFEFEF] justify-center">
+        <div class="flex flex-col gap-2 px-3 pt-3">
             <div class="h-auto w-auto">
-                <div class="video-container">
+                <div class="video-container flex justify-center ">
                     <iframe
-                            class="w-full mt-[16px]"
+                            class="w-full h-[222px] max-w-[366px] mt-[16px]"
                             src="https://www.youtube.com/embed/E5qEnuEF0tc?si=VcBIkbeOMZ40hrHV"
                             title="YouTube video"
                             allowfullscreen>
                     </iframe>
                 </div>
             </div>
-            <div class="text-[11px] text-[#444444] flex justify-end">02.01.2025</div>
+            <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
         </div>
     </div>
 </div>

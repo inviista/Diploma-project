@@ -1,59 +1,41 @@
 {% load static %}
-<div class="flex flex-col max-w-[343px] w-full h-[483px] shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 p-4 rounded-[16px]">
-    <div class="flex flex-row justify-between w-full gap-[64px] h-[93px] border-b-2 border-[#EFEFEF]">
-        <div class="flex flex-col ">
+<div class="flex flex-col max-w-[343px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 p-4 rounded-[16px]">
+    <div class="flex flex-row justify-between w-full gap-[64px] border-b-3 border-[#EFEFEF] pb-3">
+        <div class="flex flex-col">
             <text class="font-[700] text-[20px]">Инструктажи</text>
             <text class="font-[500] text-[12px]">Скачивайте, адаптируйте и проводите <br>
                 инструктажи быстро и без лишней <br>
-                бюрократии</text>
+                бюрократии
+            </text>
         </div>
         <a href="">
             <img class="w-[29px]" src="{% static 'img/_src/icons/Frame 58 (6).png' %}">
         </a>
     </div>
     <div>
-        <a href="" class="flex h-[38px] text-white mt-5 font-[600] text-[13px] gap-[15px] p-2 items-center justify-center rounded-[14px] bg-[#AF3FFF] ">
+        <a href=""
+           class="flex h-[38px] text-white mt-5 font-[600] text-[13px] gap-[15px] p-2 items-center justify-center rounded-[14px] bg-[#AF3FFF] ">
             <text>Создай своe видео инструктаж через AI</text>
             <img class="h-[13px] w-[13px]" src="{% static 'img/_src/icons/add.png' %}">
 
         </a>
     </div>
-    <div class="flex flex-col w-full h-[100px] p-3 border-b-2 border-[#EFEFEF]">
-        <div class="flex justify-center items-center text-[8px] text-white flex justify-start rounded-[16px] bg-[#DF3131] w-[32px] h-[12px] pl-[3px]">Новое</div>
-        <div class="flex flex-row">
-            <div class="flex flex-row">
-                <img class="w-[22px] h-[8px] mt-2" src="{% static 'img/_src/icons/eyeglasses_2.png' %}">
-                <text class="font-[700] text-[12px] ml-[9px] mb-[13px]">Инструкция по БиОТ для водителя молоковоза</text>
+    {% for instruction in instructions %}
+        <div class="flex flex-col w-full gap-[10px] p-3 border-b-1 border-[#EFEFEF]">
+            <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit">
+                Новое
             </div>
-            <a href="" class="flex h-[32px] w-[44px] min-w-[34px] max-w-[34px] mt-3 items-center justify-center rounded-[8px] bg-[#AF3FFF] ">
-                <img class="w-[24px] h-[24px]" src="{% static 'img/_src/icons/download.png' %}">
-            </a>
-        </div>
-        <div class="text-[11px] text-[#444444] flex justify-end">02.01.2025</div>
-    </div>
-    <div class="flex flex-col w-full h-[100px] p-3 border-b-2 border-[#EFEFEF]">
-        <div class="flex justify-center items-center text-[8px] text-white flex justify-start rounded-[16px] bg-[#DF3131] w-[32px] h-[12px] pl-[3px]">Новое</div>
-        <div class="flex flex-row">
-            <div class="flex flex-row">
+            <div class="flex flex-row items-start gap-[10px] flex-nowrap">
                 <img class="w-[22px] h-[8px] mt-2" src="{% static 'img/_src/icons/eyeglasses_2.png' %}">
-                <text class="font-[700] text-[12px] ml-[9px] mb-[13px]">Инструкция по БиОТ для помощника бурильщика</text>
+                <text class="font-[700] text-[12px]">{{ instruction.title }}</text>
+                {% if instruction.file %}
+                    <a href="{{ instruction.file.url }}" download
+                       class="flex h-[32px] w-[44px] min-w-[34px] max-w-[34px] items-center justify-center rounded-[8px] bg-[#AF3FFF]">
+                        <img class="w-[24px] h-[24px]" src="{% static 'img/_src/icons/download.png' %}">
+                    </a>
+                {% endif %}
             </div>
-            <a href="" class="flex h-[32px] w-[44px] min-w-[34px] max-w-[34px] mt-3 items-center justify-center rounded-[8px] bg-[#AF3FFF] ">
-                <img class="w-[24px] h-[24px]" src="{% static 'img/_src/icons/download.png' %}">
-            </a>
+            <div class="text-[11px] text-[#444444] flex justify-end">{{ instruction.created_date|date:"d.m.Y" }}</div>
         </div>
-        <div class="text-[11px] text-[#444444] flex justify-end">02.01.2025</div>
-    </div>
-    <div class="flex flex-col w-full h-[100px] p-3 border-b-2 border-[#EFEFEF]">
-        <div class="flex flex-row">
-            <div class="flex flex-row">
-                <img class="w-[22px] h-[8px] mt-2" src="{% static 'img/_src/icons/eyeglasses_2.png' %}">
-                <text class="font-[700] text-[12px] ml-[9px] mb-[13px]">Видео Вводный инструктаж для молочного завода</text>
-            </div>
-            <a href="" class="flex h-[32px] w-[44px] min-w-[34px] max-w-[34px] mt-3 items-center justify-center rounded-[8px] bg-[#AF3FFF] ">
-                <img class="w-[24px] h-[24px]" src="{% static 'img/_src/icons/download.png' %}">
-            </a>
-        </div>
-        <div class="text-[11px] text-[#444444] flex justify-end">02.01.2025</div>
-    </div>
+    {% endfor %}
 </div>

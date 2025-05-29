@@ -1,4 +1,6 @@
 from uuid import uuid4
+
+from django.core.exceptions import ValidationError
 from slugify import slugify
 
 from django.db import models
@@ -160,23 +162,42 @@ class Instruction(models.Model):
         ('video', 'Видео'),
         ('pdf', 'PDF'),
     ]
+    CATEGORY_CHOICES = [
+        ('introductory', 'Вводный инструктаж'),
+        ('primary_workplace', 'Первичный на рабочем месте'),
+        ('repeated', 'Повторный'),
+        ('unscheduled', 'Внеплановый'),
+        ('targeted', 'Целевой'),
+    ]
 
     title = models.CharField("Название инструктажа", max_length=255)
     instruction_type = models.CharField("Тип инструктажа", max_length=50, choices=TYPE_CHOICES)
     format = models.CharField("Формат", max_length=20, choices=FORMAT_CHOICES)
-    categories = models.CharField("Категории", max_length=255)
+    category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES, default='introductory')
     duration_minutes = models.PositiveIntegerField("Длительность (мин)", null=True, blank=True)
-    file_url = models.URLField("Ссылка на файл", blank=True, null=True)
+    file = models.FileField("Файл", upload_to='uploads/', null=True, blank=True)
     content = models.TextField("Встроенный текст", blank=True, null=True)
+    external_link = models.URLField("Внешняя ссылка", max_length=500, null=True, blank=True)
+    created_date = models.DateTimeField('Дата создания', default=timezone.now)
 
     related_checklists = models.ManyToManyField('Checklist', blank=True, related_name='instructions',
                                                 verbose_name="Связанные чек-листы")
     related_documents = models.ManyToManyField('Document', blank=True, related_name='instructions',
                                                verbose_name="Связанные документы")
 
+    def clean(self):
+        if self.format == 'text':
+            if not self.content:
+                raise ValidationError('Для текстового формата необходимо заполнить поле "Встроенный текст".')
+
+        elif self.format in ['video', 'pdf']:
+            if not self.file and not self.external_link:
+                raise ValidationError('Для видео или PDF формата нужно загрузить файл или указать внешнюю ссылку.')
+
     class Meta:
         verbose_name = "Инструктаж"
         verbose_name_plural = "Инструктажи"
+        ordering = ['-created_date']
 
     def __str__(self):
         return self.title

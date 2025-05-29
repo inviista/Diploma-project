@@ -175,7 +175,7 @@ class Instruction(models.Model):
     format = models.CharField("Формат", max_length=20, choices=FORMAT_CHOICES)
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES, default='introductory')
     duration_minutes = models.PositiveIntegerField("Длительность (мин)", null=True, blank=True)
-    file = models.FileField("Файл", upload_to='uploads/', null=True, blank=True)
+    file = models.FileField("Файл", upload_to='uploads/instructions/', null=True, blank=True)
     content = models.TextField("Встроенный текст", blank=True, null=True)
     external_link = models.URLField("Внешняя ссылка", max_length=500, null=True, blank=True)
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
@@ -215,9 +215,14 @@ class Document(models.Model):
     title = models.CharField("Название", max_length=255)
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
     topics = models.CharField("Темы", max_length=255, blank=True)
-    file_url = models.URLField("Ссылка на файл")
+    file_url = models.URLField("Ссылка на файл", null=True, blank=True)
+    file = models.FileField("Файл", upload_to='uploads/documents/', null=True, blank=True)
     valid_from = models.DateField("Дата начала действия")
     valid_to = models.DateField("Дата окончания действия")
+
+    def clean(self):
+        if not self.file and not self.file_url:
+            raise ValidationError('Прикрепите файл или ссылку.')
 
     class Meta:
         verbose_name = "Документ"

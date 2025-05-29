@@ -1,43 +1,25 @@
 {% load static %}
-<div class="flex flex-col max-w-[343px] w-full h-[405px] shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 p-4 rounded-[16px]">
-    <div class="flex flex-row justify-between w-full gap-[64px] h-[75px] border-b-2 border-[#EFEFEF]">
+<div class="flex flex-col max-w-[343px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 p-4 rounded-[16px]">
+    <div class="flex flex-row justify-between w-full gap-[64px] border-b-3 border-[#EFEFEF]">
         <div class="flex flex-col ">
             <text class="font-[700] text-[20px]">Документы</text>
             <text class="font-[500] text-[12px]">Акты, журналы, приказы, инструкции</text>
         </div>
         <a href="">
-            <img class="w-[29px]" src="{% static 'img/_src/icons/Frame 58 (6).png' %}">
+            <img class="w-[36px]" src="{% static 'img/_src/icons/Frame 58 (6).png' %}">
         </a>
     </div>
 
-    <div class="flex flex-col w-full h-[129px] p-3 border-b-2 border-[#EFEFEF]">
-        <div class="flex justify-center items-center text-[8px] text-white flex justify-start rounded-[16px] bg-[#DF3131] w-[32px] h-[12px] pl-[3px]">Новое</div>
-        <div class="flex flex-row">
-            <div class="flex flex-row">
-                <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/article.svg' %}">
-                <text class="font-[700] text-[12px] ml-[9px]">ДОКУМЕНТЫ ДЛЯ РАЗРАБОТКИ ПОЛОЖЕНИЯ о СУОТ (неполный перечень) на 2024_11</text>
+    {% for document in documents %}
+        <div class="flex flex-col w-full p-3 border-b-1 border-[#EFEFEF] gap-[10px]">
+            <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit">
+                Новое
             </div>
-        </div>
-        <div class="text-[11px] text-[#444444] flex justify-end">02.01.2025</div>
-    </div>
-    <div class="flex flex-col w-full h-[100px] p-3 border-b-2 border-[#EFEFEF]">
-        <div class="flex justify-center items-center text-[8px] text-white flex justify-start rounded-[16px] bg-[#DF3131] w-[32px] h-[12px] pl-[3px]">Новое</div>
-        <div class="flex flex-row">
-            <div class="flex flex-row">
+            <div class="flex flex-row gap-[10px]">
                 <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/article.svg' %}">
-                <text class="font-[700] text-[12px] ml-[9px]">Типовые инструкции по ОТ и ТБ</text>
+                <text class="font-[700] text-[12px]">{{ document.title }}</text>
             </div>
+            <div class="text-[11px] text-[#444444] flex justify-end">02.01.2025</div>
         </div>
-        <div class="text-[11px] text-[#444444] flex justify-end">02.01.2025</div>
-    </div>
-    <div class="flex flex-col w-full h-[100px] p-3 border-b-2 border-[#EFEFEF]">
-        <div class="flex flex-row">
-            <div class="flex flex-row">
-                <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/article.svg' %}">
-                <text class="font-[700] text-[12px] ml-[9px]">Программа вводного инструктажа по безопасности и охране труда</text>
-            </div>
-
-        </div>
-        <div class="text-[11px] text-[#444444] flex justify-end">02.01.2025</div>
-    </div>
+    {% endfor %}
 </div>

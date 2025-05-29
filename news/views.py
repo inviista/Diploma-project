@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 
 from .mixins import three_days_ago
-from .models import Article, Category, Tag, FixedMenu, FixedArticle, Instruction
+from .models import Article, Category, Tag, FixedMenu, FixedArticle, Instruction, Document
 from .decorators import counted
 
 
@@ -62,6 +62,9 @@ def index(request):
     # instructions
     instructions = Instruction.objects.all()[:3]
 
+    # documents
+    documents = Document.objects.all()[:3]
+
     context = {
         'articles': articles,
         'categories': categories,
@@ -74,7 +77,10 @@ def index(request):
         'event_date': event_date,
 
         # instructions
-        'instructions': instructions
+        'instructions': instructions,
+
+        # documents
+        'documents': documents
     }
     return render(request, 'pages/index.html', context)
 

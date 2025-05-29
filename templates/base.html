@@ -1,134 +1,142 @@
 {% load static %}
 <html lang="ru">
-  <head>
+<head>
     <!-- Google tag (gtag.js) -->
     <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-EZMX6GZNJZ"
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-EZMX6GZNJZ"
     ></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+        window.dataLayer = window.dataLayer || [];
 
-      gtag("config", "G-EZMX6GZNJZ");
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag("js", new Date());
+
+        gtag("config", "G-EZMX6GZNJZ");
     </script>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     {% block meta_data %}
-    <title>
-      Самая актуальная информация для жителей Астаны 👉 Политика, экономика,
-      спорт, курс валют, прогноз погоды 👉 01.imaq.kz
-    </title>
-    <meta
-      name="description"
-      content="Новости Казахстана ✅ Картина дня, происшествия, новости экономики, события в искусстве и культуре✍ Все то, что важно для жителей Казахстана⚡imaq.kz ⚡"
-    />
-    <meta property="og:image" content="{% static 'img/@1x/preview.jpg' %}" />
+        <title>
+            Самая актуальная информация для жителей Астаны 👉 Политика, экономика,
+            спорт, курс валют, прогноз погоды 👉 01.imaq.kz
+        </title>
+        <meta
+                name="description"
+                content="Новости Казахстана ✅ Картина дня, происшествия, новости экономики, события в искусстве и культуре✍ Все то, что важно для жителей Казахстана⚡imaq.kz ⚡"
+        />
+        <meta property="og:image" content="{% static 'img/@1x/preview.jpg' %}"/>
     {% endblock meta_data %}
-    <link rel="preconnect" href="https://d2z6dsbl451t3b.cloudfront.net" />
-    <link rel="dns-prefetch" href="https://d2z6dsbl451t3b.cloudfront.net" />
-    <link rel="dns-prefetch" href="https://01.imaq.kz" />
+    <link rel="preconnect" href="https://d2z6dsbl451t3b.cloudfront.net"/>
+    <link rel="dns-prefetch" href="https://d2z6dsbl451t3b.cloudfront.net"/>
+    <link rel="dns-prefetch" href="https://01.imaq.kz"/>
     <link
-      rel="shortcut icon"
-      href="{% static 'img/fav.svg' %}"
-      type="image/x-icon"
+            rel="shortcut icon"
+            href="{% static 'img/fav.svg' %}"
+            type="image/x-icon"
     />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="keywords" content=""/>
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  </head>
-  <body class="bg-[#F5F5F5]">
-    <header class="flex justify-center items-center h-[97px] bg-[#7D151E]">
-      <div class="flex ml-auto mr-auto w-full max-w-[90%]">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
+</head>
+<body class="bg-[#F5F5F5]">
+<header class="flex justify-center items-center h-[97px] bg-[#7D151E]">
+    <div class="flex ml-auto mr-auto w-full max-w-[90%]">
         <div class="text-white flex space-x-1 items-center">
-          <img
-            class="h-[43px] w-[172px]"
-            src="{% static 'img/_src/icons/Asset 6.png' %}"
-          />
-          <h1 class="font-[600] text-[14px] p-2 leading-4 max-w-[185px]">
-            Безопасность — не требование, а культура...
-          </h1>
-          <a
-            href=""
-            class="flex font-[600] text-[14px] p-2 items-center justify-center"
+            <img
+                    class="h-[43px] w-[172px]"
+                    src="{% static 'img/_src/icons/Asset 6.png' %}"
+            />
+            <h1 class="font-[600] text-[14px] p-2 leading-4 max-w-[185px]">
+                Безопасность — не требование, а культура...
+            </h1>
+            <a
+                    href=""
+                    class="flex font-[600] text-[14px] p-2 items-center justify-center"
             >Главная</a
-          >
-          <a
-            href=""
-            class="flex font-[600] text-[14px] p-2 items-center justify-center"
+            >
+            <a
+                    href=""
+                    class="flex font-[600] text-[14px] p-2 items-center justify-center"
             >О нас</a
-          >
-          <a
-            href=""
-            class="flex font-[600] text-[14px] p-2 items-center justify-center"
+            >
+            <a
+                    href=""
+                    class="flex font-[600] text-[14px] p-2 items-center justify-center"
             >Задай вопрос</a
-          >
-          <a
-            href=""
-            class="flex ml-[7px] h-[32px] w-[87px] font-[600] text-[10px] p-2 items-center justify-center rounded-[12px] bg-[#3F8CFF] border-solid"
+            >
+            <a
+                    href=""
+                    class="flex ml-[7px] h-[32px] w-[87px] font-[600] text-[10px] p-2 items-center justify-center rounded-[12px] bg-[#3F8CFF] border-solid"
             >HSE Prime</a
-          >
-          <a
-            href=""
-            class="flex ml-[6px] w-[96px] h-[32px] font-[600] text-[10px] p-2 items-center justify-center rounded-[12px] bg-[#ED1A39] border-solid"
+            >
+            <a
+                    href=""
+                    class="flex ml-[6px] w-[96px] h-[32px] font-[600] text-[10px] p-2 items-center justify-center rounded-[12px] bg-[#ED1A39] border-solid"
             >Qauipmedia</a
-          >
+            >
         </div>
         <!-- Регистрация -->
         <div class="flex items-center max-w-[41%] w-[100%]">
-          <form
-            action="/search"
-            method="GET"
-            class="ml-[10px] flex h-[32px] font-[600] text-[10px] items-center rounded-[16px] bg-[#ffffff] border-solid w-[100%]"
-          >
-            <input
-              type="text"
-              name="q"
-              placeholder="Поиск через HSE GPT..."
-              class="rounded px-3 py-2 focus:outline-none focus:ring-0 placeholder-black"
-            />
-          </form>
-          <a
-            href="/register"
-            class="ml-[6px] h-[32px] flex font-[600] text-[12px] text-[#AF1E2A] w-[84px] justify-center border-1 bg-white rounded-[16px] items-center border-solid"
+            <form
+                    action="/search"
+                    method="GET"
+                    class="ml-[10px] flex h-[32px] font-[600] text-[10px] items-center rounded-[16px] bg-[#ffffff] border-solid w-[100%]"
+            >
+                <input
+                        type="text"
+                        name="q"
+                        placeholder="Поиск через HSE GPT..."
+                        class="rounded px-3 py-2 focus:outline-none focus:ring-0 placeholder-black"
+                />
+            </form>
+            <a
+                    href="/register"
+                    class="ml-[6px] h-[32px] flex font-[600] text-[12px] text-[#AF1E2A] w-[84px] justify-center border-1 bg-white rounded-[16px] items-center border-solid"
             >Войти</a
-          >
-          <!-- Кнопка для локализации -->
-          <h1 class="ml-[6px] font-[700] text-[12px] text-white">RU</h1>
-          </div>
+            >
+            <!-- Кнопка для локализации -->
+            <h1 class="ml-[6px] font-[700] text-[12px] text-white">RU</h1>
         </div>
-      </div>
-    </header>
-    {% block content %} {% endblock content %}
-    <footer
-      class="flex flex-col items-center justify-center w-full bg-[#ED1A39] h-[281px]"
-    >
-      <img
-        class="h-[96px] w-[319px]"
-        src="{% static 'img/_src/icons/Logo variations 1 1.svg' %}"
-      />
-      <div class="flex flex-row pt-[16px] gap-[47px]">
+    </div>
+    </div>
+</header>
+{% block content %} {% endblock content %}
+<footer
+        class="flex flex-col items-center justify-center w-full bg-[#ED1A39] h-[281px]"
+>
+    <img
+            class="h-[96px] w-[319px]"
+            src="{% static 'img/_src/icons/Logo variations 1 1.svg' %}"
+    />
+    <div class="flex flex-row pt-[16px] gap-[47px]">
         <img
-          class="h-[40px] w-[40px]"
-          src="{% static 'img/_src/icons/youtube-168-svgrepo-com 1.svg' %}"
+                class="h-[40px] w-[40px]"
+                src="{% static 'img/_src/icons/youtube-168-svgrepo-com 1.svg' %}"
         />
         <img
-          class="h-[40px] w-[40px]"
-          src="{% static 'img/_src/icons/telegram-svgrepo-com (2) 1.svg' %}"
+                class="h-[40px] w-[40px]"
+                src="{% static 'img/_src/icons/telegram-svgrepo-com (2) 1.svg' %}"
         />
         <img
-          class="h-[40px] w-[40px]"
-          src="{% static 'img/_src/icons/whatsapp-128-svgrepo-com (1) 1.svg' %}"
+                class="h-[40px] w-[40px]"
+                src="{% static 'img/_src/icons/whatsapp-128-svgrepo-com (1) 1.svg' %}"
         />
-      </div>
-      <div class="flex flex-row pt-[24px] text-white gap-[15px] text-[18px]">
+    </div>
+    <div class="flex flex-row pt-[24px] text-white gap-[15px] text-[18px]">
         <a href="" class="flex p-3 items-center justify-center">HSE Prime</a>
         <a href="" class="flex p-3 items-center justify-center">Мероприятия</a>
         <a href="" class="flex p-3 items-center justify-center">Задай вопрос</a>
         <a href="" class="flex p-3 items-center justify-center">Qauipedia</a>
-      </div>
-    </footer>
-  </body>
+    </div>
+</footer>
+</body>
 </html>

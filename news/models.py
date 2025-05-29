@@ -171,6 +171,8 @@ class Instruction(models.Model):
     ]
 
     title = models.CharField("Название инструктажа", max_length=255)
+    description = models.CharField("Краткое описание", max_length=255)
+    author = models.CharField("Автор", max_length=255)
     instruction_type = models.CharField("Тип инструктажа", max_length=50, choices=TYPE_CHOICES)
     format = models.CharField("Формат", max_length=20, choices=FORMAT_CHOICES)
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES, default='introductory')

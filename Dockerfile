@@ -13,6 +13,11 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN apt-get update \
+    && apt-get install -y locales \
+    && sed -i '/ru_RU.UTF-8/s/^# //g' /etc/locale.gen \
+    && locale-gen
+
 # Copy Django project code
 COPY . /app/
 

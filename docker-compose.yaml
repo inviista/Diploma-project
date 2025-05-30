@@ -19,8 +19,8 @@ services:
     depends_on:
       - redis
     volumes:
-      - static_value:/app/static/
-      - media_value:/app/media/
+      - ./static:/app/static/
+      - ./media:/app/media/
     networks:
       - webnet
     ports:
@@ -29,7 +29,3 @@ services:
 
 networks:
   webnet:
-
-volumes:
-  static_value:
-  media_value:

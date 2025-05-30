@@ -332,9 +332,10 @@ class Study(models.Model):
 
 class Webinar(models.Model):
     STATUS_CHOICES = [
+        ('recording', 'Сейчас идет'),
         ('scheduled', 'Ближайшие вебинары (анонс)'),
         ('completed', 'Прошедшие вебинары (архив)'),
-        ('recording', 'Сейчас идет'),
+
     ]
     SPECIAL_CHOICES = [
         ('certificate', 'Сертификат'),

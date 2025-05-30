@@ -20,7 +20,6 @@ services:
       - redis
     volumes:
       - ./static:/app/static/
-      - ./media:/app/media/
     networks:
       - webnet
     ports:

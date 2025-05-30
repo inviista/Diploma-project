@@ -18,6 +18,9 @@ services:
       - ./.env
     depends_on:
       - redis
+    volumes:
+      - static_volume:/app/static_files
+      - media_volume:/app/media
     networks:
       - webnet
     ports:

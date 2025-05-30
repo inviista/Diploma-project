@@ -19,10 +19,12 @@ services:
     depends_on:
       - redis
     volumes:
-      - static_value:/app/static_files
+      - static_value:/app/static
       - media_value:/app/media
     networks:
       - webnet
+    ports:
+      - "8000:8000"
 
 networks:
   webnet:

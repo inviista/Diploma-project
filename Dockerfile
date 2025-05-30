@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 # Install Python dependencies
-COPY requirements.txt /app/
+COPY requirements.txt requirements.txt
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -19,7 +19,9 @@ RUN apt-get update \
     && locale-gen
 
 # Copy Django project code
-COPY . /app/
+COPY . .
+
+RUN python manage.py collectstatic --noinput
 
 # Expose the port Django will run on (if running directly, usually 8000)
 EXPOSE 8000

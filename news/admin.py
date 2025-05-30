@@ -13,6 +13,9 @@ admin.site.register(Checklist)
 admin.site.register(Document)
 admin.site.register(Instruction)
 admin.site.register(Event)
+admin.site.register(Law)
+admin.site.register(Study)
+
 
 
 @admin.register(Article)

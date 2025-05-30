@@ -1,11 +1,11 @@
-from datetime import date
+from datetime import date, timedelta
 
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.core.paginator import Paginator
 
 from .mixins import three_days_ago
-from .models import Article, Category, Tag, FixedMenu, FixedArticle, Instruction, Document
+from .models import Article, Category, Tag, FixedMenu, FixedArticle, Instruction, Document, Law, Study, Webinar
 from .decorators import counted
 
 
@@ -102,22 +102,111 @@ def all_news(request):
     articles = Article.objects.all()
     categories = Category.objects.prefetch_related('category_article')
     tags = Tag.objects.all()
-    context = {'articles': articles, 'categories': categories, 'tags': tags}
+
+    # calendar
+    today = date.today()
+    calendar_year = int(request.GET.get('calendar_year', today.year))
+    calendar_month = int(request.GET.get('calendar_month', today.month))
+    event_date = request.GET.get('event_date', None)
+
+    context = {'articles': articles,
+               'categories': categories,
+               'tags': tags,
+               'calendar_year': calendar_year,
+               'calendar_month': calendar_month,
+               'event_date': event_date}
     return render(request, 'pages/all_news.html', context)
 
+def documents(request):
+    categories = Document.CATEGORY_CHOICES
+    selected_category = request.GET.get('category')
+    documents = Document.objects.all()
+    side_documents = Document.objects.all().order_by('-valid_from')
+
+    if not selected_category and categories:
+        selected_category = categories[0][0]
+
+    if selected_category:
+        documents = Document.objects.filter(category=selected_category)
+        # Группируем только выбранную категорию для шаблона
+        grouped_documents = {}
+        for key, label in categories:
+            if key == selected_category:
+                grouped_documents[label] = documents
+    else:
+        # Показываем все документы, сгруппированные по категориям
+        grouped_documents = {}
+        for key, label in categories:
+            categorized_documents = Document.objects.filter(category=key)
+            if categorized_documents.exists():
+                grouped_documents[label] = categorized_documents
+
+    context = {'grouped_documents': grouped_documents, 'documents': documents, 'categories': categories, 'selected_category': selected_category, 'side_documents': side_documents}
+    return render(request, 'pages/documents.html', context)
 
 def instructions(request):
     categories = Instruction.CATEGORY_CHOICES
     grouped_instructions = {}
+    instructions = Instruction.objects.all()
+
 
     for key, label in categories:
         categorized_instructions = Instruction.objects.filter(category=key)
         if len(categorized_instructions):
             grouped_instructions[label] = Instruction.objects.filter(category=key)
 
-    context = {'grouped_instructions': grouped_instructions}
+    context = {'grouped_instructions': grouped_instructions, 'instructions': instructions}
     return render(request, 'pages/instructions.html', context)
 
+def laws(request):
+    laws = Law.objects.all()
+    categories = Law.CATEGORY_CHOICES
+    categorized_laws = []
+
+    for value, display_name in categories:
+        laws_in_category = Law.objects.filter(category=value)
+        categorized_laws.append({
+            'title': display_name,
+            'laws': laws_in_category
+        })
+
+    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws}
+    return render(request, 'pages/law.html', context)
+
+def study(request):
+    study = Study.objects.all()
+    categories = Study.CATEGORY_CHOICES
+    recent_days = 7
+    recent_date = date.today() - timedelta(days=recent_days)
+    categorized_study = []
+
+    for value, display_name in categories:
+        study_in_category = Study.objects.filter(category=value)
+
+        categorized_study.append({
+            'title': display_name,
+            'study': study_in_category
+        })
+
+    context = {'study': study, 'categories': categories, 'categorized_study': categorized_study}
+    return render(request, 'pages/study.html', context)
+
+def webinars(request):
+    webinars = Webinar.objects.all()
+    special = Webinar.SPECIAL_CHOICES
+    status = Webinar.STATUS_CHOICES
+    categorized_webinars = []
+
+    for value, display_name in status:
+        webinars_in_status = Webinar.objects.filter(status=value)
+
+        categorized_webinars.append({
+            'title': display_name,
+            'webinars': webinars_in_status
+        })
+
+    context = {'webinars': webinars, 'categorized_webinars': categorized_webinars, 'status': status, 'special': special}
+    return render(request, 'pages/webinars.html', context)
 
 def author(request, uid):
     menu = FixedMenu.objects.all()

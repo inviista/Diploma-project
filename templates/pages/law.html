@@ -7,10 +7,8 @@
                         <img class="w-[36px] h-[36px]" src="{% static 'img/_src/icons/Frame 115.svg' %}">
                     </a>
                     <div class="flex flex-col">
-                        <text class="font-[700] text-[24px]">Инструктажи</text>
-                        <text class="font-[500] text-[16px]">
-                            Скачивайте, адаптируйте и проводите инструктажи быстро и без лишней бюрократии
-                        </text>
+                        <text class="font-[700] text-[24px]">Законодательство</text>
+                        <text class="font-[500] text-[16px]">Актуальные законы, правила и нормативы по ТБ в РК</text>
                     </div>
                 </div>
                 <div class="flex items-center py-6 gap-6">
@@ -38,10 +36,6 @@
                             </div>
                         </div>
                     </div>
-                    <a href=""
-                       class="flex h-[39px] text-white font-[600] text-[12px] px-6 py-3 items-center justify-center rounded-[16px] bg-[#AF3FFF] text-nowrap">
-                        <text>Создай своe видео инструктаж через AI</text>
-                    </a>
                     <input
                             placeholder="Быстрый поиск информации по ключевым словам..."
                             class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
@@ -49,40 +43,38 @@
                 </div>
                 <div class="flex flex-col w-full h-auto p-2">
                     <div class="main-news flex flex-col gap-4 pt-[10px]">
-                        {% for category_name, instructions in grouped_instructions.items %}
+                        {% for category in categorized_laws  %}
                             <div class="flex flex-col">
                                 <div class="flex flex-row justify-between mb-3">
-                                    <h2 class="font-bold text-2xl">{{ category_name }}</h2>
+                                    <h2 class="font-bold text-2xl">{{ category.title }}</h2>
                                     <a href=""
                                        class="bg-[#AF1E2A] text-white rounded-[16px] p-3 flex justify-center items-center text-xs">Больше</a>
                                 </div>
 
-                                {% for instruction in instructions %}
+                                {% for law in category.laws %}
                                     <div class="flex items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1">
                                         <div class="flex flex-col gap-[10px]">
-                                            <p>{{ instruction.created_date|date:"d.m.Y" }}</p>
+                                            <p>{{ law.valid_from|date:"d.m.Y" }}</p>
                                             <div class="flex item-center gap-[10px]">
-                                                <img class="w-[22px] h-[8px] mt-2"
-                                                     src="{% static 'img/_src/icons/eyeglasses_2.png' %}">
-                                                <text class="font-bold text-[20px]">{{ instruction.title }}</text>
+                                                <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/article.svg' %}">
+                                                <text class="font-bold text-[20px]">{{ law.title }}</text>
                                             </div>
 
-                                            {% if instruction.description %}
-                                                <text class="text-sm">{{ instruction.description }}</text>
+                                            {% if law.description %}
+                                                <text class="text-sm">{{ law.description }}</text>
                                             {% endif %}
-                                            <text class="text-sm">{{ instruction.author }}</text>
                                         </div>
                                         <div class="flex gap-3">
-                                            {% if instruction.external_link %}
-                                                <a href="{{ instruction.external_link }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                            {% if law.file_url %}
+                                                <a href="{{ law.file_url }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
                                                     <img src="{% static 'img/_src/icons/visibility.svg' %}"
                                                          alt="details"/>
                                                 </a>
                                             {% endif %}
-                                            {% if instruction.file %}
-                                                <a href='{{ instruction.file.url }}'
+                                            {% if law.file %}
+                                                <a href='{{ law.file }}'
                                                    class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img class src="{% static 'img/_src/icons/download.svg' %}"
+                                                    <img src="{% static 'img/_src/icons/forum.svg' %}"
                                                          alt="download"/>
                                                 </a>
                                             {% endif %}
@@ -98,39 +90,31 @@
             <div class="flex flex-col max-w-[400px] gap-2">
                 <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
                     <div class="flex flex-row justify-between w-full gap-[64px] h-[86px] border-b-2 border-[#EFEFEF] font-[700] text-[24px]">
-                        Готовые инструкции и видеоинструкции, тексты
+                        Последние изменения в законодательстве
                     </div>
                     <div class="flex flex-col w-full h-auto">
-                        {% for instruction in instructions %}
+                        {% for law in laws %}
                             <div class="flex flex-col w-full gap-[10px] p-3 border-b-1 border-[#EFEFEF]">
                                 <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
-                                <div class="flex flex-row items-start gap-[10px] flex-nowrap">
-                                    <img class="w-[22px] h-[8px] mt-2" src="{% static 'img/_src/icons/eyeglasses_2.png' %}">
-                                    <text class="font-[700] text-[16px]">{{ instruction.title }}</text>
-                                    {% if instruction.file or instruction.external_link %}
+                                <div class="flex flex-row items-start gap-[10px] flex-nowrap justify-between">
+                                    <text class="font-[700] text-[16px]">{{ law.title }}</text>
+                                   {% if law.file_url %}
+                                                <a href="{{ law.file_url }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                                    <img src="{% static 'img/_src/icons/visibility.svg' %}"
+                                                         alt="details"/>
+                                                </a>
+                                            {% endif %}
+                                </div>
+                                <div class="text-[14px] font-[400] text-[#444444] flex justify-end">{{ instruction.created_date|date:"d.m.Y" }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
+                    <div class="flex flex-col w-full  h-[108px] border-b-2 border-[#EFEFEF] font-[700] text-[24px]">
+                       Обсуждение и комментарии  законодательств
+                        <text class="font-[500] text-[16px]">Обсуждайте, делитесь мнением...</text>
 
-                                    <a href="
-                                            {% if instruction.file %}
-                                                {{ instruction.file.url }}
-                                            {% else %}
-                                                {{ instruction.external_link }}
-                                            {% endif %}
-                                            "
-                                    download
-                                                   class="min-w-[36px] cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img class src="{% static 'img/_src/icons/download.svg' %}"
-                                                         alt="download"/>
-                                                </a>
-                                    {% endif %}
-                                </div>
-                                <div class="text-[14px] font-[400] text-[#444444] flex justify-end">{{ instruction.created_date|date:"d.m.Y" }}</div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
-                    <div class="flex flex-row justify-between w-full gap-[64px] h-[86px] border-b-2 border-[#EFEFEF] font-[700] text-[24px]">
-                        Журнал регистрации инструктажей
                     </div>
                     <div class="flex flex-col w-full h-auto">
                         {% for instruction in instructions %}
@@ -147,42 +131,10 @@
                                                 {{ instruction.external_link }}
                                             {% endif %}
                                             "
-                                    download
-                                                   class="min-w-[36px] cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img class src="{% static 'img/_src/icons/download.svg' %}"
-                                                         alt="download"/>
-                                                </a>
-                                    {% endif %}
-                                </div>
-                                <div class="text-[14px] font-[400] text-[#444444] flex justify-end">{{ instruction.created_date|date:"d.m.Y" }}</div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
-                    <div class="flex flex-row justify-between w-full gap-[64px] h-[86px] border-b-2 border-[#EFEFEF] font-[700] text-[24px]">
-                       Бланки проверки знаний после инструктажа
-                    </div>
-                    <div class="flex flex-col w-full h-auto">
-                        {% for instruction in instructions %}
-                            <div class="flex flex-col w-full gap-[10px] p-3 border-b-1 border-[#EFEFEF]">
-                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
-                                <div class="flex flex-row items-start gap-[10px] flex-nowrap">
-                                    <img class="w-[22px] h-[8px] mt-2" src="{% static 'img/_src/icons/eyeglasses_2.png' %}">
-                                    <text class="font-[700] text-[16px]">{{ instruction.title }}</text>
-                                    {% if instruction.file or instruction.external_link %}
-                                        <a href="
-                                            {% if instruction.file %}
-                                                {{ instruction.file.url }}
-                                            {% else %}
-                                                {{ instruction.external_link }}
-                                            {% endif %}
-                                            "
-                                    download
-                                                   class="min-w-[36px] cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img class src="{% static 'img/_src/icons/download.svg' %}"
-                                                         alt="download"/>
-                                                </a>
+                                           download
+                                           class="flex h-[32px] w-[44px] min-w-[34px] max-w-[34px] items-center justify-center rounded-[8px] bg-[#AF3FFF]">
+                                            <img class="w-[36px] h-[36px]" src="{% static 'img/_src/icons/download.png' %}">
+                                        </a>
                                     {% endif %}
                                 </div>
                                 <div class="text-[14px] font-[400] text-[#444444] flex justify-end">{{ instruction.created_date|date:"d.m.Y" }}</div>

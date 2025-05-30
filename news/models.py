@@ -214,6 +214,7 @@ class Document(models.Model):
 
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
+    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
     topics = models.CharField("Темы", max_length=255, blank=True)
     file_url = models.URLField("Ссылка на файл", null=True, blank=True)
@@ -247,22 +248,115 @@ class Checklist(models.Model):
     def __str__(self):
         return self.title
 
+# 📂 Категории на странице:
+# 1. Основные законы и кодексы
+# Трудовой кодекс РК
+# Закон "Об охране труда"
+# Связанные разделы других кодексов (ГК, Административный и т.д.)
+# 2. Нормативно-правовые акты (НПА)
+# Постановления правительства
+# Приказы Министерства труда и других ведомств
+# Подзаконные акты и регламенты
+# 3. Правила и требования по охране труда
+# Типовые отраслевые правила
+# Общие и специальные правила безопасности
+# Санитарные правила и нормы (СанПиНы)
+# 4. Технические регламенты и стандарты
+# ГОСТы и СТ РК, обязательные к применению
+# Технические регламенты ЕАЭС, касающиеся ТБ
+# 5. Изменения и обновления
+# Новые редакции документов
+# Утраченные силу НПА
+# Архив с пометками об изменениях
+# 6. Письма и разъяснения госорганов
+# Толкование норм
+# Практика применения
+# Ответы на частые запросы
 
-class Webinar(models.Model):
-    STATUS_CHOICES = [
-        ('scheduled', 'Запланирован'),
-        ('completed', 'Прошёл'),
-        ('recording', 'Запись'),
+class Law(models.Model):
+    CATEGORY_CHOICES = [
+        ('main_laws', 'Основные законы и кодексы'),
+        ('RLA', 'Нормативно-правовые акты (НПА)'),
+        ('rules_and_requirements', 'Правила и требования по охране труда'),
+        ('tech_standarts', 'Технические регламенты и стандарты'),
+        ('changes_and_updates', 'Изменения и обновления'),
+        ('letters', 'Письма и разъяснения госорганов'),
     ]
 
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
+    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+    category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
+    topics = models.CharField("Темы", max_length=255, blank=True)
+    file_url = models.URLField("Ссылка на файл", null=True, blank=True)
+    file = models.FileField("Файл", upload_to='uploads/documents/', null=True, blank=True)
+    valid_from = models.DateField("Дата начала действия")
+    valid_to = models.DateField("Дата окончания действия")
+
+    def clean(self):
+        if not self.file and not self.file_url:
+            raise ValidationError('Прикрепите файл или ссылку.')
+
+    class Meta:
+        verbose_name = "Законодательство"
+        verbose_name_plural = "Законодательства"
+
+    def __str__(self):
+        return self.title
+
+
+class Study(models.Model):
+        CATEGORY_CHOICES = [
+            ('construction', 'Строительство'),
+            ('mining', 'Горная промышленность'),
+            ('neftegas', 'Нефтегаз'),
+        ]
+
+        id = models.AutoField(primary_key=True)
+        title = models.CharField("Название", max_length=255)
+        description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+        category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
+        url = models.URLField("Ссылка", null=True, blank=True)
+        valid_from = models.DateField("Дата начала действия")
+
+        def clean(self):
+            if not self.url:
+                raise ValidationError('Прикрепите ссылку.')
+
+        class Meta:
+            verbose_name = "Обучение"
+            verbose_name_plural = "Обучение"
+
+        def __str__(self):
+            return self.title
+
+class Webinar(models.Model):
+    STATUS_CHOICES = [
+        ('scheduled', 'Ближайшие вебинары (анонс)'),
+        ('completed', 'Прошедшие вебинары (архив)'),
+        ('recording', 'Сейчас идет'),
+    ]
+    SPECIAL_CHOICES = [
+        ('certificate', 'Сертификат'),
+        ('live', 'Только в прямом эфире'),
+        ('free', 'Бесплатно'),
+    ]
+
+    special = models.CharField("Специальное",max_length=20,choices=SPECIAL_CHOICES, null=True,blank=True)
+    id = models.AutoField(primary_key=True)
+    title = models.CharField("Название", max_length=255)
     description = models.TextField("Описание")
     speakers = models.CharField("Спикеры", max_length=255)
+    speakers_profession = models.CharField("Профессия", max_length=255)
+    duration = models.CharField("Продолжительность", max_length=255)
     video_url = models.URLField("Ссылка на видео", blank=True, null=True)
     date_time = models.DateTimeField("Дата и время")
     status = models.CharField("Статус", max_length=20, choices=STATUS_CHOICES)
     tags = models.CharField("Теги", max_length=255, blank=True)
+
+    def clean(self):
+        if not self.video_url:
+            raise ValidationError('Прикрепите ссылку.')
 
     class Meta:
         verbose_name = "Вебинар"

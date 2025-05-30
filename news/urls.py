@@ -24,6 +24,11 @@ urlpatterns = [
     path('site_maps/', views.maps, name='maps'),
     path('qauipmedia/', views.qauipmedia, name='qauipmedia'),
     path('', views.index, name='index'),
+    path('documents/', views.documents, name='documents'),
+    path('laws/', views.laws, name='laws'),
+    path('study/', views.study, name='study'),
+    path('webinars/', views.webinars, name='webinars'),
+
     # AMP
     path('amp/<str:alias>/', views.amp_views, name='amp'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),

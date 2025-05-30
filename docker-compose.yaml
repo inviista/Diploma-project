@@ -15,9 +15,7 @@ services:
     command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_value:/app/static/
-
       - media_value:/app/media/
-      - ./static:/app/static
     env_file:
       - ./.env
     depends_on:

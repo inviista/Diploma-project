@@ -21,11 +21,8 @@ RUN apt-get update \
 # Copy Django project code
 COPY . /app/
 
-# Collect static files (optional, only if needed)
-RUN python manage.py collectstatic --noinput
-
 # Expose the port Django will run on (if running directly, usually 8000)
 EXPOSE 8000
 
 # Default command (can be overridden by docker-compose or CMD)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:8000"]

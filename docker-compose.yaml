@@ -31,5 +31,5 @@ networks:
   webnet:
 
 volumes:
-  static_value:
-  media_value:
+  static_volume:
+  media_volume:

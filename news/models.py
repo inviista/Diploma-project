@@ -75,6 +75,7 @@ class Article(UUIDMixin):
     published_date = models.DateTimeField('Дата публикации', default=timezone.now)
     datetime_updated = models.DateTimeField('Время обновления', auto_now=True)
     datetime_created = models.DateTimeField('Время создания', auto_now_add=True)
+    changed_user = models.JSONField('Внесший изменения', default=dict)
     author = models.UUIDField('Автор', blank=True, null=True)
     pseudonym = models.CharField('Псевдоним', max_length=50, null=True, blank=True)
     view_count = models.IntegerField('Кол-во просмотров', default=0)

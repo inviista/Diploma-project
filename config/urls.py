@@ -4,8 +4,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 urlpatterns = [
-
-
     path('', include('news.urls')),
     path('admin/', admin.site.urls),
 ]

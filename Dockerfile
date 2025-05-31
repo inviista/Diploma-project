@@ -1,15 +1,11 @@
-# Use official Python base image
 FROM python:3.10-slim
 
-# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Set working directory inside the container
 WORKDIR /app
 
-# Install Python dependencies
-COPY requirements.txt requirements.txt
+COPY requirements.txt /app/
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -18,13 +14,8 @@ RUN apt-get update \
     && sed -i '/ru_RU.UTF-8/s/^# //g' /etc/locale.gen \
     && locale-gen
 
-# Copy Django project code
 COPY . .
 
-RUN python manage.py collectstatic --noinput
-
-# Expose the port Django will run on (if running directly, usually 8000)
 EXPOSE 8000
 
-# Default command (can be overridden by docker-compose or CMD)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:8000"]

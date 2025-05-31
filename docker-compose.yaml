@@ -34,9 +34,7 @@ services:
       - /etc/letsencrypt/live/01.imaq.kz/fullchain.pem:/etc/letsencrypt/live/01.imaq.kz/fullchain.pem
       - /etc/letsencrypt/live/01.imaq.kz/privkey.pem:/etc/letsencrypt/live/01.imaq.kz/privkey.pem
       - static_value:/app/static_files
-      - /var/www/static:/var/www/static
       - media_value:/app/media
-      - /var/www/front/app/dist:/var/www/front
 
     ports:
       - "80:80"

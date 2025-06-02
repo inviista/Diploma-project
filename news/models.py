@@ -404,11 +404,21 @@ class LegalAct(models.Model):
 
 
 class FAQ(models.Model):
+    CATEGORY_CHOICES = [
+        ('organisation ', 'Организация охраны труда'),
+        ('PPE', 'СИЗ и рабочая форма'),
+        ('documents', 'Документы и оформление'),
+        ('inspections ', 'Проверки и ответственность'),
+        ('accidents', 'Несчастные случаи и расследования'),
+    ]
+
     id = models.AutoField(primary_key=True)
-    question = models.TextField("Вопрос")
-    answer = models.TextField("Ответ")
-    topic = models.CharField("Категория", max_length=255)
-    author = models.CharField("Автор", max_length=255)
+    question = models.TextField("Вопрос", blank=True, null=True)
+    answer = models.TextField("Ответ", blank=True, null=True)
+    author = models.CharField("Автор", max_length=255, blank=True, null=True)
+    author_profession = models.CharField("Профессия автора", max_length=255, blank=True, null=True)
+    category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES, blank=True, null=True)
+
     created_at = models.DateTimeField("Создано", auto_now_add=True)
     updated_at = models.DateTimeField("Обновлено", auto_now=True)
 

@@ -5,7 +5,7 @@ from django.db.models import Q, Prefetch
 from django.core.paginator import Paginator
 
 from .mixins import three_days_ago
-from .models import Article, Category, Tag, FixedMenu, FixedArticle, Instruction, Document, Law, Study, Webinar
+from .models import Article, Category, Tag, FixedMenu, FixedArticle, Instruction, Document, Law, Study, Webinar, FAQ
 from .decorators import counted
 
 
@@ -201,6 +201,21 @@ def laws(request):
 
     context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags" : tags}
     return render(request, 'pages/law.html', context)
+
+def faqs(request):
+    categories = FAQ.CATEGORY_CHOICES
+    categorized_faqs = []
+    faqs = FAQ.objects.all()
+
+    for value, display_name in categories:
+        faqs_in_category = FAQ.objects.filter(category=value)
+        categorized_faqs.append({
+            'title': display_name,
+            'faqs': faqs_in_category
+        })
+
+    context = {'faqs': faqs, 'categories': categories, 'categorized_faqs': categorized_faqs, }
+    return render(request, 'pages/faqs.html', context)
 
 def study(request):
     study = Study.objects.all()

@@ -19,7 +19,7 @@
                 <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/article.svg' %}">
                 <text class="font-[700] text-[16px]">{{ document.title }}</text>
             </div>
-            <div class="text-[14px] text-[#444444]  font-[400] flex justify-end">02.01.2025</div>
+            <div class="text-[14px] text-[#444444]  font-[400] flex justify-end">{{document.valid_from|date:"d.m.Y"}}</div>
         </div>
     {% endfor %}
 </div>

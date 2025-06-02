@@ -28,6 +28,7 @@ urlpatterns = [
     path('laws/', views.laws, name='laws'),
     path('study/', views.study, name='study'),
     path('webinars/', views.webinars, name='webinars'),
+    path('faqs/', views.faqs, name='faqs'),
 
     # AMP
     path('amp/<str:alias>/', views.amp_views, name='amp'),

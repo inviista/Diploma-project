@@ -16,34 +16,57 @@
                                 </div>
                             </div>
                         <div class="flex items-center py-6 gap-6">
-                            <div class="flex gap-1">
-                                <div class="flex items-center cursor-pointer px-3 py-2">
-                                    <label>
-                                        <select class="text-xs text-[#AF1E2A]">
-                                            <option value="value1">Популярные</option>
-                                        </select>
-
-                                    </label>
-                                    <div class="w-6 h-6">
-                                        <img src="{% static 'img/_src/icons/swap_vert.svg' %}" alt="swap icon"/>
-                                    </div>
+                           <div class="flex gap-1">
+                            <form method="get" class="flex items-center cursor-pointer px-3 py-2">
+                                <input type="hidden" name="limit" value="{{ request.GET.limit }}">
+                                <input type="hidden" name="category" value="{{ request.GET.category }}">
+                                <input type="hidden" name="q" value="{{ request.GET.q }}">
+                                <label>
+                                    <input type="hidden" name="category" value="{{ selected_category }}">
+                                    <select class="text-[12px] text-[#AF1E2A] cursor-pointer" onchange="this.form.submit()" name="sort" id="sort">
+                                        <option value="popular" {% if request.GET.sort == "popular" or not request.GET.sort %}selected{% endif %}>Популярные</option>
+                                        <option value="date_desc" {% if request.GET.sort == "date_desc" %}selected{% endif %}>По дате (новые)</option>
+                                        <option value="date_asc" {% if request.GET.sort == "date_asc" %}selected{% endif %}>По дате (старые)</option>
+                                    </select>
+                                </label>
+                                <div class="w-6 h-6">
+                                    <img src="{% static 'img/_src/icons/swap_vert.svg' %}" alt="swap icon"/>
                                 </div>
+                            </form>
 
-                                <div class="flex items-center cursor-pointer px-3 py-2">
-                                    <label>
-                                        <select class="text-xs text-[#AF1E2A]">
-                                            <option value="value1">Показать все</option>
-                                        </select>
-                                    </label>
-                                    <div class="w-6 h-6">
-                                        <img src="{% static 'img/_src/icons/arrow_drop_down.svg' %}" alt="swap icon"/>
-                                    </div>
+                            <form method="get" class="flex items-center  px-3 py-2">
+                                <input type="hidden" name="sort" value="{{ request.GET.sort }}">
+                                <input type="hidden" name="category" value="{{ request.GET.category }}">
+                                <input type="hidden" name="q" value="{{ request.GET.q }}">
+                                <label>
+                                    <input type="hidden" name="category" value="{{ selected_category }}">
+                                    <select id="limit" name="limit" class="text-xs text-[#AF1E2A] cursor-pointer" onchange="this.form.submit()">
+                                        <option value="all" {% if limit == 'all' %}selected{% endif %}>Показать все</option>
+                                        <option value="1" {% if limit == '1' %}selected{% endif %}>Кол-во: 1</option>
+                                        <option value="2" {% if limit == '2' %}selected{% endif %}>Кол-во: 2</option>
+                                    </select>
+                                </label>
+                                <div class="w-6 h-6">
+                                    <img src="{% static 'img/_src/icons/arrow_drop_down.svg' %}" alt="swap icon"/>
                                 </div>
-                            </div>
-                            <input
-                                    placeholder="Быстрый поиск информации по ключевым словам..."
-                                    class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
-                            />
+                            </form>
+                        </div>
+                        <form method="get" class="w-full">
+                            <input type="hidden" name="limit" value="{{ request.GET.limit }}">
+                            <input type="hidden" name="category" value="{{ request.GET.category }}">
+                            <input type="hidden" name="sort" value="{{ request.GET.sort }}">
+                            <label>
+                                <input type="hidden" name="category" value="{{ selected_category }}">
+                                <input
+                                        type="text"
+                                        name="q"
+                                        value="{{ request.GET.q }}"
+                                        placeholder="Быстрый поиск информации по ключевым словам..."
+                                        class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
+                                />
+                            </label>
+                        </form>
+
                             </div>
                                 <div class="flex flex-col w-full h-auto p-2">
                                     <div class="main-news flex flex-col gap-4 pt-[10px]">
@@ -99,7 +122,7 @@
                                     <div class="flex flex-col w-full h-auto">
                                         <img class="max-h-[326px] max-w-[352px] pt-3" src="{% static 'img/_src/icons/Frame 53.svg' %}">
                                         <div class="flex flex-col gap-4 pt-[10px]">
-                                            {% for article in articles %}
+                                            {% for article in digest_articles %}
                                             <a href="{% url 'news:news_detail' article.alias %}">
                                                         <div class="flex flex-col gap-4 border-b-1 border-[#EFEFEF] pb-[16px]">
                                                             <div class="flex flex-col gap-3">

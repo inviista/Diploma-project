@@ -222,6 +222,8 @@ class Document(models.Model):
     file = models.FileField("Файл", upload_to='uploads/documents/', null=True, blank=True)
     valid_from = models.DateField("Дата начала действия")
     valid_to = models.DateField("Дата окончания действия")
+    views = models.IntegerField('Кол-во просмотров', default=0)
+
 
     def clean(self):
         if not self.file and not self.file_url:
@@ -293,6 +295,7 @@ class Law(models.Model):
     file = models.FileField("Файл", upload_to='uploads/documents/', null=True, blank=True)
     valid_from = models.DateField("Дата начала действия")
     valid_to = models.DateField("Дата окончания действия")
+    tags = models.ManyToManyField(Tag, related_name="tags_law", blank=True)
 
     def clean(self):
         if not self.file and not self.file_url:

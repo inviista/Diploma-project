@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 
 from django.shortcuts import render, get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.core.paginator import Paginator
 
 from .mixins import three_days_ago
@@ -52,7 +52,7 @@ def index(request):
     categories = Category.objects.all()
     articles = Article.objects.all()
     tags = Tag.objects.all()
-
+    laws = Law.objects.all()
     # calendar
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))
@@ -70,6 +70,7 @@ def index(request):
         'categories': categories,
         'selected_category': selected_category,
         'tags': tags,
+        'laws': laws,
 
         # calendar
         'calendar_year': calendar_year,
@@ -99,10 +100,20 @@ def qauipmedia(request):
 
 
 def all_news(request):
+    query = request.GET.get('q')
     articles = Article.objects.all()
-    categories = Category.objects.prefetch_related('category_article')
+
+    if query:
+        articles = articles.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        )
+
+    categories = Category.objects.prefetch_related(
+        Prefetch('category_article', queryset=articles)
+    )
     tags = Tag.objects.all()
 
+    digest_articles = Article.objects.order_by('-published_date')[:5]
     # calendar
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))
@@ -114,34 +125,51 @@ def all_news(request):
                'tags': tags,
                'calendar_year': calendar_year,
                'calendar_month': calendar_month,
-               'event_date': event_date}
+               'event_date': event_date,
+               'query': query,
+               'digest_articles': digest_articles,}
     return render(request, 'pages/all_news.html', context)
 
 def documents(request):
     categories = Document.CATEGORY_CHOICES
     selected_category = request.GET.get('category')
-    documents = Document.objects.all()
     side_documents = Document.objects.all().order_by('-valid_from')
+    limit = request.GET.get('limit', 'all')
+    query = request.GET.get('q')
+    sort = request.GET.get('sort')
 
     if not selected_category and categories:
         selected_category = categories[0][0]
 
-    if selected_category:
-        documents = Document.objects.filter(category=selected_category)
-        # Группируем только выбранную категорию для шаблона
-        grouped_documents = {}
-        for key, label in categories:
-            if key == selected_category:
-                grouped_documents[label] = documents
-    else:
-        # Показываем все документы, сгруппированные по категориям
-        grouped_documents = {}
-        for key, label in categories:
-            categorized_documents = Document.objects.filter(category=key)
-            if categorized_documents.exists():
-                grouped_documents[label] = categorized_documents
+    documents = Document.objects.filter(category=selected_category)
 
-    context = {'grouped_documents': grouped_documents, 'documents': documents, 'categories': categories, 'selected_category': selected_category, 'side_documents': side_documents}
+    if query:
+        documents = documents.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query)
+        )
+
+    if sort == 'date_asc':
+        documents = documents.order_by('valid_from')
+    elif sort == 'date_desc':
+        documents = documents.order_by('-valid_from')
+    else:
+        documents = documents.order_by('-views')
+
+    if limit != 'all':
+        try:
+            limit_int = int(limit)
+            documents = documents[:limit_int]
+        except ValueError:
+            pass
+
+    grouped_documents = {
+        label: documents
+        for key, label in categories
+        if key == selected_category
+    }
+
+    context = {'grouped_documents': grouped_documents, 'documents': documents, 'categories': categories, 'selected_category': selected_category, 'side_documents': side_documents, 'limit': limit, 'sort': sort, 'request': request}
     return render(request, 'pages/documents.html', context)
 
 def instructions(request):
@@ -159,9 +187,10 @@ def instructions(request):
     return render(request, 'pages/instructions.html', context)
 
 def laws(request):
-    laws = Law.objects.all()
     categories = Law.CATEGORY_CHOICES
     categorized_laws = []
+    laws = Law.objects.all()
+    tags = Tag.objects.all()
 
     for value, display_name in categories:
         laws_in_category = Law.objects.filter(category=value)
@@ -170,7 +199,7 @@ def laws(request):
             'laws': laws_in_category
         })
 
-    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws}
+    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags" : tags}
     return render(request, 'pages/law.html', context)
 
 def study(request):

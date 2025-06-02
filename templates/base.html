@@ -52,10 +52,12 @@
     <div class="flex w-full mx-[100px] justify-between text-white flex gap-8 items-center">
         <div class="flex gap-8">
             <div class="flex gap-6">
-                <img
-                        class="h-[49px] w-[177px]"
-                        src="{% static 'img/_src/icons/Asset 6.png' %}"
-                />
+                <a href="{% url 'news:index' %}">
+                    <img
+                            class="h-[49px] w-[177px]"
+                            src="{% static 'img/_src/icons/Asset 6.png' %}"
+                    />
+                </a>
                 <h1 class="font-[700] text-[16px] leading-5 w-full max-w-[228px]">
                     Безопасность — не требование, а культура...
                 </h1>

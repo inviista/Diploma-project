@@ -77,47 +77,47 @@
                     <div class="flex flex-col w-full h-auto p-2">
                         <div class="main-news flex flex-col gap-4 pt-[10px]">
                             {% for category in categories %}
-                                <div class="flex flex-col gap-5 pb-[16px]">
-                                    <div class="flex flex-row justify-between items-center">
-                                        <div class="flex flex-col">
-                                            <div class="text-[12px] font-[400] text-[#9E9E9E]">Категория</div>
-                                            <h2 class="font-bold text-2xl">{{ category.title }}</h2>
+                                {% if category.category_article.all | length > 0 %}
+                                    <div class="flex flex-col gap-5 pb-[16px]">
+                                        <div class="flex flex-row justify-between items-center">
+                                            <div class="flex flex-col">
+                                                <div class="text-[12px] font-[400] text-[#9E9E9E]">Категория</div>
+                                                <h2 class="font-bold text-2xl">{{ category.title }}</h2>
+                                            </div>
+                                            <a href=""
+                                               class="bg-[#AF1E2A] text-white rounded-[16px] p-3 flex justify-center items-center text-xs h-[39px]">Больше</a>
                                         </div>
-                                        <a href=""
-                                           class="bg-[#AF1E2A] text-white rounded-[16px] p-3 flex justify-center items-center text-xs h-[39px]">Больше</a>
-                                    </div>
-                                    {% for article in category.category_article.all %}
-                                        <a href="{% url 'news:news_detail' article.alias %}">
-                                            <div class="flex flex-col gap-[10px] border-b-1 border-[#EFEFEF] pb-[24px] px-3">
-                                                <div class="flex gap-[10px] flex-col">
-                                                    <div class="text-[14px] text-[#3F8CFF] font-[400]">Сегодня</div>
-                                                    <div class="flex flex-row gap-4">
-                                                        <img class="flex h-auto pt-1 w-[150px]"
-                                                             src="{{ article.image.path }}">
-                                                        <div class="flex flex-col w-full gap-[10px]">
-                                                            <div class=" text-[20px] text-[#000000] w-full font-[700] leading-6 max-w-[566px]">{{ article.title }}</div>
-                                                            <div class=" text-[14px] w-full text-[#787878] font-[400] max-w-[566px] leading-4">{{ article.description }}</div>
+                                        {% for article in category.category_article.all %}
+                                            <a href="{% url 'news:news_detail' article.alias %}">
+                                                <div class="flex flex-col gap-[10px] border-b-1 border-[#EFEFEF] pb-[24px] px-3">
+                                                    <div class="flex gap-[10px] flex-col">
+                                                        <div class="text-[14px] text-[#3F8CFF] font-[400]">Сегодня</div>
+                                                        <div class="flex flex-row gap-4">
+                                                            <img class="flex h-auto pt-1 w-[150px]"
+                                                                 src="{{ article.image.path }}">
+                                                            <div class="flex flex-col w-full gap-[10px]">
+                                                                <div class=" text-[20px] text-[#000000] w-full font-[700] leading-6 max-w-[566px]">{{ article.title }}</div>
+                                                                <div class=" text-[14px] w-full text-[#787878] font-[400] max-w-[566px] leading-4">{{ article.description }}</div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="flex flex-row justify-between">
-                                                    <div class="text-[14px] text-[#ED1A39] font-medium flex w-full gap-2">
-                                                        <img class="w-[24px]"
-                                                             src="{% static 'img/_src/icons/sell.svg' %}">
-                                                        {% for tags in article.tags.all %}
-                                                            <div class="flex justify-center items-center font-[400] px-4 py-2 text-[14px] text-[#444444] bg-[#EAF4FF] rounded-[8px]">{{ tags.title }}</div>
-                                                        {% empty %}
-                                                            <div class="text-gray-400">Без категории</div>
-                                                        {% endfor %}
+                                                    <div class="flex flex-row justify-between">
+                                                        <div class="text-[14px] text-[#ED1A39] font-medium flex w-full gap-2">
+                                                            <img class="w-[24px]"
+                                                                 src="{% static 'img/_src/icons/sell.svg' %}">
+                                                            {% for tags in article.tags.all %}
+                                                                <div class="flex justify-center items-center font-[400] px-4 py-2 text-[14px] text-[#444444] bg-[#EAF4FF] rounded-[8px]">{{ tags.title }}</div>
+                                                            {% empty %}
+                                                                <div class="text-gray-400">Без категории</div>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <div class="text-nowrap flex justify-center items-center text-[14px] text-[#444444]">{{ article.published_date|date:"d.m.Y" }}</div>
                                                     </div>
-                                                    <div class="text-nowrap flex justify-center items-center text-[14px] text-[#444444]">{{ article.published_date|date:"d.m.Y" }}</div>
                                                 </div>
-                                            </div>
-                                        </a>
-                                    {% empty %}
-                                        <p>Нет новостей.</p>
-                                    {% endfor %}
-                                </div>
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             {% endfor %}
                             {% for article in articles_without_categories %}
                                 <a href="{% url 'news:news_detail' article.alias %}">

@@ -77,7 +77,7 @@
                     <div class="flex flex-col w-full h-auto p-2">
                         <div class="main-news flex flex-col gap-4 pt-[10px]">
                             {% for category in categories %}
-                                {% if category.category_article.all | length > 0 %}
+                                {% if category.category_article.count > 0 %}
                                     <div class="flex flex-col gap-5 pb-[16px]">
                                         <div class="flex flex-row justify-between items-center">
                                             <div class="flex flex-col">

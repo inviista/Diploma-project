@@ -1,11 +1,12 @@
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Prefetch
 from django.core.paginator import Paginator
 
 from .mixins import three_days_ago
-from .models import Article, Category, Tag, FixedMenu, FixedArticle, Instruction, Document, Law, Study, Webinar, FAQ
+from .models import Article, Category, Tag, FixedMenu, FixedArticle, Instruction, Document, Law, Study, Webinar, FAQ, \
+    Event
 from .decorators import counted
 
 
@@ -57,7 +58,17 @@ def index(request):
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))
     calendar_month = int(request.GET.get('calendar_month', today.month))
-    event_date = request.GET.get('event_date', None)
+    event_date_str = request.GET.get('event_date', None)
+    event_date = today
+    if event_date_str:
+        try:
+            event_date = datetime.strptime(event_date_str, '%Y-%m-%d').date()
+        except ValueError:
+            pass
+    events = Event.objects.filter(date__year=calendar_year, date__month=calendar_month)
+    events_by_day = {day: [] for day in range(1, 32)}
+    for event in events:
+        events_by_day[event.date.day].append(event)
 
     # instructions
     instructions = Instruction.objects.all()[:3]
@@ -76,6 +87,8 @@ def index(request):
         'calendar_year': calendar_year,
         'calendar_month': calendar_month,
         'event_date': event_date,
+        'events_by_day': events_by_day,
+        'event_day_localized': event_date.strftime('%d %B'),
 
         # instructions
         'instructions': instructions,
@@ -100,37 +113,57 @@ def qauipmedia(request):
 
 
 def all_news(request):
-    query = request.GET.get('q')
+    search = request.GET.get('search')
+    sort = request.GET.get('sort')
+
     articles = Article.objects.all()
 
-    if query:
+    if search:
         articles = articles.filter(
-            Q(title__icontains=query) | Q(description__icontains=query)
+            Q(title__icontains=search) | Q(description__icontains=search)
         )
+    if sort == 'popular':
+        articles = articles.order_by(
+            'is_popular'
+        ).order_by('view_count')
 
     categories = Category.objects.prefetch_related(
         Prefetch('category_article', queryset=articles)
     )
-    tags = Tag.objects.all()
 
-    digest_articles = Article.objects.order_by('-published_date')[:5]
     # calendar
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))
     calendar_month = int(request.GET.get('calendar_month', today.month))
-    event_date = request.GET.get('event_date', None)
+    event_date_str = request.GET.get('event_date', None)
+    event_date = today
+    if event_date_str:
+        try:
+            event_date = datetime.strptime(event_date_str, '%Y-%m-%d').date()
+        except ValueError:
+            pass
 
-    context = {'articles': articles,
-               'categories': categories,
-               'tags': tags,
-               'calendar_year': calendar_year,
-               'calendar_month': calendar_month,
-               'event_date': event_date,
-               'query': query,
-               'digest_articles': digest_articles,}
+    featured_articles = Article.objects.filter(is_featured=True, published_date__year=calendar_year,
+                                               published_date__month=calendar_month)
+    events_by_day = {day: [] for day in range(1, 32)}
+    for article in featured_articles:
+        events_by_day[article.published_date.day].append(article)
+
+    context = {
+        'articles': articles,
+        'categories': categories,
+        'featured_articles': featured_articles,
+
+        # calendar
+        'calendar_year': calendar_year,
+        'calendar_month': calendar_month,
+        'event_date': event_date,
+        'events_by_day': events_by_day,
+    }
     return render(request, 'pages/all_news.html', context)
 
-def documents(request):
+
+def documents_view(request):
     categories = Document.CATEGORY_CHOICES
     selected_category = request.GET.get('category')
     side_documents = Document.objects.all().order_by('-valid_from')
@@ -169,14 +202,16 @@ def documents(request):
         if key == selected_category
     }
 
-    context = {'grouped_documents': grouped_documents, 'documents': documents, 'categories': categories, 'selected_category': selected_category, 'side_documents': side_documents, 'limit': limit, 'sort': sort, 'request': request}
+    context = {'grouped_documents': grouped_documents, 'documents': documents, 'categories': categories,
+               'selected_category': selected_category, 'side_documents': side_documents, 'limit': limit, 'sort': sort,
+               'request': request}
     return render(request, 'pages/documents.html', context)
 
-def instructions(request):
+
+def instructions_view(request):
     categories = Instruction.CATEGORY_CHOICES
     grouped_instructions = {}
     instructions = Instruction.objects.all()
-
 
     for key, label in categories:
         categorized_instructions = Instruction.objects.filter(category=key)
@@ -186,7 +221,8 @@ def instructions(request):
     context = {'grouped_instructions': grouped_instructions, 'instructions': instructions}
     return render(request, 'pages/instructions.html', context)
 
-def laws(request):
+
+def laws_view(request):
     categories = Law.CATEGORY_CHOICES
     categorized_laws = []
     laws = Law.objects.all()
@@ -199,8 +235,9 @@ def laws(request):
             'laws': laws_in_category
         })
 
-    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags" : tags}
+    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags": tags}
     return render(request, 'pages/law.html', context)
+
 
 def faqs(request):
     categories = FAQ.CATEGORY_CHOICES
@@ -216,6 +253,7 @@ def faqs(request):
 
     context = {'faqs': faqs, 'categories': categories, 'categorized_faqs': categorized_faqs, }
     return render(request, 'pages/faqs.html', context)
+
 
 def study(request):
     study = Study.objects.all()
@@ -235,6 +273,7 @@ def study(request):
     context = {'study': study, 'categories': categories, 'categorized_study': categorized_study}
     return render(request, 'pages/study.html', context)
 
+
 def webinars(request):
     webinars = Webinar.objects.all()
     special = Webinar.SPECIAL_CHOICES
@@ -251,6 +290,7 @@ def webinars(request):
 
     context = {'webinars': webinars, 'categorized_webinars': categorized_webinars, 'status': status, 'special': special}
     return render(request, 'pages/webinars.html', context)
+
 
 def author(request, uid):
     menu = FixedMenu.objects.all()

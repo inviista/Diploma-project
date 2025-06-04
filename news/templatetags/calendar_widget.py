@@ -1,9 +1,7 @@
 import calendar
 import locale
-from datetime import date, datetime
+from datetime import date
 from django import template
-
-from news.models import Event
 
 register = template.Library()
 
@@ -38,10 +36,8 @@ def format_date_ymd(year, month, day):
 
 
 @register.inclusion_tag('widgets/calendar.html')
-def render_calendar(year=None, month=None, event_date_str=None):
+def render_calendar(year=None, month=None, events_by_day=dict):
     today = date.today()
-    year = year or today.year
-    month = month or today.month
 
     # calculate previous and next month
     if month == 1:
@@ -57,23 +53,10 @@ def render_calendar(year=None, month=None, event_date_str=None):
     month_name = RUSSIAN_MONTHS[month]
     month_days = calendar.monthcalendar(year, month)
 
-    events = Event.objects.filter(date__year=year, date__month=month)
-    events_by_day = {day: [] for day in range(1, 32)}
-    for event in events:
-        events_by_day[event.date.day].append(event)
-
-    event_date = today
-    if event_date_str:
-        try:
-            event_date = datetime.strptime(event_date_str, '%Y-%m-%d').date()
-        except ValueError:
-            pass
-
     return {
         'month': month,
         'year': year,
         'month_days': month_days,
-        'events_by_day': events_by_day,
         'title': f"{month_name.capitalize()} {year}",
         'weekdays': RUSSIAN_WEEKDAYS_SHORT,
         'today': today,
@@ -81,6 +64,5 @@ def render_calendar(year=None, month=None, event_date_str=None):
         'prev_month': prev_month,
         'next_year': next_year,
         'next_month': next_month,
-        'event_date': event_date,
-        'event_day_localized': event_date.strftime('%d %B'),
+        'events_by_day': events_by_day
     }

@@ -1,7 +1,5 @@
 {% extends "base.html" %}
-{% load calendar_widget %}
 {% load static %}
-{% load today_tags %}
 {% block meta_data %}
     <title>Самая актуальная информация для жителей Астаны 👉 Политика, экономика, спорт, курс валют, прогноз погоды 👉
         01.imaq.kz</title>
@@ -30,11 +28,8 @@
           }
         }
     </script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
-
 {% endblock meta_data %}
+
 {% block content %}
     <main>
         <section>
@@ -55,7 +50,7 @@
                             {% include "includes/index_qauipmedia.html" %}
 
                         </div>
-                        <div class="flex flex-col max-w-[802px] w-full">
+                        <div class="flex flex-col w-full">
                             <!-- Новости -->
                             {% include "includes/index_news.html" %}
                             <!-- Аналитика -->
@@ -63,7 +58,7 @@
                         </div>
                         <div class="flex flex-col max-w-[464px] w-full">
                             <!-- Календарь событий -->
-                            {% render_calendar calendar_year calendar_month event_date %}
+                            {% include "includes/main/calendar.html" %}
                             <!-- Кейсы автоматизации -->
                             {% include "includes/index_autoKeys.html" %}
                             <!-- Законодательство -->

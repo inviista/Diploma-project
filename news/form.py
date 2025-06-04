@@ -1,8 +1,9 @@
 from django import forms
 from .models import Article
 
+
 class ArticleAdminForm(forms.ModelForm):
-    new_image = forms.ImageField(label='Картинки')
+    new_image = forms.ImageField(label='Картинки', required=False)
 
     class Meta:
         model = Article

@@ -1,0 +1,40 @@
+{% load calendar_widget %}
+{% load static %}
+
+<div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 p-4 rounded-[16px]">
+    <div class="flex flex-col w-full border-b-3 border-[#EFEFEF] pb-3">
+        <div class="flex justify-between">
+            <text class="font-[700] text-[24px]">Календарь событий</text>
+
+            <a href="" class="w-[36px] h-fit">
+                <img src="{% static 'img/_src/icons/Frame 58 (6).png' %}">
+            </a>
+        </div>
+        <text class="font-[500] text-[16px]">Следи за важными датами в сфере охраны <br> труда: форумы, проверки,
+                дедлайны <br> и ключевые мероприятия
+        </text>
+    </div>
+    <div class="p-1 pt-3">
+        {% render_calendar calendar_year calendar_month events_by_day %}
+
+        <div class="p-2">
+            {% with events=events_by_day|dict_key:event_date.day %}
+                {% if events %}
+                    <div class="flex flex-row justify-between items-center">
+                        <h1 class="text-[16px] font-bold text-primary text-center text-[#F05F4B]">{{ event_day_localized }}</h1>
+                        <img class="w-auto h-[24px]" src="{% static 'img/_src/icons/stat_minus_1.svg' %}">
+                    </div>
+                    <!-- Список мероприятий -->
+                    <ul class="font-medium text-[13px] font-[400]">
+                        {% for event in events %}
+                            <li class="flex items-start pt-2">
+                                <span class="text-accent font-medium mr-2">•</span>
+                                <span class="">{{ event.title }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</div>

@@ -166,7 +166,7 @@ def all_news(request):
 def documents_view(request):
     categories = Document.CATEGORY_CHOICES
     selected_category = request.GET.get('category')
-    side_documents = Document.objects.all().order_by('-valid_from')
+    side_documents = Document.objects.all()[:5]
     search = request.GET.get('search')
     sort = request.GET.get('sort')
 
@@ -215,10 +215,23 @@ def instructions_view(request):
 
 
 def laws_view(request):
+    search = request.GET.get('search')
+    sort = request.GET.get('sort')
     categories = Law.CATEGORY_CHOICES
     categorized_laws = []
     laws = Law.objects.all()
     tags = Tag.objects.all()
+
+    if search:
+        laws = laws.filter(
+            Q(title__icontains=search) |
+            Q(description__icontains=search)
+        )
+
+    if sort == 'popular':
+        laws = laws.order_by(
+            'views'
+        )
 
     for value, display_name in categories:
         laws_in_category = Law.objects.filter(category=value)

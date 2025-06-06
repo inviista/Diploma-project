@@ -225,13 +225,14 @@ class Document(models.Model):
     valid_from = models.DateField("Дата начала действия")
     valid_to = models.DateField("Дата окончания действия")
     views = models.IntegerField('Кол-во просмотров', default=0)
-
+    created_date = models.DateTimeField('Дата создания', default=timezone.now)
 
     def clean(self):
         if not self.file and not self.file_url:
             raise ValidationError('Прикрепите файл или ссылку.')
 
     class Meta:
+        ordering = ['-created_date']
         verbose_name = "Документ"
         verbose_name_plural = "Документы"
 
@@ -298,12 +299,15 @@ class Law(models.Model):
     valid_from = models.DateField("Дата начала действия")
     valid_to = models.DateField("Дата окончания действия")
     tags = models.ManyToManyField(Tag, related_name="tags_law", blank=True)
+    views = models.IntegerField('Кол-во просмотров', default=0)
+    created_date = models.DateTimeField('Дата создания', default=timezone.now)
 
     def clean(self):
         if not self.file and not self.file_url:
             raise ValidationError('Прикрепите файл или ссылку.')
 
     class Meta:
+        ordering = ['-created_date']
         verbose_name = "Законодательство"
         verbose_name_plural = "Законодательства"
 

@@ -13,50 +13,56 @@
                 </div>
                 <div class="flex items-center py-6 gap-6">
                     <div class="flex gap-1">
-                        <form method="get" class="flex items-center cursor-pointer px-3 py-2">
-                            <input type="hidden" name="limit" value="{{ request.GET.limit }}">
-                            <input type="hidden" name="category" value="{{ request.GET.category }}">
-                            <input type="hidden" name="q" value="{{ request.GET.q }}">
-                            <label>
-                                <input type="hidden" name="category" value="{{ selected_category }}">
-                                <select class="text-[12px] text-[#AF1E2A] cursor-pointer" onchange="this.form.submit()" name="sort" id="sort">
-                                    <option value="popular" {% if request.GET.sort == "popular" or not request.GET.sort %}selected{% endif %}>Популярные</option>
-                                    <option value="date_desc" {% if request.GET.sort == "date_desc" %}selected{% endif %}>По дате (новые)</option>
-                                    <option value="date_asc" {% if request.GET.sort == "date_asc" %}selected{% endif %}>По дате (старые)</option>
-                                </select>
-                            </label>
+                        <a href="?sort=popular"
+                           class="flex items-center gap-2 px-3 py-[7.5px] rounded-xl {% if request.GET.sort == 'popular' %} bg-[#AF1E2A] {% else %} hover:bg-gray-100 {% endif %}">
+                            <text class="text-xs {% if request.GET.sort == 'popular' %} bg-[#AF1E2A] text-white {% else %} text-[#AF1E2A] {% endif %}">
+                                Популярные
+                            </text>
                             <div class="w-6 h-6">
-                                <img src="{% static 'img/_src/icons/swap_vert.svg' %}" alt="swap icon"/>
+                                {% if request.GET.sort == 'popular' %}
+                                    <img src="{% static 'img/_src/icons/swap_vert_white.svg' %}" alt="swap"/>
+                                {% else %}
+                                    <img src="{% static 'img/_src/icons/swap_vert.svg' %}" alt="swap"/>
+                                {% endif %}
                             </div>
-                        </form>
-
-                        <form method="get" class="flex items-center  px-3 py-2">
-                            <input type="hidden" name="sort" value="{{ request.GET.sort }}">
-                            <input type="hidden" name="category" value="{{ request.GET.category }}">
-                            <input type="hidden" name="q" value="{{ request.GET.q }}">
-                            <label>
-                                <input type="hidden" name="category" value="{{ selected_category }}">
-                                <select id="limit" name="limit" class="text-xs text-[#AF1E2A] cursor-pointer" onchange="this.form.submit()">
-                                    <option value="all" {% if limit == 'all' %}selected{% endif %}>Показать все</option>
-                                    <option value="1" {% if limit == '1' %}selected{% endif %}>Кол-во: 1</option>
-                                    <option value="2" {% if limit == '2' %}selected{% endif %}>Кол-во: 2</option>
-                                </select>
-                            </label>
+                        </a>
+                        <a href="?"
+                           class="
+                                  flex items-center gap-2 px-3 py-[7.5px] rounded-xl
+                                  {% if not request.GET.sort and not request.GET.search %}
+                                      bg-[#AF1E2A]
+                                  {% else %}
+                                      hover:bg-gray-100
+                                  {% endif %}
+                               "
+                        >
+                            <text class="
+                                    text-xs text-nowrap
+                                    {% if not request.GET.sort and not request.GET.search %}
+                                        bg-[#AF1E2A] text-white
+                                    {% else %}
+                                        text-[#AF1E2A]
+                                    {% endif %}
+                                ">
+                                Показать все
+                            </text>
                             <div class="w-6 h-6">
-                                <img src="{% static 'img/_src/icons/arrow_drop_down.svg' %}" alt="swap icon"/>
+                                {% if not request.GET.sort and not request.GET.search %}
+                                    <img src="{% static 'img/_src/icons/arrow_drop_down_white.svg' %}"
+                                         alt="show all"/>
+                                {% else %}
+                                    <img src="{% static 'img/_src/icons/arrow_drop_down.svg' %}" alt="show all"/>
+                                {% endif %}
                             </div>
-                        </form>
+                        </a>
                     </div>
                     <form method="get" class="w-full">
-                        <input type="hidden" name="limit" value="{{ request.GET.limit }}">
-                        <input type="hidden" name="category" value="{{ request.GET.category }}">
-                        <input type="hidden" name="sort" value="{{ request.GET.sort }}">
                         <label>
-                            <input type="hidden" name="category" value="{{ selected_category }}">
                             <input
+                                    onchange="this.form.submit()"
                                     type="text"
-                                    name="q"
-                                    value="{{ request.GET.q }}"
+                                    name="search"
+                                    value="{{ request.GET.search }}"
                                     placeholder="Быстрый поиск информации по ключевым словам..."
                                     class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
                             />
@@ -66,12 +72,12 @@
 
                 <div class=" flex space-x-6 mb-6">
                     {% for key, label in categories %}
-                    <a href="?category={{ key }}"
+                        <a href="?category={{ key }}"
 
-                        class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if not selected_category and forloop.first or selected_category == key %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}"
-                      >
-                        {{ label }}
-                      </a>
+                           class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if not selected_category and forloop.first or selected_category == key %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}"
+                        >
+                            {{ label }}
+                        </a>
                     {% endfor %}
                 </div>
 
@@ -88,8 +94,8 @@
                                 {% for document in documents %}
                                     <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
                                         <div class="flex flex-row w-full justify-between">
-                                                <p class="text-[#3F8CFF]">PDF</p>
-                                                <p>{{ document.valid_from|date:"d.m.Y" }}</p>
+                                            <p class="text-[#3F8CFF]">PDF</p>
+                                            <p>{{ document.valid_from|date:"d.m.Y" }}</p>
                                         </div>
                                         <div class="flex flex-col gap-[10px] w-full justify-start">
                                             <div class="flex item-center gap-[10px]">
@@ -101,17 +107,23 @@
                                         </div>
                                         <div class="flex gap-3 justify-end w-full">
                                             {% if document.file_url %}
-                                                <a href="{{ document.file_url }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
+                                                <a href="{{ document.file_url }}"
+                                                   class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                                    <img src="{% static 'img/_src/icons/visibility.svg' %}"
+                                                         alt="details"/>
                                                 </a>
                                             {% endif %}
                                             {% if document.file %}
-                                                <a href="{{ document.file.url }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
+                                                <a href="{{ document.file.url }}"
+                                                   class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                                    <img src="{% static 'img/_src/icons/download.svg' %}"
+                                                         alt="download"/>
                                                 </a>
                                             {% endif %}
                                         </div>
                                     </div>
+                                {% empty %}
+                                    <p>Ничего нет</p>
                                 {% endfor %}
                             </div>
                         {% endfor %}
@@ -125,33 +137,35 @@
                     </div>
                     <div class="flex flex-col w-full h-auto">
                         {% for document in side_documents|slice:":2" %}
-                                    <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
-                                        <div class="flex flex-row w-full justify-between">
-                                                <p class="text-[#3F8CFF]">PDF</p>
-                                                <p>{{ document.valid_from|date:"d.m.Y" }}</p>
-                                        </div>
-                                        <div class="flex flex-col gap-[10px] w-full justify-start">
-                                            <div class="flex item-center gap-[10px]">
-                                                <text class="font-bold text-[20px]">{{ document.title }}</text>
-                                            </div>
-                                            {% if document.description %}
-                                                <text class="text-[14px] text-[#787878]">{{ document.description }}</text>
-                                            {% endif %}
-                                        </div>
-                                        <div class="flex gap-3 justify-end w-full">
-                                            {% if document.file_url %}
-                                                <a href="{{ document.file_url }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
-                                                </a>
-                                            {% endif %}
-                                            {% if document.file %}
-                                                <a href="{{ document.file.url }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
-                                                </a>
-                                            {% endif %}
-                                        </div>
+                            <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
+                                <div class="flex flex-row w-full justify-between">
+                                    <p class="text-[#3F8CFF]">PDF</p>
+                                    <p>{{ document.valid_from|date:"d.m.Y" }}</p>
+                                </div>
+                                <div class="flex flex-col gap-[10px] w-full justify-start">
+                                    <div class="flex item-center gap-[10px]">
+                                        <text class="font-bold text-[20px]">{{ document.title }}</text>
                                     </div>
-                                {% endfor %}
+                                    {% if document.description %}
+                                        <text class="text-[14px] text-[#787878]">{{ document.description }}</text>
+                                    {% endif %}
+                                </div>
+                                <div class="flex gap-3 justify-end w-full">
+                                    {% if document.file_url %}
+                                        <a href="{{ document.file_url }}"
+                                           class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                            <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
+                                        </a>
+                                    {% endif %}
+                                    {% if document.file %}
+                                        <a href="{{ document.file.url }}"
+                                           class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                            <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
@@ -160,68 +174,72 @@
                     </div>
                     <div class="flex flex-col w-full h-auto">
                         {% for document in side_documents|slice:":2" %}
-                                    <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
-                                        <div class="flex flex-row w-full justify-between">
-                                                <p class="text-[#3F8CFF]">PDF</p>
-                                                <p>{{ document.valid_from|date:"d.m.Y" }}</p>
-                                        </div>
-                                        <div class="flex flex-col gap-[10px] w-full justify-start">
-                                            <div class="flex item-center gap-[10px]">
-                                                <text class="font-bold text-[20px]">{{ document.title }}</text>
-                                            </div>
-                                            {% if document.description %}
-                                                <text class="text-[14px] text-[#787878]">{{ document.description }}</text>
-                                            {% endif %}
-                                        </div>
-                                        <div class="flex gap-3 justify-end w-full">
-                                            {% if document.file_url %}
-                                                <a href="{{ document.file_url }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
-                                                </a>
-                                            {% endif %}
-                                            {% if document.file %}
-                                                <a href="{{ document.file.url }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
-                                                </a>
-                                            {% endif %}
-                                        </div>
+                            <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
+                                <div class="flex flex-row w-full justify-between">
+                                    <p class="text-[#3F8CFF]">PDF</p>
+                                    <p>{{ document.valid_from|date:"d.m.Y" }}</p>
+                                </div>
+                                <div class="flex flex-col gap-[10px] w-full justify-start">
+                                    <div class="flex item-center gap-[10px]">
+                                        <text class="font-bold text-[20px]">{{ document.title }}</text>
                                     </div>
-                                {% endfor %}
+                                    {% if document.description %}
+                                        <text class="text-[14px] text-[#787878]">{{ document.description }}</text>
+                                    {% endif %}
+                                </div>
+                                <div class="flex gap-3 justify-end w-full">
+                                    {% if document.file_url %}
+                                        <a href="{{ document.file_url }}"
+                                           class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                            <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
+                                        </a>
+                                    {% endif %}
+                                    {% if document.file %}
+                                        <a href="{{ document.file.url }}"
+                                           class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                            <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
                     <div class="flex flex-row justify-between w-full gap-[64px] h-[86px] border-b-2 border-[#EFEFEF] font-[700] text-[24px]">
-                       Бланки проверки знаний после инструктажа
+                        Бланки проверки знаний после инструктажа
                     </div>
                     <div class="flex flex-col w-full h-auto">
                         {% for document in side_documents|slice:":2" %}
-                                    <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
-                                        <div class="flex flex-row w-full justify-between">
-                                                <p class="text-[#3F8CFF]">PDF</p>
-                                                <p>{{ document.valid_from|date:"d.m.Y" }}</p>
-                                        </div>
-                                        <div class="flex flex-col gap-[10px] w-full justify-start">
-                                            <div class="flex item-center gap-[10px]">
-                                                <text class="font-bold text-[20px]">{{ document.title }}</text>
-                                            </div>
-                                            {% if document.description %}
-                                                <text class="text-[14px] text-[#787878]">{{ document.description }}</text>
-                                            {% endif %}
-                                        </div>
-                                        <div class="flex gap-3 justify-end w-full">
-                                            {% if document.file_url %}
-                                                <a href="{{ document.file_url }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
-                                                </a>
-                                            {% endif %}
-                                            {% if document.file %}
-                                                <a href="{{ document.file.url }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
-                                                    <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
-                                                </a>
-                                            {% endif %}
-                                        </div>
+                            <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
+                                <div class="flex flex-row w-full justify-between">
+                                    <p class="text-[#3F8CFF]">PDF</p>
+                                    <p>{{ document.valid_from|date:"d.m.Y" }}</p>
+                                </div>
+                                <div class="flex flex-col gap-[10px] w-full justify-start">
+                                    <div class="flex item-center gap-[10px]">
+                                        <text class="font-bold text-[20px]">{{ document.title }}</text>
                                     </div>
-                                {% endfor %}
+                                    {% if document.description %}
+                                        <text class="text-[14px] text-[#787878]">{{ document.description }}</text>
+                                    {% endif %}
+                                </div>
+                                <div class="flex gap-3 justify-end w-full">
+                                    {% if document.file_url %}
+                                        <a href="{{ document.file_url }}"
+                                           class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                            <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
+                                        </a>
+                                    {% endif %}
+                                    {% if document.file %}
+                                        <a href="{{ document.file.url }}"
+                                           class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                            <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

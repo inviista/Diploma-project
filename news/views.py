@@ -167,8 +167,7 @@ def documents_view(request):
     categories = Document.CATEGORY_CHOICES
     selected_category = request.GET.get('category')
     side_documents = Document.objects.all().order_by('-valid_from')
-    limit = request.GET.get('limit', 'all')
-    query = request.GET.get('q')
+    search = request.GET.get('search')
     sort = request.GET.get('sort')
 
     if not selected_category and categories:
@@ -176,25 +175,16 @@ def documents_view(request):
 
     documents = Document.objects.filter(category=selected_category)
 
-    if query:
+    if search:
         documents = documents.filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query)
+            Q(title__icontains=search) |
+            Q(description__icontains=search)
         )
 
-    if sort == 'date_asc':
-        documents = documents.order_by('valid_from')
-    elif sort == 'date_desc':
-        documents = documents.order_by('-valid_from')
-    else:
-        documents = documents.order_by('-views')
-
-    if limit != 'all':
-        try:
-            limit_int = int(limit)
-            documents = documents[:limit_int]
-        except ValueError:
-            pass
+    if sort == 'popular':
+        documents = documents.order_by(
+            'views'
+        )
 
     grouped_documents = {
         label: documents
@@ -202,9 +192,11 @@ def documents_view(request):
         if key == selected_category
     }
 
-    context = {'grouped_documents': grouped_documents, 'documents': documents, 'categories': categories,
-               'selected_category': selected_category, 'side_documents': side_documents, 'limit': limit, 'sort': sort,
-               'request': request}
+    context = {
+        'grouped_documents': grouped_documents, 'documents': documents, 'categories': categories,
+        'selected_category': selected_category, 'side_documents': side_documents,
+        'request': request
+    }
     return render(request, 'pages/documents.html', context)
 
 

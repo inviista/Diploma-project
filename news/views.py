@@ -1,9 +1,12 @@
 from datetime import date, timedelta, datetime
 
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth import login
+from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q, Prefetch
 from django.core.paginator import Paginator
 
+from .form import RegistrationForm
 from .mixins import three_days_ago
 from .models import Article, Category, Tag, FixedMenu, FixedArticle, Instruction, Document, Law, Study, Webinar, FAQ, \
     Event
@@ -392,3 +395,17 @@ def tag_detail(request, slug):
     context = {'tag': tag, 'popular_news': popular_news, 'page': page, 'fixed_menu': menu,
                'category_news': category_news}
     return render(request, 'pages/tags.html', context)
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            # ✅ Save the user from the form
+            user = form.save()
+
+            # ✅ Log the user in (optional)
+            login(request, user)
+
+            return redirect('/')
+    return redirect('/')

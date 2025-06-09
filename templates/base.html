@@ -1,3 +1,4 @@
+{% load auth_modal %}
 {% load static %}
 <html lang="ru">
 <head>
@@ -100,16 +101,37 @@
                     placeholder="Поиск через HSE GPT..."
                     class="font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] rounded px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] min-w-[300px]"
             />
-            <a
-                    href="/register"
-                    class="h-[39px] flex font-[600] text-[12px] text-[#AF1E2A] w-[84px] justify-center border-1 bg-white rounded-[16px] items-center border-solid px-6 py-3"
-            >Войти</a
-            >
+            {% if request.user.is_authenticated %}
+                <button
+                        class="h-[39px] flex font-[600] text-[12px] text-[#AF1E2A] justify-center border-1 bg-white rounded-[16px] items-center border-solid px-6 py-3 text-nowrap"
+                >{{ request.user.profile.full_name }}</button>
+            {% else %}
+                <button
+                        onclick="showAuthModal()"
+                        class="h-[39px] flex font-[600] text-[12px] text-[#AF1E2A] w-[84px] justify-center border-1 bg-white rounded-[16px] items-center border-solid px-6 py-3"
+                >
+                    Войти
+                </button>
+            {% endif %}
+
             <!-- Кнопка для локализации -->
             <h1 class="font-[700] text-[12px] text-white self-center">RU</h1>
         </div>
     </div>
 </header>
+{% render_auth_modal %}
 {% block content %} {% endblock content %}
 </body>
 </html>
+
+<script>
+    function showAuthModal() {
+        document.getElementById('authModal').classList.remove('hidden');
+        document.getElementById('authModal').classList.add('flex');
+    }
+
+    function closeModal() {
+        document.getElementById('authModal').classList.remove('flex');
+        document.getElementById('authModal').classList.add('hidden');
+    }
+</script>

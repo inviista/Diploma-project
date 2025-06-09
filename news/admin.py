@@ -15,6 +15,7 @@ admin.site.register(Instruction)
 admin.site.register(Event)
 admin.site.register(Law)
 admin.site.register(Study)
+admin.site.register(UserProfile)
 
 
 

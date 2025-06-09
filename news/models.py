@@ -1,5 +1,6 @@
 from uuid import uuid4
 
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from slugify import slugify
 
@@ -254,30 +255,6 @@ class Checklist(models.Model):
     def __str__(self):
         return self.title
 
-# 📂 Категории на странице:
-# 1. Основные законы и кодексы
-# Трудовой кодекс РК
-# Закон "Об охране труда"
-# Связанные разделы других кодексов (ГК, Административный и т.д.)
-# 2. Нормативно-правовые акты (НПА)
-# Постановления правительства
-# Приказы Министерства труда и других ведомств
-# Подзаконные акты и регламенты
-# 3. Правила и требования по охране труда
-# Типовые отраслевые правила
-# Общие и специальные правила безопасности
-# Санитарные правила и нормы (СанПиНы)
-# 4. Технические регламенты и стандарты
-# ГОСТы и СТ РК, обязательные к применению
-# Технические регламенты ЕАЭС, касающиеся ТБ
-# 5. Изменения и обновления
-# Новые редакции документов
-# Утраченные силу НПА
-# Архив с пометками об изменениях
-# 6. Письма и разъяснения госорганов
-# Толкование норм
-# Практика применения
-# Ответы на частые запросы
 
 class Law(models.Model):
     CATEGORY_CHOICES = [
@@ -316,29 +293,30 @@ class Law(models.Model):
 
 
 class Study(models.Model):
-        CATEGORY_CHOICES = [
-            ('construction', 'Строительство'),
-            ('mining', 'Горная промышленность'),
-            ('neftegas', 'Нефтегаз'),
-        ]
+    CATEGORY_CHOICES = [
+        ('construction', 'Строительство'),
+        ('mining', 'Горная промышленность'),
+        ('neftegas', 'Нефтегаз'),
+    ]
 
-        id = models.AutoField(primary_key=True)
-        title = models.CharField("Название", max_length=255)
-        description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
-        category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
-        url = models.URLField("Ссылка", null=True, blank=True)
-        valid_from = models.DateField("Дата начала действия")
+    id = models.AutoField(primary_key=True)
+    title = models.CharField("Название", max_length=255)
+    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+    category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
+    url = models.URLField("Ссылка", null=True, blank=True)
+    valid_from = models.DateField("Дата начала действия")
 
-        def clean(self):
-            if not self.url:
-                raise ValidationError('Прикрепите ссылку.')
+    def clean(self):
+        if not self.url:
+            raise ValidationError('Прикрепите ссылку.')
 
-        class Meta:
-            verbose_name = "Обучение"
-            verbose_name_plural = "Обучение"
+    class Meta:
+        verbose_name = "Обучение"
+        verbose_name_plural = "Обучение"
 
-        def __str__(self):
-            return self.title
+    def __str__(self):
+        return self.title
+
 
 class Webinar(models.Model):
     STATUS_CHOICES = [
@@ -353,7 +331,7 @@ class Webinar(models.Model):
         ('free', 'Бесплатно'),
     ]
 
-    special = models.CharField("Специальное",max_length=20,choices=SPECIAL_CHOICES, null=True,blank=True)
+    special = models.CharField("Специальное", max_length=20, choices=SPECIAL_CHOICES, null=True, blank=True)
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
     description = models.TextField("Описание")
@@ -458,3 +436,17 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.date})"
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    full_name = models.CharField("ФИО", max_length=200, blank=True)
+    position = models.CharField("Должность", max_length=100, blank=True)
+    phone = models.CharField("Телефон", max_length=20, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        verbose_name = 'Профиль пользователя'
+        verbose_name_plural = 'Профиля пользователей'

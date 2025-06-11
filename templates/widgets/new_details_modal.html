@@ -1,0 +1,61 @@
+{% load static %}
+<!-- Modal Overlay -->
+<div
+        id="newDetailModal"
+        class="fixed inset-0 z-50 items-start justify-center bg-[#1E1E1EBF]/75 pt-[94px]
+        {% if article %}
+        	flex
+        {% else %}
+        	hidden
+        {% endif %}"
+        onclick="closeModal()"
+>
+    <!-- Modal Container -->
+    <div class="bg-white rounded-2xl w-full max-w-3xl p-6 shadow-xl text-sm" onclick="event.stopPropagation()">
+        <div class="w-full max-w-[800px] bg-white shadow-lg rounded-[16px] overflow-hidden">
+            <!-- Изображение -->
+            <div class="w-full h-[300px] overflow-hidden">
+                <img src="{{ article.image.path }}" alt="{{ article.title }}" class="w-full h-full object-cover">
+            </div>
+
+            <!-- Контент -->
+            <div class="flex flex-col gap-3 p-6">
+                <!-- Категория -->
+                {% if article.categories.last %}
+                    <div class="text-[#ED1A39] text-[14px] font-medium uppercase tracking-wide">
+                        {{ article.categories.last.title }}
+                    </div>
+                {% endif %}
+
+                <!-- Заголовок -->
+                <h1 class="text-[24px] font-bold text-[#1A1A1A] leading-snug">
+                    {{ article.title }}
+                </h1>
+
+                <!-- Дата публикации -->
+                <div class="text-[13px] text-[#7A7A7A] font-light">
+                    {{ article.published_date|date:"d.m.Y" }}
+                </div>
+
+                <!-- Описание -->
+                {% if article.description %}
+                    <div class="text-[16px] text-[#333] font-normal leading-relaxed">
+                        {{ article.description }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function closeModal() {
+        const url = new URL(window.location.href);
+
+        // Remove the query parameter
+        url.searchParams.delete('selected_new');
+
+        // Reload the page with the updated URL
+        window.location.href = url.toString();
+    }
+</script>

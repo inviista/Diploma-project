@@ -144,8 +144,33 @@
 </html>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        scrollToLastMousePosition()
+    });
+
     function showAuthModal() {
         document.getElementById('authModal').classList.remove('hidden');
         document.getElementById('authModal').classList.add('flex');
+    }
+
+    function trackCurrentMousePosition(event) {
+        const x = event.clientX;
+        const y = event.clientY;
+
+        sessionStorage.setItem('lastMousePosition', JSON.stringify({x, y}))
+    }
+
+    function scrollToLastMousePosition() {
+        const lastMousePositionString = sessionStorage.getItem('lastMousePosition')
+
+        if (lastMousePositionString) {
+            const lastMousePosition = JSON.parse(lastMousePositionString)
+
+            if (lastMousePosition) {
+                const {x: top, y} = lastMousePosition
+                const left = y - window.innerHeight / 2;
+                window.scrollTo({top, left, behavior: 'smooth'})
+            }
+        }
     }
 </script>

@@ -80,6 +80,9 @@ def index(request):
     # auth modal
     show_sms_confirm_modal = bool(request.session.get('user_email'))
 
+    # detailed new
+    selected_new_alias = request.GET.get('selected_new')
+
     context = {
         'articles': articles,
         'categories': categories,
@@ -101,16 +104,12 @@ def index(request):
         'documents': documents,
 
         # auth modal
-        'show_sms_confirm_modal': show_sms_confirm_modal
+        'show_sms_confirm_modal': show_sms_confirm_modal,
+
+        # detailed new
+        'selected_new_alias': selected_new_alias
     }
     return render(request, 'pages/index.html', context)
-
-
-@counted
-def news_detail(request, alias):
-    article = get_object_or_404(Article, alias=alias)
-    context = {'article': article}
-    return render(request, 'pages/article.html', context)
 
 
 def qauipmedia(request):
@@ -156,6 +155,9 @@ def all_news(request):
     for article in featured_articles:
         events_by_day[article.published_date.day].append(article)
 
+    # detailed new
+    selected_new_alias = request.GET.get('selected_new')
+
     context = {
         'articles': articles,
         'categories': categories,
@@ -166,6 +168,9 @@ def all_news(request):
         'calendar_month': calendar_month,
         'event_date': event_date,
         'events_by_day': events_by_day,
+
+        # detailed new
+        'selected_new_alias': selected_new_alias
     }
     return render(request, 'pages/all_news.html', context)
 
@@ -399,6 +404,3 @@ def tag_detail(request, slug):
     context = {'tag': tag, 'popular_news': popular_news, 'page': page, 'fixed_menu': menu,
                'category_news': category_news}
     return render(request, 'pages/tags.html', context)
-
-
-

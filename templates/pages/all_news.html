@@ -1,5 +1,9 @@
-{% extends 'base.html' %} {% load static %} {% block content %} {% load calendar_widget %}
+{% extends 'base.html' %}
+{% load new_details_modal %}
+{% load static %}
+{% load calendar_widget %}
 
+{% block content %}
     <div class="flex flex-col mx-[100px] justify-center">
         <div class="flex flex-row gap-2 pt-[5px]">
             <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 px-6 pt-5 rounded-[16px]">
@@ -87,7 +91,7 @@
                                            class="bg-[#AF1E2A] text-white rounded-[16px] p-3 flex justify-center items-center text-xs h-[39px]">Больше</a>
                                     </div>
                                     {% for article in category.category_article.all %}
-                                        <a href="{% url 'news:news_detail' article.alias %}">
+                                        <a href="?selected_new={{ article.alias }}" onclick="trackCurrentMousePosition(event)">
                                             <div class="flex flex-col gap-[10px] border-b-1 border-[#EFEFEF] pb-[24px] px-3">
                                                 <div class="flex gap-[10px] flex-col">
                                                     <div class="text-[14px] text-[#3F8CFF] font-[400]">Сегодня</div>
@@ -119,7 +123,7 @@
                             {% endif %}
                         {% endfor %}
                         {% for article in articles_without_categories %}
-                            <a href="{% url 'news:news_detail' article.alias %}">
+                            <a href="?selected_new={{ article.alias }}" onclick="trackCurrentMousePosition(event)">
                                 <div class="flex flex-col gap-[10px] border-b-1 border-[#EFEFEF] pb-[24px] px-3">
                                     <div class="flex gap-[10px] flex-col">
                                         <div class="text-[14px] text-[#3F8CFF] font-[400]">Сегодня</div>
@@ -146,8 +150,6 @@
                                     </div>
                                 </div>
                             </a>
-                        {% empty %}
-                            <p>Нет новостей.</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -199,4 +201,6 @@
             </div>
         </div>
     </div>
+
+    {% render_new_details_modal selected_new_alias %}
 {% endblock %}

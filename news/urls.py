@@ -11,7 +11,6 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('news/<str:slug>/', views.news_detail, name='news_detail'),
     path('news/', views.all_news, name='all_news'),
     path('instructions/', views.instructions_view, name='instructions'),
     path('search_results/', views.search_results, name='search_results'),

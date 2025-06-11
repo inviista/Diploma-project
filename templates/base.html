@@ -1,3 +1,4 @@
+{% load sms_confirm_modal %}
 {% load auth_modal %}
 {% load static %}
 <html lang="ru">
@@ -119,7 +120,25 @@
         </div>
     </div>
 </header>
+
+{% if messages %}
+    <ul class="space-y-2">
+        {% for message in messages %}
+            <li class="text-sm text-white p-2
+                      {% if message.tags == 'success' %} bg-green-600
+                      {% elif message.tags == 'error' %} bg-red-600
+                      {% elif message.tags == 'warning' %} bg-yellow-500
+                      {% else %} bg-blue-500
+                      {% endif %}">
+                {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
 {% render_auth_modal %}
+{% render_sms_confirm_modal show_sms_confirm_modal %}
+
 {% block content %} {% endblock content %}
 </body>
 </html>
@@ -128,10 +147,5 @@
     function showAuthModal() {
         document.getElementById('authModal').classList.remove('hidden');
         document.getElementById('authModal').classList.add('flex');
-    }
-
-    function closeModal() {
-        document.getElementById('authModal').classList.remove('flex');
-        document.getElementById('authModal').classList.add('hidden');
     }
 </script>

@@ -1,6 +1,6 @@
 from django import template
 
-from news.form import RegistrationForm
+from users.form import RegistrationForm
 
 register = template.Library()
 

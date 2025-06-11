@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from slugify import slugify
 
 from django.db import models
-from django.contrib.postgres.fields import ArrayField, JSONField
+from django.contrib.postgres.fields import ArrayField
 from django.urls import reverse
 from django.utils import timezone
 
@@ -135,8 +135,8 @@ class DraftArticle(UUIDMixin):
 
     class Meta:
         ordering = ['-datetime_created']
-        verbose_name = 'Draft Article'
-        verbose_name_plural = 'Draft Articles'
+        verbose_name = 'Черновик новоости'
+        verbose_name_plural = 'Черновики новостей'
 
 
 class FixedArticle(UUIDMixin):
@@ -437,16 +437,3 @@ class Event(models.Model):
     def __str__(self):
         return f"{self.title} ({self.date})"
 
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    full_name = models.CharField("ФИО", max_length=200, blank=True)
-    position = models.CharField("Должность", max_length=100, blank=True)
-    phone = models.CharField("Телефон", max_length=20, blank=True)
-
-    def __str__(self):
-        return self.user.username
-
-    class Meta:
-        verbose_name = 'Профиль пользователя'
-        verbose_name_plural = 'Профиля пользователей'

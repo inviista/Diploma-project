@@ -30,8 +30,6 @@ urlpatterns = [
     path('webinars/', views.webinars, name='webinars'),
     path('faqs/', views.faqs, name='faqs'),
 
-    path('auth/register/', views.register, name='register'),
-
     # AMP
     path('amp/<str:alias>/', views.amp_views, name='amp'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),

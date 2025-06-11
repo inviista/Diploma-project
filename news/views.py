@@ -1,14 +1,11 @@
 from datetime import date, timedelta, datetime
 
-from django.contrib.auth import login
-from django.contrib.auth.models import User
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Prefetch
 from django.core.paginator import Paginator
 
-from .form import RegistrationForm
 from .mixins import three_days_ago
-from .models import Article, Category, Tag, FixedMenu, FixedArticle, Instruction, Document, Law, Study, Webinar, FAQ, \
+from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, Webinar, FAQ, \
     Event
 from .decorators import counted
 
@@ -57,6 +54,7 @@ def index(request):
     articles = Article.objects.all()
     tags = Tag.objects.all()
     laws = Law.objects.all()
+
     # calendar
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))
@@ -79,6 +77,9 @@ def index(request):
     # documents
     documents = Document.objects.all()[:3]
 
+    # auth modal
+    show_sms_confirm_modal = bool(request.session.get('user_email'))
+
     context = {
         'articles': articles,
         'categories': categories,
@@ -97,7 +98,10 @@ def index(request):
         'instructions': instructions,
 
         # documents
-        'documents': documents
+        'documents': documents,
+
+        # auth modal
+        'show_sms_confirm_modal': show_sms_confirm_modal
     }
     return render(request, 'pages/index.html', context)
 
@@ -397,15 +401,4 @@ def tag_detail(request, slug):
     return render(request, 'pages/tags.html', context)
 
 
-def register(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            # ✅ Save the user from the form
-            user = form.save()
 
-            # ✅ Log the user in (optional)
-            login(request, user)
-
-            return redirect('/')
-    return redirect('/')

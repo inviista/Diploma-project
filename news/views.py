@@ -51,7 +51,7 @@ def search_results(request):
 def index(request):
     selected_category = request.GET.get('category')
     categories = Category.objects.all()
-    articles = Article.objects.all()
+    articles = Article.objects.all()[:10]
     tags = Tag.objects.all()
     laws = Law.objects.all()
 

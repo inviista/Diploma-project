@@ -215,14 +215,31 @@ def documents_view(request):
 def instructions_view(request):
     categories = Instruction.CATEGORY_CHOICES
     grouped_instructions = {}
+    search = request.GET.get('search')
+    sort = request.GET.get('sort')
+
     instructions = Instruction.objects.all()
+
+
+    if search:
+        instructions = instructions.filter(
+            Q(title__icontains=search) | Q(description__icontains=search)
+        )
+    if sort == 'popular':
+        instructions = instructions.order_by(
+            'is_popular'
+        ).order_by('view_count')
 
     for key, label in categories:
         categorized_instructions = Instruction.objects.filter(category=key)
-        if len(categorized_instructions):
-            grouped_instructions[label] = Instruction.objects.filter(category=key)
+        if categorized_instructions.exists():
+            grouped_instructions[label] = categorized_instructions
 
-    context = {'grouped_instructions': grouped_instructions, 'instructions': instructions}
+    print("Instructions count:", instructions.count())
+    for i in instructions:
+        print(i.title)
+
+    context = {'grouped_instructions': grouped_instructions, 'instructions': instructions, 'request': request}
     return render(request, 'pages/instructions.html', context)
 
 
@@ -251,6 +268,8 @@ def laws_view(request):
             'title': display_name,
             'laws': laws_in_category
         })
+
+
 
     context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags": tags}
     return render(request, 'pages/law.html', context)

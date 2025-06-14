@@ -184,6 +184,8 @@ class Instruction(models.Model):
     file = models.FileField("Файл", upload_to='uploads/instructions/', null=True, blank=True)
     external_link = models.URLField("Внешняя ссылка", max_length=500, null=True, blank=True)
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
+    view_count = models.IntegerField('Кол-во просмотров', default=0)
+    is_popular = models.BooleanField(default=False)
 
     related_checklists = models.ManyToManyField('Checklist', blank=True, related_name='instructions',
                                                 verbose_name="Связанные чек-листы")

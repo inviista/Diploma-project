@@ -249,6 +249,7 @@ def laws_view(request):
     categorized_laws = []
     laws = Law.objects.all()
     tags = Tag.objects.all()
+    side_laws = Law.objects.all().order_by('-valid_from')
 
     if search:
         laws = laws.filter(
@@ -258,11 +259,11 @@ def laws_view(request):
 
     if sort == 'popular':
         laws = laws.order_by(
-            'views'
+            '-views'
         )
 
     for value, display_name in categories:
-        laws_in_category = Law.objects.filter(category=value)
+        laws_in_category = laws.filter(category=value)
         categorized_laws.append({
             'title': display_name,
             'laws': laws_in_category
@@ -270,7 +271,7 @@ def laws_view(request):
 
 
 
-    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags": tags}
+    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags": tags, 'side_laws': side_laws, 'search': search, 'sort': sort}
     return render(request, 'pages/law.html', context)
 
 

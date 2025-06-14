@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 
 from .mixins import three_days_ago
 from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, FAQ, \
-    Event
+    Event, Checklist
 from .decorators import counted
 
 
@@ -197,7 +197,7 @@ def documents_view(request):
 
     if sort == 'popular':
         documents = documents.order_by(
-            'views'
+            '-views'
         )
 
     grouped_documents = {
@@ -264,10 +264,11 @@ def laws_view(request):
 
     for value, display_name in categories:
         laws_in_category = laws.filter(category=value)
-        categorized_laws.append({
-            'title': display_name,
-            'laws': laws_in_category
-        })
+        if laws_in_category.exists():
+            categorized_laws.append({
+                'title': display_name,
+                'laws': laws_in_category
+            })
 
 
 
@@ -296,14 +297,48 @@ def faqs(request):
 
     for value, display_name in categories:
         faqs_in_category = faqs.filter(category=value)
-        categorized_faqs.append({
-            'title': display_name,
-            'faqs': faqs_in_category
-        })
+        if faqs_in_category.exists():
+            categorized_faqs.append({
+                'title': display_name,
+                'faqs': faqs_in_category
+            })
 
     context = {'faqs': faqs, 'categories': categories, 'categorized_faqs': categorized_faqs, 'request': request, 'side_faqs': side_faqs}
     return render(request, 'pages/faqs.html', context)
 
+def checklists(request):
+    categories = Checklist.CATEGORY_CHOICES
+    selected_category = request.GET.get('category')
+    side_checklists = Checklist.objects.all()[:5]
+    search = request.GET.get('search')
+    sort = request.GET.get('sort')
+
+    if not selected_category and categories:
+        selected_category = categories[0][0]
+
+    checklists = Checklist.objects.filter(category=selected_category)
+
+    if search:
+        checklists = checklists.filter(
+            Q(title__icontains=search) |
+            Q(use_case__icontains=search)
+        )
+
+    if sort == 'popular':
+        checklists = checklists.order_by(
+            '-views'
+        )
+
+    grouped_checklists = {
+        label: checklists
+        for key, label in categories
+        if key == selected_category
+    }
+
+    context = {
+        'grouped_checklists': grouped_checklists, 'request': request, 'side_checklists': side_checklists,'search': search, 'sort': sort, 'categories': categories, 'selected_category': selected_category
+    }
+    return render(request, 'pages/checklists.html', context)
 
 def study(request):
     study = Study.objects.all()

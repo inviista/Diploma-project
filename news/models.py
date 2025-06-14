@@ -244,11 +244,19 @@ class Document(models.Model):
 
 
 class Checklist(models.Model):
+    CATEGORY_CHOICES = [
+        ('checklist_1', 'Чеклист 1'),
+        ('checklist_2', 'Чеклист 2'),
+        ('checklist_3', 'Чеклист 3'),
+        ('checklist_4', 'Чеклист 4'),
+    ]
+    category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES, blank=True, null=True)
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
     use_case = models.CharField("Сценарий использования", max_length=255)
-    checkpoints = models.JSONField("Пункты проверки")
     file_url = models.URLField("Ссылка на файл", blank=True, null=True)
+    valid_from = models.DateField("Дата", blank=True, null=True)
+    views = models.IntegerField('Кол-во просмотров', default=0)
 
     class Meta:
         verbose_name = "Чек-лист"
@@ -276,6 +284,9 @@ class Law(models.Model):
     file_url = models.URLField("Ссылка на файл", null=True, blank=True)
     file = models.FileField("Файл", upload_to='uploads/documents/', null=True, blank=True)
     valid_from = models.DateField("Дата начала действия")
+
+    number = models.CharField("Номер приказа", max_length=255, null=True, blank=True)
+
     valid_to = models.DateField("Дата окончания действия")
     tags = models.ManyToManyField(Tag, related_name="tags_law", blank=True)
     views = models.IntegerField('Кол-во просмотров', default=0)

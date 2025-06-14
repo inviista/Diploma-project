@@ -360,14 +360,14 @@ class FAQ(models.Model):
         ('inspections ', 'Проверки и ответственность'),
         ('accidents', 'Несчастные случаи и расследования'),
     ]
-    image = models.ImageField('Фото', default=dict)
     id = models.AutoField(primary_key=True)
     question = models.TextField("Вопрос", blank=True, null=True)
     answer = models.TextField("Ответ", blank=True, null=True)
     author = models.CharField("Автор", max_length=255, blank=True, null=True)
     author_profession = models.CharField("Профессия автора", max_length=255, blank=True, null=True)
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES, blank=True, null=True)
-
+    view_count = models.IntegerField('Кол-во просмотров', default=0)
+    is_popular = models.BooleanField(default=False)
     created_at = models.DateTimeField("Создано", auto_now_add=True)
     updated_at = models.DateTimeField("Обновлено", auto_now=True)
 

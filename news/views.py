@@ -278,18 +278,32 @@ def laws_view(request):
 
 
 def faqs(request):
+
     categories = FAQ.CATEGORY_CHOICES
     categorized_faqs = []
+    search = request.GET.get('search')
+    sort = request.GET.get('sort')
+
     faqs = FAQ.objects.all()
+    side_faqs = FAQ.objects.all().order_by('-created_at')
+
+    if search:
+        faqs = faqs.filter(
+            Q(question__icontains=search) | Q(answer__icontains=search)
+        )
+    if sort == 'popular':
+        faqs = faqs.order_by(
+            'is_popular'
+        ).order_by('-view_count')
 
     for value, display_name in categories:
-        faqs_in_category = FAQ.objects.filter(category=value)
+        faqs_in_category = faqs.filter(category=value)
         categorized_faqs.append({
             'title': display_name,
             'faqs': faqs_in_category
         })
 
-    context = {'faqs': faqs, 'categories': categories, 'categorized_faqs': categorized_faqs, }
+    context = {'faqs': faqs, 'categories': categories, 'categorized_faqs': categorized_faqs, 'request': request, 'side_faqs': side_faqs}
     return render(request, 'pages/faqs.html', context)
 
 

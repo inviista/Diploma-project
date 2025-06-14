@@ -219,6 +219,7 @@ def instructions_view(request):
     grouped_instructions = {}
     search = request.GET.get('search')
     sort = request.GET.get('sort')
+    side_instructions = Instruction.objects.all().order_by('-created_date')
 
     instructions = Instruction.objects.all()
 
@@ -230,18 +231,14 @@ def instructions_view(request):
     if sort == 'popular':
         instructions = instructions.order_by(
             'is_popular'
-        ).order_by('view_count')
+        ).order_by('-view_count')
 
     for key, label in categories:
-        categorized_instructions = Instruction.objects.filter(category=key)
+        categorized_instructions = instructions.filter(category=key)
         if categorized_instructions.exists():
             grouped_instructions[label] = categorized_instructions
 
-    print("Instructions count:", instructions.count())
-    for i in instructions:
-        print(i.title)
-
-    context = {'grouped_instructions': grouped_instructions, 'instructions': instructions, 'request': request}
+    context = {'grouped_instructions': grouped_instructions, 'instructions': instructions, 'request': request, 'side_instructions': side_instructions}
     return render(request, 'pages/instructions.html', context)
 
 

@@ -130,7 +130,7 @@
                         Готовые инструкции и видеоинструкции, тексты
                     </div>
                     <div class="flex flex-col w-full h-auto">
-                        {% for instruction in instructions|slice:":3" %}
+                        {% for instruction in side_instructions|slice:":3" %}
                             <div class="flex flex-col w-full gap-[10px] p-3 border-b-1 border-[#EFEFEF]">
                                 <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
                                 <div class="flex flex-row items-start gap-[10px] flex-nowrap">
@@ -162,7 +162,7 @@
                         Журнал регистрации инструктажей
                     </div>
                     <div class="flex flex-col w-full h-auto">
-                        {% for instruction in instructions|slice:":3" %}
+                        {% for instruction in side_instructions|slice:":3" %}
                             <div class="flex flex-col w-full gap-[10px] p-3 border-b-1 border-[#EFEFEF]">
                                 <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
                                 <div class="flex flex-row items-start gap-[10px] flex-nowrap">
@@ -193,7 +193,7 @@
                        Бланки проверки знаний после инструктажа
                     </div>
                     <div class="flex flex-col w-full h-auto">
-                        {% for instruction in instructions|slice:":3" %}
+                        {% for instruction in side_instructions|slice:":3" %}
                             <div class="flex flex-col w-full gap-[10px] p-3 border-b-1 border-[#EFEFEF]">
                                 <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
                                 <div class="flex flex-row items-start gap-[10px] flex-nowrap">

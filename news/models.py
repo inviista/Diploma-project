@@ -318,43 +318,6 @@ class Study(models.Model):
         return self.title
 
 
-class Webinar(models.Model):
-    STATUS_CHOICES = [
-        ('recording', 'Сейчас идет'),
-        ('scheduled', 'Ближайшие вебинары (анонс)'),
-        ('completed', 'Прошедшие вебинары (архив)'),
-
-    ]
-    SPECIAL_CHOICES = [
-        ('certificate', 'Сертификат'),
-        ('live', 'Только в прямом эфире'),
-        ('free', 'Бесплатно'),
-    ]
-
-    special = models.CharField("Специальное", max_length=20, choices=SPECIAL_CHOICES, null=True, blank=True)
-    id = models.AutoField(primary_key=True)
-    title = models.CharField("Название", max_length=255)
-    description = models.TextField("Описание")
-    speakers = models.CharField("Спикеры", max_length=255)
-    speakers_profession = models.CharField("Профессия", max_length=255)
-    duration = models.CharField("Продолжительность", max_length=255)
-    video_url = models.URLField("Ссылка на видео", blank=True, null=True)
-    date_time = models.DateTimeField("Дата и время")
-    status = models.CharField("Статус", max_length=20, choices=STATUS_CHOICES)
-    tags = models.CharField("Теги", max_length=255, blank=True)
-
-    def clean(self):
-        if not self.video_url:
-            raise ValidationError('Прикрепите ссылку.')
-
-    class Meta:
-        verbose_name = "Вебинар"
-        verbose_name_plural = "Вебинары"
-
-    def __str__(self):
-        return self.title
-
-
 class LegalAct(models.Model):
     TYPE_CHOICES = [
         ('law', 'Закон'),
@@ -414,13 +377,74 @@ class FAQ(models.Model):
         return self.question
 
 
+class City(models.Model):
+    name = models.CharField(
+        max_length=100,
+        verbose_name='Город'
+    )
+
+    class Meta:
+        verbose_name = 'Город'
+        verbose_name_plural = 'Города'
+
+    def __str__(self):
+        return self.name
+
+
+class EventCategory(models.Model):
+    slug = models.SlugField(
+        max_length=255,
+        unique=True,
+    )
+    name = models.CharField(
+        max_length=255,
+        verbose_name='Название категории'
+    )
+    is_private = models.BooleanField(
+        default=False,
+        verbose_name='Внутренняя категория',
+        help_text='Доступна только авторизованным пользователям'
+    )
+
+    class Meta:
+        verbose_name = 'Категория события'
+        verbose_name_plural = 'Категории событий'
+
+    def __str__(self):
+        return self.name
+
+
+class EventTag(models.Model):
+    slug = models.SlugField(
+        max_length=255,
+        unique=True,
+    )
+    name = models.CharField(
+        max_length=50,
+        verbose_name='Название тега'
+    )
+    color = models.CharField(
+        max_length=7,
+        help_text="Цвет в HEX формате (например, #FF0000)",
+        default="#FF0000",
+        verbose_name='Цвет'
+    )
+
+    class Meta:
+        verbose_name = 'Тег события'
+        verbose_name_plural = 'Теги событий'
+
+    def __str__(self):
+        return self.name
+
+
 class Event(models.Model):
     title = models.CharField(
-        max_length=200,
+        max_length=255,
         verbose_name='Название'
     )
     date = models.DateField(
-        verbose_name='Дата'
+        verbose_name='Дата проведения'
     )
     description = models.TextField(
         verbose_name='Описание'
@@ -428,6 +452,46 @@ class Event(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата создания'
+    )
+    duration_hours = models.PositiveIntegerField(
+        verbose_name='Длительность (часы)', null=True
+    )
+    city = models.ForeignKey(
+        City,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Город'
+    )
+    categories = models.ManyToManyField(
+        EventCategory,
+        related_name='events',
+        verbose_name='Категории'
+    )
+    tags = models.ManyToManyField(
+        EventTag,
+        blank=True,
+        verbose_name='Теги'
+    )
+    author_full_name = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Имя и фамилия спикера'
+    )
+    author_job_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Должность спикера'
+    )
+    author_avatar = models.ImageField(
+        upload_to='speakers/',
+        blank=True,
+        verbose_name='Аватар спикера'
+    )
+    image = models.ImageField(
+        upload_to='events/',
+        blank=True,
+        verbose_name='Обложка события'
     )
 
     class Meta:
@@ -437,3 +501,5 @@ class Event(models.Model):
     def __str__(self):
         return f"{self.title} ({self.date})"
 
+    def is_past(self):
+        return self.date < timezone.now().date()

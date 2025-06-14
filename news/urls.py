@@ -11,6 +11,7 @@ sitemaps = {
 }
 
 urlpatterns = [
+    path('', views.index, name='index'),
     path('news/', views.all_news, name='all_news'),
     path('instructions/', views.instructions_view, name='instructions'),
     path('search_results/', views.search_results, name='search_results'),
@@ -22,11 +23,10 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('site_maps/', views.maps, name='maps'),
     path('qauipmedia/', views.qauipmedia, name='qauipmedia'),
-    path('', views.index, name='index'),
     path('documents/', views.documents_view, name='documents'),
     path('laws/', views.laws_view, name='laws'),
     path('study/', views.study, name='study'),
-    path('webinars/', views.webinars, name='webinars'),
+    path('webinars/', views.webinars_view, name='webinars'),
     path('faqs/', views.faqs, name='faqs'),
 
     # AMP

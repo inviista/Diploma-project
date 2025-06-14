@@ -5,7 +5,7 @@ from django.db.models import Q, Prefetch
 from django.core.paginator import Paginator
 
 from .mixins import three_days_ago
-from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, Webinar, FAQ, \
+from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, FAQ, \
     Event
 from .decorators import counted
 
@@ -291,21 +291,12 @@ def study(request):
     return render(request, 'pages/study.html', context)
 
 
-def webinars(request):
-    webinars = Webinar.objects.all()
-    special = Webinar.SPECIAL_CHOICES
-    status = Webinar.STATUS_CHOICES
-    categorized_webinars = []
+def webinars_view(request):
+    live_webinars = Event.objects.filter(categories__slug__exact='webinar', tags__slug='live')
+    soon_webinars = Event.objects.filter(categories__slug__exact='webinar').order_by('-created_at')[:6]
+    webinars = Event.objects.all()
 
-    for value, display_name in status:
-        webinars_in_status = Webinar.objects.filter(status=value)
-
-        categorized_webinars.append({
-            'title': display_name,
-            'webinars': webinars_in_status
-        })
-
-    context = {'webinars': webinars, 'categorized_webinars': categorized_webinars, 'status': status, 'special': special}
+    context = { 'live_webinars': live_webinars, 'soon_webinars': soon_webinars, 'webinars': webinars }
     return render(request, 'pages/webinars.html', context)
 
 

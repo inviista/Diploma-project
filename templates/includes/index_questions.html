@@ -10,43 +10,18 @@
         <text class="font-[500] text-[16px]">Быстрый контроль техники безопасности
         </text>
     </div>
+    {% for faq in faqs %}
     <div class="flex flex-col w-full h-auto p-3 border-b-2 border-[#EFEFEF]">
-        <div class="flex flex-col w-full h-auto  gap-1">
-            <text class="font-[700] text-[16px] ">Как бороться с формализмом на местах?</text>
+        <div class="flex flex-col w-full h-auto  gap-[10px]">
+            <text class="font-[700] text-[16px] ">{{ faq.question }}</text>
             <div class="flex flex-row justify-start items-center">
-                <img class="w-auto h-[32px] mt-1" src="{% static 'img/_src/icons/Ellipse 1.svg' %}">
-                <div class="flex flex-col ml-[9px] gap-0.5">
-                    <text class="font-[700] text-[14px] ">Алексей Владимирович Рогов</text>
-                    <text class="text-[14px] leading-3 ">инженер по пожарной безопасности</text>
+                <div class="flex flex-col gap-[2px]">
+                    <text class="font-[700] text-[14px] ">{{ faq.author }}</text>
+                    <text class="text-[14px] leading-3 ">{{ faq.author_profession }}</text>
                 </div>
             </div>
         </div>
-        <div class="text-[14px] text-[#444444] flex justify-end">02.01.2025</div>
+        <div class="text-[14px] text-[#444444] flex justify-end">{{ faq.created_at|date:"d.m.Y" }}</div>
     </div>
-    <div class="flex flex-col w-full h-auto p-3 border-b-2 border-[#EFEFEF]">
-        <div class="flex flex-col w-full h-auto  gap-1">
-            <text class="font-[700] text-[16px] leading-4">Руководитель против ТБ: как убедить начальство, а не спорить</text>
-            <div class="flex flex-row justify-start items-center">
-                <img class="w-auto h-[32px] mt-1" src="{% static 'img/_src/icons/Ellipse 1 (1).svg' %}">
-                <div class="flex flex-col ml-[9px] gap-0.5">
-                    <text class="font-[700] text-[14px] ">Даурен Нурланович Каирбеков</text>
-                    <text class="text-[14px] leading-3 ">координатор по обучению и сертификации</text>
-                </div>
-            </div>
-        </div>
-        <div class="text-[14px] text-[#444444] flex justify-end">02.01.2025</div>
-    </div>
-    <div class="flex flex-col w-full h-auto p-3 border-b-2 border-[#EFEFEF]">
-        <div class="flex flex-col w-full h-auto  gap-1">
-            <text class="font-[700] text-[16px] ">Как бороться с формализмом на местах?</text>
-            <div class="flex flex-row justify-start items-center">
-                <img class="w-auto h-[32px] mt-1" src="{% static 'img/_src/icons/Ellipse 1 (2).svg' %}">
-                <div class="flex flex-col ml-[9px] gap-0.5">
-                    <text class="font-[700] text-[14px] ">Алексей Владимирович Рогов</text>
-                    <text class="text-[14px] leading-3 ">инженер по пожарной безопасности</text>
-                </div>
-            </div>
-        </div>
-        <div class="text-[14px] text-[#444444] flex justify-end">02.01.2025</div>
-    </div>
+    {% endfor %}
 </div>

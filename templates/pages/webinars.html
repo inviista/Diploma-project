@@ -47,7 +47,7 @@
                             class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
                     />
                 </div>
-                <div class="flex flex-col w-full h-auto ">
+                <div class="flex flex-col w-full h-auto">
                     <div class="main-news flex flex-col gap-4 pt-[10px]">
                         <div class="flex flex-col">
                             <div class="flex flex-row justify-between mb-3">
@@ -81,7 +81,7 @@
                                         <img
                                                 class="max-w-[397px] w-full max-h-[177px] h-full"
                                                 src={{ webinar.image.url }} title="YouTube video"
-                                                allowfullscreen
+                                        allowfullscreen
                                         ></img>
                                         <div class="flex flex-col items-start justify-start gap-[10px]">
                                             <text class="font-bold text-[20px]">{{ webinar.title }}</text>
@@ -93,8 +93,128 @@
                                         </div>
                                         <div class="flex flex-row justify-start items-center">
                                             {% if webinar.author_avatar %}
-                                            	       <img class="w-auto h-[32px] mt-1"
-                                                 src="{{ webinar.author_avatar.url }}">
+                                                <img height="32" width="32" class="mt-1"
+                                                     src="{{ webinar.author_avatar.url }}">
+                                            {% endif %}
+                                            <div class="flex flex-col ml-[9px] gap-0.5">
+                                                <text class="font-[700] text-[14px] ">{{ webinar.author_full_name }}</text>
+                                                <text class="text-[14px] leading-3 ">{{ webinar.author_job_title }}</text>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col w-full h-auto">
+                    <div class="main-news flex flex-col gap-4 pt-[10px]">
+                        <div class="flex flex-col">
+                            <div class="flex flex-row justify-between mb-3">
+                                <h2 class="font-bold text-2xl">Ближайшие вебинары (анонс)</h2>
+                                <a href=""
+                                   class="bg-[#AF1E2A] text-white rounded-[16px] p-3 flex justify-center items-center text-xs">Больше</a>
+                            </div>
+                            <div class="flex flex-row flex-wrap w-full">
+                                {% for webinar in soon_webinars %}
+                                    <div class="max-w-[415px] w-full relative flex flex-col gap-[10px] px-3 py-3 pb-6">
+                                        {% for tag in webinar.tags.all %}
+                                            <div
+                                                    class="flex absolute top-[20px] left-[20px] justify-center items-center text-[10px] text-white rounded-[16px] py-1 px-2 w-fit h-4
+                                                    {% if tag.slug == 'free' %}
+                                                      bg-[#3F8CFF]
+                                                    {% elif tag.slug == 'certificate' %}
+                                                      bg-[#AF3FFF]
+                                                    {% elif tag.slug == 'live' %}
+                                                      bg-[#DF3131]
+                                                    {% endif %}"
+                                            >
+                                                {% if tag.slug == 'free' %}
+                                                    Бесплатно
+                                                {% elif tag.slug == 'certificate' %}
+                                                    Сертификат
+                                                {% elif tag.slug == 'live' %}
+                                                    Только в прямом эфире
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                        <img
+                                                class="max-w-[397px] w-full max-h-[177px] h-full"
+                                                src={{ webinar.image.url }} title="YouTube video"
+                                        allowfullscreen
+                                        ></img>
+                                        <div class="flex flex-col items-start justify-start gap-[10px]">
+                                            <text class="font-bold text-[20px]">{{ webinar.title }}</text>
+                                            <text class="text-sm text-[#787878]">{{ webinar.description }}</text>
+                                        </div>
+                                        <div class="flex flex-row justify-between w-full items-center gap-[10px]">
+                                            <text class=" text-[14px] text-[#787878]">{{ webinar.duration }}</text>
+                                            <text class="text-sm text-[14px] text-[#787878]">{{ webinar.date|date:"d.m.Y" }}</text>
+                                        </div>
+                                        <div class="flex flex-row justify-start items-center">
+                                            {% if webinar.author_avatar %}
+                                                <img height="32" width="32" class="mt-1"
+                                                     src="{{ webinar.author_avatar.url }}">
+                                            {% endif %}
+                                            <div class="flex flex-col ml-[9px] gap-0.5">
+                                                <text class="font-[700] text-[14px] ">{{ webinar.author_full_name }}</text>
+                                                <text class="text-[14px] leading-3 ">{{ webinar.author_job_title }}</text>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="flex flex-col w-full h-auto">
+                    <div class="main-news flex flex-col gap-4 pt-[10px]">
+                        <div class="flex flex-col">
+                            <div class="flex flex-row justify-between mb-3">
+                                <h2 class="font-bold text-2xl">Все вебинары</h2>
+                                <a href=""
+                                   class="bg-[#AF1E2A] text-white rounded-[16px] p-3 flex justify-center items-center text-xs">Больше</a>
+                            </div>
+                            <div class="flex flex-row flex-wrap w-full">
+                                {% for webinar in webinars %}
+                                    <div class="max-w-[415px] w-full relative flex flex-col gap-[10px] px-3 py-3 pb-6">
+                                        {% for tag in webinar.tags.all %}
+                                            <div
+                                                    class="flex absolute top-[20px] left-[20px] justify-center items-center text-[10px] text-white rounded-[16px] py-1 px-2 w-fit h-4
+                                                    {% if tag.slug == 'free' %}
+                                                      bg-[#3F8CFF]
+                                                    {% elif tag.slug == 'certificate' %}
+                                                      bg-[#AF3FFF]
+                                                    {% elif tag.slug == 'live' %}
+                                                      bg-[#DF3131]
+                                                    {% endif %}"
+                                            >
+                                                {% if tag.slug == 'free' %}
+                                                    Бесплатно
+                                                {% elif tag.slug == 'certificate' %}
+                                                    Сертификат
+                                                {% elif tag.slug == 'live' %}
+                                                    Только в прямом эфире
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                        <img
+                                                class="max-w-[397px] w-full max-h-[177px] h-full"
+                                                src={{ webinar.image.url }} title="YouTube video"
+                                        allowfullscreen
+                                        ></img>
+                                        <div class="flex flex-col items-start justify-start gap-[10px]">
+                                            <text class="font-bold text-[20px]">{{ webinar.title }}</text>
+                                            <text class="text-sm text-[#787878]">{{ webinar.description }}</text>
+                                        </div>
+                                        <div class="flex flex-row justify-between w-full items-center gap-[10px]">
+                                            <text class=" text-[14px] text-[#787878]">{{ webinar.duration }}</text>
+                                            <text class="text-sm text-[14px] text-[#787878]">{{ webinar.date|date:"d.m.Y" }}</text>
+                                        </div>
+                                        <div class="flex flex-row justify-start items-center">
+                                            {% if webinar.author_avatar %}
+                                                <img height="32" width="32" class="mt-1"
+                                                     src="{{ webinar.author_avatar.url }}">
                                             {% endif %}
                                             <div class="flex flex-col ml-[9px] gap-0.5">
                                                 <text class="font-[700] text-[14px] ">{{ webinar.author_full_name }}</text>
@@ -115,26 +235,53 @@
                     </div>
                     <div class="main-news flex flex-col gap-4 pt-[10px]">
                         <div class="flex flex-col flex-wrap w-full">
-                            {% for video in study|slice:":3" %}
-                                <div class="max-w-[415px] w-full flex flex-col gap-[10px] px-3 py-3 pb-6">
-                                    <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">
-                                        Новое
+                            {% for webinar in last_education_webinars %}
+                                    <div class="max-w-[415px] w-full relative flex flex-col gap-[10px] px-3 py-3 pb-6">
+                                        {% for tag in webinar.tags.all %}
+                                            <div
+                                                    class="flex absolute top-[20px] left-[20px] justify-center items-center text-[10px] text-white rounded-[16px] py-1 px-2 w-fit h-4
+                                                    {% if tag.slug == 'free' %}
+                                                      bg-[#3F8CFF]
+                                                    {% elif tag.slug == 'certificate' %}
+                                                      bg-[#AF3FFF]
+                                                    {% elif tag.slug == 'live' %}
+                                                      bg-[#DF3131]
+                                                    {% endif %}"
+                                            >
+                                                {% if tag.slug == 'free' %}
+                                                    Бесплатно
+                                                {% elif tag.slug == 'certificate' %}
+                                                    Сертификат
+                                                {% elif tag.slug == 'live' %}
+                                                    Только в прямом эфире
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                        <img
+                                                class="max-w-[397px] w-full max-h-[177px] h-full"
+                                                src={{ webinar.image.url }} title="YouTube video"
+                                        allowfullscreen
+                                        ></img>
+                                        <div class="flex flex-col items-start justify-start gap-[10px]">
+                                            <text class="font-bold text-[20px]">{{ webinar.title }}</text>
+                                            <text class="text-sm text-[#787878]">{{ webinar.description }}</text>
+                                        </div>
+                                        <div class="flex flex-row justify-between w-full items-center gap-[10px]">
+                                            <text class=" text-[14px] text-[#787878]">{{ webinar.duration }}</text>
+                                            <text class="text-sm text-[14px] text-[#787878]">{{ webinar.date|date:"d.m.Y" }}</text>
+                                        </div>
+                                        <div class="flex flex-row justify-start items-center">
+                                            {% if webinar.author_avatar %}
+                                                <img height="32" width="32" class="mt-1"
+                                                     src="{{ webinar.author_avatar.url }}">
+                                            {% endif %}
+                                            <div class="flex flex-col ml-[9px] gap-0.5">
+                                                <text class="font-[700] text-[14px] ">{{ webinar.author_full_name }}</text>
+                                                <text class="text-[14px] leading-3 ">{{ webinar.author_job_title }}</text>
+                                            </div>
+                                        </div>
                                     </div>
-
-                                    <iframe
-                                            class="max-w-[397px] w-full"
-                                            src={{ video.url }}
-                                                    title="YouTube video
-                                    "
-                                    allowfullscreen
-                                    >
-                                    </iframe>
-                                    <div class="flex flex-col items-start justify-start gap-[10px]">
-                                        <text class="font-bold text-[20px]">{{ video.title }}</text>
-                                        <text class="text-sm text-[#787878]">{{ video.description }}</text>
-                                    </div>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
                         </div>
                     </div>
                 </div>

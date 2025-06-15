@@ -134,6 +134,7 @@ def qauipmedia(request):
 def all_news(request):
     search = request.GET.get('search')
     sort = request.GET.get('sort')
+    selected_category = request.GET.get('category')
 
     articles = Article.objects.all()
 
@@ -146,9 +147,10 @@ def all_news(request):
             'is_popular'
         ).order_by('view_count')
 
-    categories = Category.objects.prefetch_related(
-        Prefetch('category_article', queryset=articles)
-    )
+    categories = Category.objects.all()
+
+    if selected_category:
+        articles = articles.filter(categories__slug=selected_category)
 
     # calendar
     today = date.today()
@@ -175,6 +177,7 @@ def all_news(request):
         'articles': articles,
         'categories': categories,
         'featured_articles': featured_articles,
+        'selected_category': selected_category,
 
         # calendar
         'calendar_year': calendar_year,

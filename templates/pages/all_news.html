@@ -20,50 +20,6 @@
                     </div>
                 </div>
                 <div class="flex items-center py-6 gap-6">
-                    <div class="flex gap-1">
-                        <a href="?sort=popular"
-                           class="flex items-center gap-2 px-3 py-[7.5px] rounded-xl {% if request.GET.sort == 'popular' %} bg-[#AF1E2A] {% else %} hover:bg-gray-100 {% endif %}">
-                            <text class="text-xs {% if request.GET.sort == 'popular' %} bg-[#AF1E2A] text-white {% else %} text-[#AF1E2A] {% endif %}">
-                                Популярные
-                            </text>
-                            <div class="w-6 h-6">
-                                {% if request.GET.sort == 'popular' %}
-                                    <img src="{% static 'img/_src/icons/swap_vert_white.svg' %}" alt="swap"/>
-                                {% else %}
-                                    <img src="{% static 'img/_src/icons/swap_vert.svg' %}" alt="swap"/>
-                                {% endif %}
-                            </div>
-                        </a>
-                        <a href="?"
-                           class="
-                                  flex items-center gap-2 px-3 py-[7.5px] rounded-xl
-                                  {% if not request.GET.sort and not request.GET.search %}
-                                      bg-[#AF1E2A]
-                                  {% else %}
-                                      hover:bg-gray-100
-                                  {% endif %}
-                               "
-                        >
-                            <text class="
-                                    text-xs text-nowrap
-                                    {% if not request.GET.sort and not request.GET.search %}
-                                        bg-[#AF1E2A] text-white
-                                    {% else %}
-                                        text-[#AF1E2A]
-                                    {% endif %}
-                                ">
-                                Показать все
-                            </text>
-                            <div class="w-6 h-6">
-                                {% if not request.GET.sort and not request.GET.search %}
-                                    <img src="{% static 'img/_src/icons/arrow_drop_down_white.svg' %}"
-                                         alt="show all"/>
-                                {% else %}
-                                    <img src="{% static 'img/_src/icons/arrow_drop_down.svg' %}" alt="show all"/>
-                                {% endif %}
-                            </div>
-                        </a>
-                    </div>
                     <form method="get" class="w-full">
                         <label>
                             <input
@@ -77,18 +33,33 @@
                         </label>
                     </form>
                 </div>
+                <div class="flex space-x-6 mb-6">
+                    <a href="?category="
+                       class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
+                       {% if not selected_category %}
+                           border-red-600 text-red-600
+                       {% else %}
+                           border-transparent text-gray-600
+                       {% endif %}">
+                        Все
+                    </a>
+
+                    {% for category in categories %}
+                        <a href="?category={{ category.slug }}"
+                           class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
+                           {% if selected_category == category.slug %}
+                               border-red-600 text-red-600
+                           {% else %}
+                               border-transparent text-gray-600
+                           {% endif %}">
+                            {{ category.title }}
+                        </a>
+                    {% endfor %}
+                </div>
                 <div class="flex flex-col w-full h-auto p-2">
                     <div class="main-news flex flex-col gap-4 pt-[10px]">
-                        {% for category in categories %}
-                            {% if category.category_article.count > 0 %}
                                 <div class="flex flex-col gap-5 pb-[16px]">
-                                    <div class="flex flex-row justify-between items-center">
-                                        <div class="flex flex-col">
-                                            <div class="text-[12px] font-[400] text-[#9E9E9E]">Категория</div>
-                                            <h2 class="font-bold text-2xl">{{ category.title }}</h2>
-                                        </div>
-                                    </div>
-                                    {% for article in category.category_article.all %}
+                                    {% for article in articles %}
                                         <a href="?selected_new={{ article.alias }}" onclick="trackCurrentMousePosition(event)">
                                             <div class="flex flex-col gap-[10px] border-b-1 border-[#EFEFEF] pb-[24px] px-3">
                                                 <div class="flex gap-[10px] flex-col">
@@ -118,8 +89,6 @@
                                         </a>
                                     {% endfor %}
                                 </div>
-                            {% endif %}
-                        {% endfor %}
                         {% for article in articles_without_categories %}
                             <a href="?selected_new={{ article.alias }}" onclick="trackCurrentMousePosition(event)">
                                 <div class="flex flex-col gap-[10px] border-b-1 border-[#EFEFEF] pb-[24px] px-3">

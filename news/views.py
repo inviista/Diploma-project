@@ -21,41 +21,50 @@ def amp_views(request, alias):
 
 
 def search_results(request):
-    query = request.GET.get('search')
-    popular_news = Article.objects.filter(article_status=True, article_type='P',
-                                          published_date__gte=three_days_ago).order_by('-view_count')[:7]
-    menu = FixedMenu.objects.all()
+    search = request.GET.get('search', '').strip()
+    selected_new_alias = request.GET.get('selected_new')
 
-    if query:
-        results = Article.objects.filter(
-            Q(title__icontains=query) |
-            Q(content__icontains=query),
-            article_status=True,
-            article_type='P'
-        )
-        paginator = Paginator(results, 10)
-        page_number = request.GET.get('page')
-        page = paginator.get_page(page_number)
+    articles = Article.objects.filter(
+        Q(title__icontains=search) | Q(description__icontains=search)
+    ) if search else []
 
-    else:
-        results = Article.objects.none()
+    instructions = Instruction.objects.filter(
+        Q(title__icontains=search) | Q(description__icontains=search)
+    ) if search else []
 
-        paginator = Paginator(results, 10)
-        page_number = request.GET.get('page')
-        page = paginator.get_page(page_number)
+    documents = Document.objects.filter(
+        Q(title__icontains=search) | Q(description__icontains=search)
+    ) if search else []
 
-    context = {'page': page, 'popular_news': popular_news, 'fixed_menu': menu, 'query': query}
+    checklists = Checklist.objects.filter(
+        Q(title__icontains=search) | Q(use_case__icontains=search)
+    ) if search else []
+
+    faqs = FAQ.objects.filter(
+        Q(question__icontains=search) | Q(answer__icontains=search)
+    ) if search else []
+
+    context = {
+        'search': search,
+        'articles': articles,
+        'instructions': instructions,
+        'documents': documents,
+        'checklists': checklists,
+        'faqs': faqs,
+        'selected_new_alias': selected_new_alias,
+    }
     return render(request, 'pages/search_results.html', context)
 
 
 def index(request):
+    search = request.GET.get('search', '').strip()
     selected_category = request.GET.get('category')
     categories = Category.objects.all()
     articles = Article.objects.all()[:10]
     tags = Tag.objects.all()
     laws = Law.objects.all()
     faqs = FAQ.objects.all()[:5]
-
+    checklists = Checklist.objects.all()
     # calendar
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))
@@ -84,14 +93,16 @@ def index(request):
     # detailed new
     selected_new_alias = request.GET.get('selected_new')
 
+
     context = {
+        'search': search,
         'articles': articles,
         'categories': categories,
         'selected_category': selected_category,
         'tags': tags,
         'laws': laws,
         'faqs': faqs,
-
+        'checklists': checklists,
         # calendar
         'calendar_year': calendar_year,
         'calendar_month': calendar_month,

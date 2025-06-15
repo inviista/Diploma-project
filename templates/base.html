@@ -100,12 +100,15 @@
             >
                 Qauipmedia
             </a>
-            <input
+            <form method="get" action="{% url 'news:search_results' %}">
+                <input
                     type="text"
-                    name="q"
+                    name="search"
                     placeholder="Поиск через HSE GPT..."
                     class="font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] rounded px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] min-w-[300px]"
             />
+            </form>
+
             {% if request.user.is_authenticated %}
                 <button
                         class="h-[39px] flex font-[600] text-[12px] text-[#AF1E2A] justify-center border-1 bg-white rounded-[16px] items-center border-solid px-6 py-3 text-nowrap"

@@ -134,13 +134,21 @@ def qauipmedia(request):
 def all_news(request):
     search = request.GET.get('search')
     sort = request.GET.get('sort')
-
+    selected_category_slug = request.GET.get('category')
     articles = Article.objects.all()
 
     if search:
         articles = articles.filter(
             Q(title__icontains=search) | Q(description__icontains=search)
         )
+
+    if selected_category_slug:
+        # Фильтруем статьи по выбранной категории
+        selected_category = get_object_or_404(Category, slug=selected_category_slug)
+        articles = articles.filter(categories=selected_category)
+    else:
+        selected_category = None
+
     if sort == 'popular':
         articles = articles.order_by(
             'is_popular'
@@ -175,7 +183,7 @@ def all_news(request):
         'articles': articles,
         'categories': categories,
         'featured_articles': featured_articles,
-
+        'selected_category': selected_category,
         # calendar
         'calendar_year': calendar_year,
         'calendar_month': calendar_month,

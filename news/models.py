@@ -167,11 +167,9 @@ class Instruction(models.Model):
         ('pdf', 'PDF'),
     ]
     CATEGORY_CHOICES = [
-        ('introductory', 'Вводный инструктаж'),
-        ('primary_workplace', 'Первичный на рабочем месте'),
-        ('repeated', 'Повторный'),
-        ('unscheduled', 'Внеплановый'),
-        ('targeted', 'Целевой'),
+        ('introductory', 'Вводный'),
+        ('primary_workplace', 'Первичный'),
+        ('instructions', 'Инструкции по БиОТ'),
     ]
 
     title = models.CharField("Название инструктажа", max_length=255)
@@ -213,7 +211,6 @@ class Instruction(models.Model):
 class Document(models.Model):
     CATEGORY_CHOICES = [
         ('safety_management', 'Safety management'),
-        ('training_registers', 'Реестры по обучению'),
         ('incidents', 'Инциденты и расследования'),
         ('other', 'Другие документы'),
     ]
@@ -245,17 +242,17 @@ class Document(models.Model):
 
 class Checklist(models.Model):
     CATEGORY_CHOICES = [
-        ('checklist_1', 'Чеклист 1'),
-        ('checklist_2', 'Чеклист 2'),
-        ('checklist_3', 'Чеклист 3'),
-        ('checklist_4', 'Чеклист 4'),
+        ('checklist_1', 'Обходы по Безопасности'),
+        ('checklist_2', 'Проверочные листы оборудования'),
+        ('checklist_3', 'Шаблоны расследований'),
+        ('checklist_4', 'Отчетность'),
     ]
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES, blank=True, null=True)
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
     use_case = models.CharField("Сценарий использования", max_length=255)
     file_url = models.URLField("Ссылка на файл", blank=True, null=True)
-    valid_from = models.DateField("Дата", blank=True, null=True)
+    valid_from = models.DateTimeField('Дата создания', default=timezone.now)
     views = models.IntegerField('Кол-во просмотров', default=0)
 
     class Meta:

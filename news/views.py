@@ -200,11 +200,20 @@ def documents_view(request):
             '-views'
         )
 
-    grouped_documents = {
-        label: documents
-        for key, label in categories
-        if key == selected_category
+    category_limits = {
+        'Safety management': 4,
+        'Инциденты и расследования': 10,
+        'Другие документы': 10,
     }
+
+    grouped_documents = {}
+    for key, label in categories:
+        if key == selected_category:
+            docs = documents
+            limit = category_limits.get(label)
+            if limit:
+                docs = docs[:limit]
+            grouped_documents[label] = docs
 
     context = {
         'grouped_documents': grouped_documents, 'documents': documents, 'categories': categories,
@@ -233,9 +242,18 @@ def instructions_view(request):
             'is_popular'
         ).order_by('-view_count')
 
+    category_limits = {
+        'Вводный': 5,
+        'Первичный': 5,
+        'Инструкции по БиОТ': 20,
+    }
+
     for key, label in categories:
         categorized_instructions = instructions.filter(category=key)
         if categorized_instructions.exists():
+            limit = category_limits.get(label, None)
+            if limit:
+                categorized_instructions = categorized_instructions[:limit]
             grouped_instructions[label] = categorized_instructions
 
     context = {'grouped_instructions': grouped_instructions, 'instructions': instructions, 'request': request, 'side_instructions': side_instructions}
@@ -316,7 +334,7 @@ def checklists(request):
     if not selected_category and categories:
         selected_category = categories[0][0]
 
-    checklists = Checklist.objects.filter(category=selected_category)
+    checklists = Checklist.objects.filter(category=selected_category).order_by('-valid_from')
 
     if search:
         checklists = checklists.filter(
@@ -329,11 +347,21 @@ def checklists(request):
             '-views'
         )
 
-    grouped_checklists = {
-        label: checklists
-        for key, label in categories
-        if key == selected_category
+    category_limits = {
+        'Обходы по Безопасности': 5,
+        'Проверочные листы оборудования': 5,
+        'Шаблоны расследований': 5,
+        'Отчетность': 5,
     }
+
+    grouped_checklists = {}
+    for key, label in categories:
+        if key == selected_category:
+            items = checklists
+            limit = category_limits.get(label)
+            if limit:
+                items = items[:limit]
+            grouped_checklists[label] = items
 
     context = {
         'grouped_checklists': grouped_checklists, 'request': request, 'side_checklists': side_checklists,'search': search, 'sort': sort, 'categories': categories, 'selected_category': selected_category

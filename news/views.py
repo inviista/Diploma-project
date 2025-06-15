@@ -54,7 +54,7 @@ def index(request):
     articles = Article.objects.all()[:10]
     tags = Tag.objects.all()
     laws = Law.objects.all()
-    faqs = FAQ.objects.all()
+    faqs = FAQ.objects.all()[:5]
 
     # calendar
     today = date.today()

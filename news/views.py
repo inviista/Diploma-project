@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 
 from .mixins import three_days_ago
 from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, FAQ, \
-    Event, Checklist
+    Event, Checklist, EventCategory
 from .decorators import counted
 
 
@@ -380,6 +380,28 @@ def webinars_view(request):
                'last_education_webinars': last_education_webinars}
     return render(request, 'pages/webinars.html', context)
 
+def calendar_view(request):
+    search = request.GET.get('search')
+    sort = request.GET.get('sort')
+    categories = EventCategory.objects.all()
+    selected_category = request.GET.get('category')
+
+    live_webinars = Event.objects.filter(categories__slug__exact='webinar', tags__slug='live')
+    soon_webinars = Event.objects.filter(categories__slug__exact='webinar').order_by('-created_at')[:6]
+    webinars = Event.objects.all()
+    last_education_webinars = Event.objects.filter(categories__slug__exact='webinar', tags__slug='education')
+
+    if search:
+        webinars = webinars.filter(
+            Q(title__icontains=search) |
+            Q(description__icontains=search)
+        )
+    if sort == 'popular':
+        webinars = webinars.order_by('-view_count')
+
+    context = {'live_webinars': live_webinars, 'soon_webinars': soon_webinars, 'webinars': webinars,
+               'last_education_webinars': last_education_webinars, 'categories': categories, 'selected_category': selected_category}
+    return render(request, 'pages/event_calendar.html', context)
 
 def author(request, uid):
     menu = FixedMenu.objects.all()

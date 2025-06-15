@@ -476,6 +476,8 @@ class Event(models.Model):
         blank=True,
         verbose_name='Город'
     )
+    view_count = models.IntegerField('Кол-во просмотров', default=0)
+
     categories = models.ManyToManyField(
         EventCategory,
         related_name='events',

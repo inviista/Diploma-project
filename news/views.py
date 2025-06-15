@@ -360,10 +360,21 @@ def study(request):
 
 
 def webinars_view(request):
+    search = request.GET.get('search')
+    sort = request.GET.get('sort')
+
     live_webinars = Event.objects.filter(categories__slug__exact='webinar', tags__slug='live')
     soon_webinars = Event.objects.filter(categories__slug__exact='webinar').order_by('-created_at')[:6]
     webinars = Event.objects.all()
     last_education_webinars = Event.objects.filter(categories__slug__exact='webinar', tags__slug='education')
+
+    if search:
+        webinars = webinars.filter(
+            Q(title__icontains=search) |
+            Q(description__icontains=search)
+        )
+    if sort == 'popular':
+        webinars = webinars.order_by('-view_count')
 
     context = {'live_webinars': live_webinars, 'soon_webinars': soon_webinars, 'webinars': webinars,
                'last_education_webinars': last_education_webinars}
@@ -385,12 +396,7 @@ def author(request, uid):
 
 
 def about(request):
-
-
-
-
     context = {}
-
     return render(request, 'pages/about.html', context)
 
 

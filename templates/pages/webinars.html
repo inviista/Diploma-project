@@ -14,38 +14,67 @@
                     </div>
                 </div>
                 <div class="flex items-center py-6 gap-6">
+
                     <div class="flex gap-1">
-                        <div class="flex items-center cursor-pointer px-3 py-2">
-                            <label>
-                                <select class="text-xs text-[#AF1E2A]">
-                                    <option value="value1">Популярные</option>
-                                </select>
-
-                            </label>
+                        <a href="?sort=popular"
+                           class="flex items-center gap-2 px-3 py-[7.5px] rounded-xl {% if request.GET.sort == 'popular' %} bg-[#AF1E2A] {% else %} hover:bg-gray-100 {% endif %}">
+                            <text class="text-xs {% if request.GET.sort == 'popular' %} bg-[#AF1E2A] text-white {% else %} text-[#AF1E2A] {% endif %}">
+                                Популярные
+                            </text>
                             <div class="w-6 h-6">
-                                <img src="{% static 'img/_src/icons/swap_vert.svg' %}" alt="swap icon"/>
+                                {% if request.GET.sort == 'popular' %}
+                                    <img src="{% static 'img/_src/icons/swap_vert_white.svg' %}" alt="swap"/>
+                                {% else %}
+                                    <img src="{% static 'img/_src/icons/swap_vert.svg' %}" alt="swap"/>
+                                {% endif %}
                             </div>
-                        </div>
-
-                        <div class="flex items-center cursor-pointer px-3 py-2">
-                            <label>
-                                <select class="text-xs text-[#AF1E2A]">
-                                    <option value="value1">Показать все</option>
-                                </select>
-                            </label>
+                        </a>
+                        <a href="?"
+                           class="
+                                  flex items-center gap-2 px-3 py-[7.5px] rounded-xl
+                                  {% if not request.GET.sort and not request.GET.search %}
+                                      bg-[#AF1E2A]
+                                  {% else %}
+                                      hover:bg-gray-100
+                                  {% endif %}
+                               "
+                        >
+                            <text class="
+                                    text-xs text-nowrap
+                                    {% if not request.GET.sort and not request.GET.search %}
+                                        bg-[#AF1E2A] text-white
+                                    {% else %}
+                                        text-[#AF1E2A]
+                                    {% endif %}
+                                ">
+                                Показать все
+                            </text>
                             <div class="w-6 h-6">
-                                <img src="{% static 'img/_src/icons/arrow_drop_down.svg' %}" alt="swap icon"/>
+                                {% if not request.GET.sort and not request.GET.search %}
+                                    <img src="{% static 'img/_src/icons/arrow_drop_down_white.svg' %}"
+                                         alt="show all"/>
+                                {% else %}
+                                    <img src="{% static 'img/_src/icons/arrow_drop_down.svg' %}" alt="show all"/>
+                                {% endif %}
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <a href=""
                        class="flex h-[39px] text-white font-[600] text-[12px] px-6 py-3 items-center justify-center rounded-[16px] bg-[#AF3FFF] text-nowrap">
                         <text>Предложить тему</text>
                     </a>
-                    <input
-                            placeholder="Быстрый поиск информации по ключевым словам..."
-                            class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
-                    />
+                    <form method="get" class="w-full">
+                        <label>
+                            <input
+                                    onchange="this.form.submit()"
+                                    type="text"
+                                    name="search"
+                                    value="{{ request.GET.search }}"
+                                    placeholder="Быстрый поиск информации по ключевым словам..."
+                                    class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
+                            />
+                        </label>
+                    </form>
                 </div>
                 <div class="flex flex-col w-full h-auto">
                     <div class="main-news flex flex-col gap-4 pt-[10px]">

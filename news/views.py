@@ -385,12 +385,11 @@ def author(request, uid):
 
 
 def about(request):
-    menu = FixedMenu.objects.all()
-    category_news = Article.objects.filter(categories__slug='obshchestvo', article_status=True,
-                                           article_type='P').order_by('-published_date')[:5]
-    popular_news = Article.objects.filter(article_status=True, article_type='P',
-                                          published_date__gte=three_days_ago).order_by('-view_count')[:6]
-    context = {'popular_news': popular_news, 'category_news': category_news, 'fixed_menu': menu}
+
+
+
+
+    context = {}
 
     return render(request, 'pages/about.html', context)
 

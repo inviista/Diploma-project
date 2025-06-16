@@ -275,7 +275,6 @@ class Law(models.Model):
         ('rules_and_requirements', 'Правила и требования по охране труда'),
         ('tech_standarts', 'Технические регламенты и стандарты'),
         ('changes_and_updates', 'Изменения и обновления'),
-        ('letters', 'Письма и разъяснения госорганов'),
     ]
 
     id = models.AutoField(primary_key=True)

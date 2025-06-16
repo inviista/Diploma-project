@@ -282,6 +282,7 @@ def instructions_view(request):
 def laws_view(request):
     search = request.GET.get('search')
     sort = request.GET.get('sort')
+    selected_category = request.GET.get('category')
     categories = Law.CATEGORY_CHOICES
     categorized_laws = []
     laws = Law.objects.all()
@@ -299,6 +300,9 @@ def laws_view(request):
             '-views'
         )
 
+    if selected_category:
+        laws = laws.filter(category=selected_category)
+
     for value, display_name in categories:
         laws_in_category = laws.filter(category=value)
         if laws_in_category.exists():
@@ -309,7 +313,7 @@ def laws_view(request):
 
 
 
-    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags": tags, 'side_laws': side_laws, 'search': search, 'sort': sort}
+    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags": tags, 'side_laws': side_laws, 'search': search, 'sort': sort, 'selected_category': selected_category}
     return render(request, 'pages/law.html', context)
 
 

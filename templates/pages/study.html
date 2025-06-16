@@ -43,29 +43,40 @@
                 </div>
                 <div class="flex flex-col w-full h-auto ">
                     <div class="main-news flex flex-col gap-4 pt-[10px]">
-                        {% for category in categorized_study  %}
-                            <div class="flex flex-col">
-                                <div class="flex flex-row justify-between mb-3">
-                                    <h2 class="font-bold text-2xl">{{ category.title }}</h2>
-                                </div>
-                                <div class="flex flex-row flex-wrap w-full">
-                                    {% for study in category.study %}
-                                        <div class="max-w-[415px] w-full h-[283px] flex flex-col gap-[10px] px-3 py-3 pb-6">
+                        {% for category in categorized_study %}
+                            {% if category.study %}
+                                <div class="flex flex-col">
+                                    <div class="flex flex-row justify-between mb-3">
+                                        <h2 class="font-bold text-2xl">{{ category.title }}</h2>
+                                    </div>
+                                    <div class="grid grid-cols-3">
+                                        {% for study in category.study %}
+                                            <div class="max-w-[415px] w-full h-[283px] flex flex-col gap-[10px] px-3 py-3 pb-6">
+                                                {% if study.file_url %}
                                                     <iframe
-                                                        class="max-w-[397px] w-full max-h-[177px] h-full"
-                                                        src={{study.url}}
-                                                        title="YouTube video"
-                                                        allowfullscreen
-                                                    >
-                                                    </iframe>
+                                                            class="w-full h-auto"
+                                                            src="{{ study.file_url }}"
+                                                            allowfullscreen
+                                                    ></iframe>
+                                                {% else %}
+                                                    <iframe
+                                                            class="w-full h-auto"
+                                                            src="{{ study.file.url }}"
+                                                            allowfullscreen
+                                                    ></iframe>
+                                                {% endif %}
+
                                                 <div class="flex flex-col items-start justify-start gap-[10px]">
                                                     <text class="font-bold text-[20px]">{{ study.title }}</text>
-                                                    <text class="text-sm text-[#787878]">{{ study.description }}</text>
+                                                    {% if study.description %}
+                                                        <text class="text-sm text-[#787878]">{{ study.description }}</text>
+                                                    {% endif %}
                                                 </div>
-                                        </div>
-                                    {% endfor %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
@@ -76,56 +87,34 @@
                         Последние обновления в разделе обучения
                     </div>
                     <div class="main-news flex flex-col gap-4 pt-[10px]">
-                                <div class="flex flex-col flex-wrap w-full">
-                                    {% for video in study|slice:":3" %}
-                                        <div class="max-w-[415px] w-full flex flex-col gap-[10px] px-3 py-3 pb-6">
-                                                        <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
-                                                    <iframe
-                                                        class="max-w-[397px] w-full"
-                                                        src={{video.url}}
-                                                        title="YouTube video"
-                                                        allowfullscreen
-                                                    >
-                                                    </iframe>
-                                                <div class="flex flex-col items-start justify-start gap-[10px]">
-                                                    <text class="font-bold text-[20px]">{{ video.title }}</text>
-                                                    <text class="text-sm text-[#787878]">{{ video.description }}</text>
-                                                </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                    </div>
-                </div>
-                <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
-                    <div class="flex flex-col w-full  h-[108px] border-b-2 border-[#EFEFEF] font-[700] text-[24px]">
-                       Обсуждение и комментарии  законодательств
-                        <text class="font-[500] text-[16px]">Обсуждайте, делитесь мнением...</text>
-
-                    </div>
-                    <div class="flex flex-col w-full h-auto">
-                        {% for instruction in instructions %}
-                            <div class="flex flex-col w-full gap-[10px] p-3 border-b-1 border-[#EFEFEF]">
-                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
-                                <div class="flex flex-row items-start gap-[10px] flex-nowrap">
-                                    <img class="w-[22px] h-[8px] mt-2" src="{% static 'img/_src/icons/eyeglasses_2.png' %}">
-                                    <text class="font-[700] text-[16px]">{{ instruction.title }}</text>
-                                    {% if instruction.file or instruction.external_link %}
-                                        <a href="
-                                            {% if instruction.file %}
-                                                {{ instruction.file.url }}
-                                            {% else %}
-                                                {{ instruction.external_link }}
-                                            {% endif %}
-                                            "
-                                           download
-                                           class="flex h-[32px] w-[44px] min-w-[34px] max-w-[34px] items-center justify-center rounded-[8px] bg-[#AF3FFF]">
-                                            <img class="w-[36px] h-[36px]" src="{% static 'img/_src/icons/download.png' %}">
-                                        </a>
+                        <div class="flex flex-col flex-wrap w-full">
+                            {% for video in study|slice:":3" %}
+                                <div class="max-w-[415px] w-full flex flex-col gap-[10px] px-3 py-3 pb-6">
+                                    <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">
+                                        Новое
+                                    </div>
+                                    {% if video.file_url %}
+                                        <iframe
+                                                class="w-full h-auto"
+                                                src="{{ video.file_url }}"
+                                                allowfullscreen
+                                        ></iframe>
+                                    {% else %}
+                                        <iframe
+                                                class="w-full h-auto"
+                                                src="{{ video.file.url }}"
+                                                allowfullscreen
+                                        ></iframe>
                                     {% endif %}
+                                    <div class="flex flex-col items-start justify-start gap-[10px]">
+                                        <text class="font-bold text-[20px]">{{ video.title }}</text>
+                                        {% if study.description %}
+                                            <text class="text-sm text-[#787878]">{{ video.description }}</text>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div class="text-[14px] font-[400] text-[#444444] flex justify-end">{{ instruction.created_date|date:"d.m.Y" }}</div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>

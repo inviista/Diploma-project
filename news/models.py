@@ -251,7 +251,8 @@ class Checklist(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
     use_case = models.CharField("Сценарий использования", max_length=255)
-    file_url = models.URLField("Ссылка на файл", blank=True, null=True)
+    file_url = models.URLField("Ссылка на файл", null=True, blank=True)
+    file = models.FileField("Файл", upload_to='uploads/checklist/', null=True, blank=True)
     valid_from = models.DateTimeField('Дата создания', default=timezone.now)
     views = models.IntegerField('Кол-во просмотров', default=0)
 
@@ -279,7 +280,7 @@ class Law(models.Model):
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
     topics = models.CharField("Темы", max_length=255, blank=True)
     file_url = models.URLField("Ссылка на файл", null=True, blank=True)
-    file = models.FileField("Файл", upload_to='uploads/documents/', null=True, blank=True)
+    file = models.FileField("Файл", upload_to='uploads/laws/', null=True, blank=True)
     valid_from = models.DateField("Дата начала действия")
 
     number = models.CharField("Номер приказа", max_length=255, null=True, blank=True)
@@ -313,12 +314,9 @@ class Study(models.Model):
     title = models.CharField("Название", max_length=255)
     description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
-    url = models.URLField("Ссылка", null=True, blank=True)
+    file_url = models.URLField("Ссылка на фото или видео", null=True, blank=True)
+    file = models.FileField("Фото или видео", upload_to='uploads/checklist/', null=True, blank=True)
     valid_from = models.DateField("Дата начала действия")
-
-    def clean(self):
-        if not self.url:
-            raise ValidationError('Прикрепите ссылку.')
 
     class Meta:
         verbose_name = "Обучение"

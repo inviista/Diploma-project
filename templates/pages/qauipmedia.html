@@ -1,9 +1,22 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<div>
-  <div class="flex flex-col ml-auto mr-auto max-w-[79%] justify-center">
-    <div class="pt-[32px] flex justify-between w-full mb-[16px]">
-      <h1 class="flex text-4xl font-bold">Qauipmedia</h1>
-    </div>
+
+<div class="flex flex-col mx-[100px] justify-center">
+        <div class="flex flex-row gap-2 pt-[5px]">
+            <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 px-6 pt-5 rounded-[16px]">
+                <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
+                    <a href="{% url 'news:index' %}" class="h-[29px] flex justify-center">
+                        <img class="w-[36px] h-[36px]" src="{% static 'img/_src/icons/Frame 115.svg' %}">
+                    </a>
+                    <div class="flex flex-col">
+                        <text class="font-[700] text-[24px]">Qauipmedia</text>
+                        <text class="font-[500] text-[16px]">
+                            Наш авторский видеопроект о безопасности с лучшими экспертами страны.
+                        </text>
+                    </div>
+                </div>
+
+                <div>
+  <div class="flex flex-col ml-auto mr-auto max-w-[79%] justify-center p-6">
     <div class="flex justify-center gap-[16px]">
       <div class="h-[489px] max-w-[50%] leading-5">
         <div class="border-b-2 pb-[8px] border-red-500 text-[18px] font-[600]">
@@ -51,5 +64,10 @@
       </div>
     </div>
   </div>
-  {% endblock %}
 </div>
+
+            </div>
+        </div>
+    </div>
+
+  {% endblock %}

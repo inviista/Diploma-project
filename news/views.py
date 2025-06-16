@@ -318,7 +318,7 @@ def laws_view(request):
 
 
 def faqs(request):
-
+    selected_category = request.GET.get('category')
     categories = FAQ.CATEGORY_CHOICES
     categorized_faqs = []
     search = request.GET.get('search')
@@ -336,6 +336,9 @@ def faqs(request):
             'is_popular'
         ).order_by('-view_count')
 
+    if selected_category:
+        faqs = faqs.filter(category=selected_category)
+
     for value, display_name in categories:
         faqs_in_category = faqs.filter(category=value)
         if faqs_in_category.exists():
@@ -344,7 +347,7 @@ def faqs(request):
                 'faqs': faqs_in_category
             })
 
-    context = {'faqs': faqs, 'categories': categories, 'categorized_faqs': categorized_faqs, 'request': request, 'side_faqs': side_faqs}
+    context = {'faqs': faqs, 'categories': categories, 'categorized_faqs': categorized_faqs, 'request': request, 'side_faqs': side_faqs, 'search': search, 'sort': sort, 'selected_category': selected_category}
     return render(request, 'pages/faqs.html', context)
 
 def checklists(request):

@@ -367,10 +367,10 @@ class LegalAct(models.Model):
 
 class FAQ(models.Model):
     CATEGORY_CHOICES = [
-        ('organisation ', 'Организация охраны труда'),
+        ('organisation', 'Организация охраны труда'),
         ('PPE', 'СИЗ и рабочая форма'),
         ('documents', 'Документы и оформление'),
-        ('inspections ', 'Проверки и ответственность'),
+        ('inspections', 'Проверки и ответственность'),
         ('accidents', 'Несчастные случаи и расследования'),
     ]
     id = models.AutoField(primary_key=True)

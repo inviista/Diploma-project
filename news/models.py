@@ -239,6 +239,25 @@ class Document(models.Model):
     def __str__(self):
         return self.title
 
+class RiskManagement(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField("Название", max_length=255)
+    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+    file = models.FileField("Файл", upload_to='uploads/riskManagement/', null=True, blank=True)
+    file_url = models.URLField("Ссылка на файл", null=True, blank=True)
+    created_date = models.DateTimeField('Дата создания', default=timezone.now)
+
+    def clean(self):
+        if not self.file:
+            raise ValidationError('Прикрепите файл или ссылку.')
+
+    class Meta:
+        verbose_name = "Управление риском"
+        verbose_name_plural = "Управление рисками"
+
+    def __str__(self):
+        return self.title
+
 class AutomationCases(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)

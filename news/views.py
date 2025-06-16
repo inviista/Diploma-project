@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 
 from .mixins import three_days_ago
 from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, FAQ, \
-    Event, Checklist, EventCategory, AutomationCases
+    Event, Checklist, EventCategory, AutomationCases, RiskManagement
 from .decorators import counted
 
 
@@ -66,6 +66,7 @@ def index(request):
     faqs = FAQ.objects.all()[:5]
     checklists = Checklist.objects.all()
     cases = AutomationCases.objects.all()
+    risks = RiskManagement.objects.all()
     # calendar
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))
@@ -105,6 +106,7 @@ def index(request):
         'faqs': faqs,
         'checklists': checklists,
         'cases': cases,
+        'risks': risks,
         # calendar
         'calendar_year': calendar_year,
         'calendar_month': calendar_month,
@@ -257,6 +259,21 @@ def automation_cases(request):
         'request': request, 'cases': cases, 'side_cases': side_cases,
     }
     return render(request, 'pages/automation_cases.html', context)
+
+def risk_management(request):
+    risks = RiskManagement.objects.all()
+    search = request.GET.get('search')
+    side_risks = RiskManagement.objects.all()[:5]
+    if search:
+        risks = risks.filter(
+            Q(title__icontains=search) |
+            Q(description__icontains=search)
+        )
+
+    context = {
+        'request': request, 'risks': risks, 'side_risks': side_risks,
+    }
+    return render(request, 'pages/risk_management.html', context)
 
 def instructions_view(request):
     categories = Instruction.CATEGORY_CHOICES

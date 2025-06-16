@@ -31,6 +31,7 @@ urlpatterns = [
     path('checklists/', views.checklists, name='checklists'),
     path('event_calendar/', views.calendar_view, name='event_calendar'),
     path('automation_cases/', views.automation_cases, name='automation_cases'),
+    path('risk_management/', views.risk_management, name='risk_management'),
 
 
     # AMP

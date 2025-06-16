@@ -1,7 +1,7 @@
 import random
 
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.shortcuts import redirect
@@ -14,24 +14,35 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            code = str(random.randint(1000, 9999))
-            email = user.email
+            # Check if a user with this email already exists
+            if User.objects.filter(username=form.cleaned_data.get('email')).exists():
+                user = authenticate(request, username=form.cleaned_data.get('email'),
+                                    password=form.cleaned_data.get('password'))
 
-            EmailVerification.objects.create(email=email, code=code)
+                if user is not None:
+                    login(request, user)
+                    messages.success(request, "Вы успешно вошли в систему.")
+                    return redirect(request.META.get('HTTP_REFERER', '/'))
+                else:
+                    messages.error(request, "Неверный логин или пароль.")
+            else:
+                user = form.save()
+                code = str(random.randint(1000, 9999))
+                email = user.email
 
-            try:
-                send_mail(
-                    'Your Verification Code',
-                    f'Your code is {code}',
-                    'hse@p-s.kz',
-                    [email],
-                )
-                messages.success(request, 'Код подтверждения отправлен на вашу почту.')
-                request.session['user_email'] = email
-            except Exception as e:
-                messages.error(request, f'Ошибка при отправке письма: {e}')
-                # Optional: delete user or verification entry if needed
+                EmailVerification.objects.create(email=email, code=code)
+
+                try:
+                    send_mail(
+                        'Your Verification Code',
+                        f'Your code is {code}',
+                        'hse@p-s.kz',
+                        [email],
+                    )
+                    messages.success(request, 'Код подтверждения отправлен на вашу почту.')
+                    request.session['user_email'] = email
+                except Exception as e:
+                    messages.error(request, f'Ошибка при отправке письма: {e}')
 
             return redirect(request.META.get('HTTP_REFERER', '/'))
         else:

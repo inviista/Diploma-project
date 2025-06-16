@@ -89,43 +89,47 @@
                                     <h2 class="font-bold text-2xl">{{ category_name }}</h2>
                                 </div>
                                 <div class="flex flex-row flex-wrap">
-                                {% for checklist in checklists %}
-                                    <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px] w-1/2">
-                                        <div class="flex flex-row w-full justify-between">
-                                            <p class="text-[#3F8CFF]">PDF</p>
-                                            <p>{{ checklist.valid_from|date:"d.m.Y" }}</p>
-                                        </div>
-                                        <div class="flex flex-col gap-[10px] w-full justify-start">
-                                            <div class="flex item-center gap-[10px]">
-                                                <text class="font-bold text-[20px]">{{ checklist.title }}</text>
-                                                <div class="flex gap-3 justify-end w-full items-center">
-                                                    <a href="
+                                    {% for checklist in checklists %}
+                                        <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px] w-1/2">
+                                            <div class="flex flex-row w-full justify-between">
+                                                <p class="text-[#3F8CFF]">PDF</p>
+                                                <p>{{ checklist.valid_from|date:"d.m.Y" }}</p>
+                                            </div>
+                                            <div class="flex flex-col gap-[10px] w-full justify-start">
+                                                <div class="flex item-center gap-[10px]">
+                                                    <text class="font-bold text-[20px]">{{ checklist.title }}</text>
+                                                    <div class="flex gap-3 justify-end w-full items-center">
+                                                        <a href="
                                                         {% if checklist.file_url %}
                                                             {{ checklist.file_url }}
-                                                        {% else %}
+                                                        {% elif checklist.file %}
                                                             {{ checklist.file.url }}
                                                         {% endif %}
-                                                    " class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] max-w-[36px] min-w-[36px] min-h-[36px] max-h-[36px]">
-                                                        <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
-                                                    </a>
-                                                    <a href="
+                                                    "
+                                                           class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] max-w-[36px] min-w-[36px] min-h-[36px] max-h-[36px]">
+                                                            <img src="{% static 'img/_src/icons/visibility.svg' %}"
+                                                                 alt="details"/>
+                                                        </a>
+                                                        <a href="
                                                         {% if checklist.file_url %}
                                                             {{ checklist.file_url }}
-                                                        {% else %}
+                                                        {% elif checklist.file %}
                                                             {{ checklist.file.url }}
                                                         {% endif %}
-                                                    " class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] max-w-[36px] min-w-[36px] min-h-[36px] max-h-[36px]">
-                                                        <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
-                                                    </a>
+                                                    "
+                                                           class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] max-w-[36px] min-w-[36px] min-h-[36px] max-h-[36px]">
+                                                            <img src="{% static 'img/_src/icons/download.svg' %}"
+                                                                 alt="download"/>
+                                                        </a>
+                                                    </div>
                                                 </div>
+
                                             </div>
 
                                         </div>
-
-                                    </div>
-                                {% empty %}
-                                    <p>Ничего нет</p>
-                                {% endfor %}
+                                    {% empty %}
+                                        <p>Ничего нет</p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         {% endfor %}
@@ -154,19 +158,21 @@
                                             <a href="
                                                 {% if checklist.file_url %}
                                                     {{ checklist.file_url }}
-                                                {% else %}
+                                                {% elif checklist.file %}
                                                     {{ checklist.file.url }}
                                                 {% endif %}
-                                            " class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] max-w-[36px] min-w-[36px] min-h-[36px] max-h-[36px]">
+                                            "
+                                               class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] max-w-[36px] min-w-[36px] min-h-[36px] max-h-[36px]">
                                                 <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
                                             </a>
                                             <a href="
                                                 {% if checklist.file_url %}
                                                     {{ checklist.file_url }}
-                                                {% else %}
+                                                {% elif checklist.file %}
                                                     {{ checklist.file.url }}
                                                 {% endif %}
-                                            " class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] max-w-[36px] min-w-[36px] min-h-[36px] max-h-[36px]">
+                                            "
+                                               class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] max-w-[36px] min-w-[36px] min-h-[36px] max-h-[36px]">
                                                 <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
                                             </a>
                                         </div>

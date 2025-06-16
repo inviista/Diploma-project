@@ -256,6 +256,10 @@ class Checklist(models.Model):
     valid_from = models.DateTimeField('Дата создания', default=timezone.now)
     views = models.IntegerField('Кол-во просмотров', default=0)
 
+    def clean(self):
+        if not self.file and not self.file_url:
+            raise ValidationError('Прикрепите файл или ссылку.')
+
     class Meta:
         verbose_name = "Чек-лист"
         verbose_name_plural = "Чек-листы"
@@ -317,6 +321,10 @@ class Study(models.Model):
     file_url = models.URLField("Ссылка на фото или видео", null=True, blank=True)
     file = models.FileField("Фото или видео", upload_to='uploads/checklist/', null=True, blank=True)
     valid_from = models.DateField("Дата начала действия")
+
+    def clean(self):
+        if not self.file and not self.file_url:
+            raise ValidationError('Прикрепите файл или ссылку.')
 
     class Meta:
         verbose_name = "Обучение"

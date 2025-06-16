@@ -248,7 +248,7 @@ class RiskManagement(models.Model):
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
 
     def clean(self):
-        if not self.file:
+        if not self.file and not self.file_url:
             raise ValidationError('Прикрепите файл или ссылку.')
 
     class Meta:

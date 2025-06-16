@@ -12,34 +12,40 @@
                     </div>
                 </div>
                 <div class="flex items-center py-6 gap-6">
-                    <div class="flex gap-1">
-                        <div class="flex items-center cursor-pointer px-3 py-2">
-                            <label>
-                                <select class="text-xs text-[#AF1E2A]">
-                                    <option value="value1">Популярные</option>
-                                </select>
-
-                            </label>
-                            <div class="w-6 h-6">
-                                <img src="{% static 'img/_src/icons/swap_vert.svg' %}" alt="swap icon"/>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center cursor-pointer px-3 py-2">
-                            <label>
-                                <select class="text-xs text-[#AF1E2A]">
-                                    <option value="value1">Показать все</option>
-                                </select>
-                            </label>
-                            <div class="w-6 h-6">
-                                <img src="{% static 'img/_src/icons/arrow_drop_down.svg' %}" alt="swap icon"/>
-                            </div>
-                        </div>
-                    </div>
-                    <input
-                            placeholder="Быстрый поиск информации по ключевым словам..."
-                            class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
-                    />
+                    <form method="get" class="w-full">
+                        <label>
+                            <input
+                                    onchange="this.form.submit()"
+                                    type="text"
+                                    name="search"
+                                    value="{{ request.GET.search }}"
+                                    placeholder="Быстрый поиск информации по ключевым словам..."
+                                    class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
+                            />
+                        </label>
+                    </form>
+                </div>
+                <div class=" flex mb-6">
+                      <a href="{% url 'news:study' %}"
+                           class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
+                           {% if not selected_category %}
+                               border-red-600 text-red-600
+                           {% else %}
+                               border-transparent text-gray-600
+                           {% endif %}">
+                            Все
+                        </a>
+                        {% for key, label in categories %}
+                            <a href="?category={{ key }}"
+                               class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
+                               {% if selected_category == key %}
+                                   border-red-600 text-red-600
+                               {% else %}
+                                   border-transparent text-gray-600
+                               {% endif %}">
+                                {{ label }}
+                            </a>
+                        {% endfor %}
                 </div>
                 <div class="flex flex-col w-full h-auto ">
                     <div class="main-news flex flex-col gap-4 pt-[10px]">

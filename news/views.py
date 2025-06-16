@@ -395,21 +395,32 @@ def checklists(request):
     return render(request, 'pages/checklists.html', context)
 
 def study(request):
+    selected_category = request.GET.get('category')
+    search = request.GET.get('search')
+    sort = request.GET.get('sort')
     study = Study.objects.all()
     categories = Study.CATEGORY_CHOICES
     recent_days = 7
     recent_date = date.today() - timedelta(days=recent_days)
     categorized_study = []
 
+    if search:
+        study = study.filter(
+            Q(title__icontains=search) | Q(description__icontains=search)
+        )
+
+    if selected_category:
+        study = study.filter(category=selected_category)
+
     for value, display_name in categories:
-        study_in_category = Study.objects.filter(category=value)
+        study_in_category = study.filter(category=value)
 
         categorized_study.append({
             'title': display_name,
             'study': study_in_category
         })
 
-    context = {'study': study, 'categories': categories, 'categorized_study': categorized_study}
+    context = {'study': study, 'categories': categories, 'categorized_study': categorized_study, 'recent_days': recent_days, 'recent_date': recent_date, 'search': search, 'sort': sort, 'selected_category': selected_category}
     return render(request, 'pages/study.html', context)
 
 

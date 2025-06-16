@@ -30,6 +30,8 @@ urlpatterns = [
     path('faqs/', views.faqs, name='faqs'),
     path('checklists/', views.checklists, name='checklists'),
     path('event_calendar/', views.calendar_view, name='event_calendar'),
+    path('automation_cases/', views.automation_cases, name='automation_cases'),
+
 
     # AMP
     path('amp/<str:alias>/', views.amp_views, name='amp'),

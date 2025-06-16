@@ -239,6 +239,21 @@ class Document(models.Model):
     def __str__(self):
         return self.title
 
+class AutomationCases(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField("Название", max_length=255)
+    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+    company = models.CharField("Компания", max_length=255, blank=True)
+    created_date = models.DateTimeField('Дата создания', default=timezone.now)
+
+    class Meta:
+        ordering = ['-created_date']
+        verbose_name = "Кейс автоматизации"
+        verbose_name_plural = "Кейсы автоматизации"
+
+    def __str__(self):
+        return self.title
+
 
 class Checklist(models.Model):
     CATEGORY_CHOICES = [

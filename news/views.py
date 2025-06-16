@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 
 from .mixins import three_days_ago
 from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, FAQ, \
-    Event, Checklist, EventCategory
+    Event, Checklist, EventCategory, AutomationCases
 from .decorators import counted
 
 
@@ -65,6 +65,7 @@ def index(request):
     laws = Law.objects.all()
     faqs = FAQ.objects.all()[:5]
     checklists = Checklist.objects.all()
+    cases = AutomationCases.objects.all()
     # calendar
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))
@@ -103,6 +104,7 @@ def index(request):
         'laws': laws,
         'faqs': faqs,
         'checklists': checklists,
+        'cases': cases,
         # calendar
         'calendar_year': calendar_year,
         'calendar_month': calendar_month,
@@ -241,6 +243,20 @@ def documents_view(request):
     }
     return render(request, 'pages/documents.html', context)
 
+def automation_cases(request):
+    cases = AutomationCases.objects.all()
+    search = request.GET.get('search')
+    side_cases = AutomationCases.objects.all()[:5]
+    if search:
+        cases = cases.filter(
+            Q(title__icontains=search) |
+            Q(description__icontains=search)
+        )
+
+    context = {
+        'request': request, 'cases': cases, 'side_cases': side_cases,
+    }
+    return render(request, 'pages/automation_cases.html', context)
 
 def instructions_view(request):
     categories = Instruction.CATEGORY_CHOICES

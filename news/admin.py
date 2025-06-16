@@ -18,6 +18,7 @@ admin.site.register(EventTag)
 admin.site.register(EventCategory)
 admin.site.register(City)
 admin.site.register(Checklist)
+admin.site.register(AutomationCases)
 
 
 @admin.register(Article)

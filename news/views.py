@@ -501,22 +501,36 @@ def study(request):
 def webinars_view(request):
     search = request.GET.get('search')
     sort = request.GET.get('sort')
-
-    live_webinars = Event.objects.filter(categories__slug__exact='webinar', tags__slug='live')
-    soon_webinars = Event.objects.filter(categories__slug__exact='webinar').order_by('-created_at')[:6]
-    webinars = Event.objects.all()
+    category_filter = request.GET.get('category', 'all')
     last_education_webinars = Event.objects.filter(categories__slug__exact='webinar', tags__slug='education')
 
+    all_webinars = Event.objects.filter(categories__slug='webinar')
+
     if search:
-        webinars = webinars.filter(
+        all_webinars = all_webinars.filter(
             Q(title__icontains=search) |
             Q(description__icontains=search)
         )
+
+    live_webinars = all_webinars.filter(tags__slug='live')
+    soon_webinars = all_webinars.order_by('-created_at')[:6]
+
+    if category_filter == 'live':
+        webinars = live_webinars
+    elif category_filter == 'soon':
+        webinars = soon_webinars
+    else:
+        webinars = all_webinars
+
+
     if sort == 'popular':
         webinars = webinars.order_by('-view_count')
 
-    context = {'live_webinars': live_webinars, 'soon_webinars': soon_webinars, 'webinars': webinars,
-               'last_education_webinars': last_education_webinars}
+    if category_filter == 'soon':
+        webinars = webinars[:6]
+
+    context = { 'webinars': webinars,
+               'last_education_webinars': last_education_webinars, 'category_filter': category_filter, 'live_webinars': live_webinars,'soon_webinars': soon_webinars}
     return render(request, 'pages/webinars.html', context)
 
 def calendar_view(request):

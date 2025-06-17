@@ -358,7 +358,7 @@ def faqs(request):
     sort = request.GET.get('sort')
 
     faqs = FAQ.objects.all()
-    side_faqs = FAQ.objects.all().order_by('-created_at')
+    side_faqs = FAQ.objects.all().order_by('-created_at')[:30]
 
     if search:
         faqs = faqs.filter(

@@ -173,7 +173,7 @@ class Instruction(models.Model):
     ]
 
     title = models.CharField("Название инструктажа", max_length=255)
-    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+    description = models.TextField(verbose_name='Полное описание', null=True, blank=True)
     author = models.CharField("Автор", max_length=255)
     instruction_type = models.CharField("Тип инструктажа", max_length=50, choices=TYPE_CHOICES)
     format = models.CharField("Формат", max_length=20, choices=FORMAT_CHOICES)
@@ -217,7 +217,7 @@ class Document(models.Model):
 
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
-    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+    description = models.TextField(verbose_name='Полное описание', null=True, blank=True)
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
     topics = models.CharField("Темы", max_length=255, blank=True)
     file_url = models.URLField("Ссылка на файл", null=True, blank=True)
@@ -242,7 +242,7 @@ class Document(models.Model):
 class RiskManagement(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
-    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+    description = models.TextField(verbose_name='Полное описание', null=True, blank=True)
     file = models.FileField("Файл", upload_to='uploads/riskManagement/', null=True, blank=True)
     file_url = models.URLField("Ссылка на файл", null=True, blank=True)
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
@@ -261,7 +261,7 @@ class RiskManagement(models.Model):
 class AutomationCases(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
-    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+    description = models.TextField(verbose_name='Полное описание', null=True, blank=True)
     company = models.CharField("Компания", max_length=255, blank=True)
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
 
@@ -313,7 +313,7 @@ class Law(models.Model):
 
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
-    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+    description = models.TextField(verbose_name='Полное описание', null=True, blank=True)
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
     topics = models.CharField("Темы", max_length=255, blank=True)
     file_url = models.URLField("Ссылка на файл", null=True, blank=True)
@@ -349,7 +349,7 @@ class Study(models.Model):
 
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
-    description = models.CharField("Краткое описание", max_length=255, null=True, blank=True)
+    description = models.TextField(verbose_name='Полное описание', null=True, blank=True)
     category = models.CharField("Категория", max_length=50, choices=CATEGORY_CHOICES)
     file_url = models.URLField("Ссылка на фото или видео", null=True, blank=True)
     file = models.FileField("Фото или видео", upload_to='uploads/checklist/', null=True, blank=True)

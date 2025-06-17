@@ -301,7 +301,7 @@ class Checklist(models.Model):
     file = models.FileField("Файл", upload_to='uploads/checklist/', null=True, blank=True)
     valid_from = models.DateTimeField('Дата создания', default=timezone.now)
     views = models.IntegerField('Кол-во просмотров', default=0)
-
+    pinned_to_main = models.BooleanField(default=False, verbose_name="Закрепить на главную")
     def get_file_extension(self):
         if self.file:
             return os.path.splitext(self.file.name)[1][1:].upper()  # "PDF", "DOCX"

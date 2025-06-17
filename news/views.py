@@ -64,7 +64,16 @@ def index(request):
     tags = Tag.objects.all()
     laws = Law.objects.all()
     faqs = FAQ.objects.all()[:5]
-    checklists = Checklist.objects.all()
+    pinned_checklists = Checklist.objects.filter(pinned_to_main=True).order_by('-valid_from')[:5]
+    checklists_categories = Checklist.CATEGORY_CHOICES
+    analytics_articles = Article.objects.filter(categories__slug='analytics')
+    grouped_checklists = {}
+
+    for key, label in checklists_categories:
+        items = Checklist.objects.filter(category=key, pinned_to_main=True).order_by('-valid_from')[:5]
+        if items.exists():
+            grouped_checklists[label] = items
+
     cases = AutomationCases.objects.all()
     risks = RiskManagement.objects.all()
     # calendar
@@ -104,9 +113,12 @@ def index(request):
         'tags': tags,
         'laws': laws,
         'faqs': faqs,
-        'checklists': checklists,
+        'pinned_checklists': pinned_checklists,
         'cases': cases,
         'risks': risks,
+        'checklists_categories': checklists_categories,
+        'grouped_checklists': grouped_checklists,
+        'analytics_articles': analytics_articles,
         # calendar
         'calendar_year': calendar_year,
         'calendar_month': calendar_month,

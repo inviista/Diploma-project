@@ -64,7 +64,7 @@
                                                             src="{{ study.file_url }}"
                                                             allowfullscreen
                                                     ></iframe>
-                                                {% else %}
+                                                {% elif study.file.url %}
                                                     <iframe
                                                             class="w-full h-auto"
                                                             src="{{ study.file.url }}"

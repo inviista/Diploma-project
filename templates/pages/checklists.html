@@ -13,19 +13,6 @@
                 </div>
                 <div class="flex items-center py-6 gap-6">
                     <div class="flex gap-1">
-                        <a href="?sort=popular"
-                           class="flex items-center gap-2 px-3 py-[7.5px] rounded-xl {% if request.GET.sort == 'popular' %} bg-[#AF1E2A] {% else %} hover:bg-gray-100 {% endif %}">
-                            <text class="text-xs {% if request.GET.sort == 'popular' %} bg-[#AF1E2A] text-white {% else %} text-[#AF1E2A] {% endif %}">
-                                Популярные
-                            </text>
-                            <div class="w-6 h-6">
-                                {% if request.GET.sort == 'popular' %}
-                                    <img src="{% static 'img/_src/icons/swap_vert_white.svg' %}" alt="swap"/>
-                                {% else %}
-                                    <img src="{% static 'img/_src/icons/swap_vert.svg' %}" alt="swap"/>
-                                {% endif %}
-                            </div>
-                        </a>
                         <a href="?"
                            class="
                                   flex items-center gap-2 px-3 py-[7.5px] rounded-xl

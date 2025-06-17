@@ -112,14 +112,14 @@
                                         </div>
                                         <div class="flex gap-3">
                                             {% if instruction.external_link %}
-                                                <a href="{{ instruction.external_link }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                                <a href="{{ instruction.external_link }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
                                                     <img src="{% static 'img/_src/icons/visibility.svg' %}"
                                                          alt="details"/>
                                                 </a>
                                             {% endif %}
                                             {% if instruction.file %}
                                                 <a href='{{ instruction.file.url }}'
-                                                   class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                                   class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
                                                     <img class src="{% static 'img/_src/icons/download.svg' %}"
                                                          alt="download"/>
                                                 </a>
@@ -155,7 +155,7 @@
                                             {% endif %}
                                             "
                                     download
-                                                   class="min-w-[36px] cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                                   class="min-w-[36px] cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
                                                     <img class src="{% static 'img/_src/icons/download.svg' %}"
                                                          alt="download"/>
                                                 </a>
@@ -186,7 +186,7 @@
                                             {% endif %}
                                             "
                                     download
-                                                   class="min-w-[36px] cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                                   class="min-w-[36px] cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
                                                     <img class src="{% static 'img/_src/icons/download.svg' %}"
                                                          alt="download"/>
                                                 </a>
@@ -217,7 +217,7 @@
                                             {% endif %}
                                             "
                                     download
-                                                   class="min-w-[36px] cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px]">
+                                                   class="min-w-[36px] cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
                                                     <img class src="{% static 'img/_src/icons/download.svg' %}"
                                                          alt="download"/>
                                                 </a>

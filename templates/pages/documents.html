@@ -48,13 +48,16 @@
                                 {% for document in documents %}
                                     <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
                                         <div class="flex flex-row w-full justify-between">
+                                            <p class="text-[#3F8CFF]">{{ document.get_file_extension }}</p>
                                             <p>{{ document.valid_from|date:"d.m.Y" }}</p>
                                         </div>
                                         <div class="flex flex-col gap-[10px] w-full justify-start">
                                             <div class="flex item-center">
                                                 <div class="flex flex-col gap-[10px] w-full justify-between">
                                                     <p class="font-bold text-[20px]">{{ document.title }}</p>
-                                                    <p class="text-[14px] text-[#787878]">{{ document.description }}</p>
+                                                    {% if document.description %}
+                                                        <p class="text-[14px] text-[#787878]">{{ document.description }}</p>
+                                                    {% endif %}
                                                 </div>
                                                 <div class="flex gap-3 justify-end items-center">
                                                     <a href="
@@ -63,8 +66,10 @@
                                                         {% else %}
                                                             {{ document.file.url }}
                                                         {% endif %}
-                                                    " class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
-                                                        <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
+                                                    "
+                                                       class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
+                                                        <img src="{% static 'img/_src/icons/visibility.svg' %}"
+                                                             alt="details"/>
                                                     </a>
                                                     <a href="
                                                         {% if document.file_url %}
@@ -73,7 +78,8 @@
                                                             {{ document.file.url }}
                                                         {% endif %}"
                                                        class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
-                                                        <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
+                                                        <img src="{% static 'img/_src/icons/download.svg' %}"
+                                                             alt="download"/>
                                                     </a>
                                                 </div>
                                             </div>
@@ -100,6 +106,7 @@
                                     Новое
                                 </div>
                                 <div class="flex flex-row w-full justify-between">
+                                            <p class="text-[#3F8CFF]">{{ document.get_file_extension }}</p>
                                     <p>{{ document.valid_from|date:"d.m.Y" }}</p>
                                 </div>
                                 <div class="flex flex-col gap-[10px] w-full justify-start">
@@ -107,7 +114,7 @@
                                         <div class="flex flex-col gap-[10px]">
                                             <text class="font-bold text-[20px]">{{ document.title }}</text>
                                             {% if document.description %}
-                                            <text class="text-[14px] text-[#787878]">{{ document.description }}</text>
+                                                <text class="text-[14px] text-[#787878]">{{ document.description }}</text>
                                             {% endif %}
                                         </div>
                                         <div class="flex gap-3 justify-end w-full items-center">
@@ -117,7 +124,8 @@
                                                 {% else %}
                                                     {{ document.file.url }}
                                                 {% endif %}
-                                            " class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
+                                            "
+                                               class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
                                                 <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
                                             </a>
                                             <a href="

@@ -1,3 +1,5 @@
+import os
+from urllib.parse import urlparse
 from uuid import uuid4
 
 from django.contrib.auth.models import User
@@ -230,6 +232,14 @@ class Document(models.Model):
     def clean(self):
         if not self.file and not self.file_url:
             raise ValidationError('Прикрепите файл или ссылку.')
+
+    def get_file_extension(self):
+        if self.file:
+            return os.path.splitext(self.file.name)[1][1:].upper()  # "PDF", "DOCX"
+        if self.file_url:
+            path = urlparse(self.file_url).path
+            return os.path.splitext(path)[1][1:].upper()  # removes the dot
+        return ''
 
     class Meta:
         ordering = ['-created_date']

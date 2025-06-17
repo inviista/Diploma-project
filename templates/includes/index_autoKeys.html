@@ -11,7 +11,7 @@
         <text class="font-[500] text-[16px]">Реальные примеры, как цифровые решения упрощают работу в ТБ
         </text>
     </div>
-    {% for case in cases %}
+    {% for case in cases|slice:":1" %}
     <div class="flex flex-col w-full h-auto p-3 border-b-2 border-[#EFEFEF]">
         <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
         <div class="flex flex-col">

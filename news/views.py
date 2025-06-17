@@ -317,14 +317,17 @@ def risk_management(request):
     return render(request, 'pages/risk_management.html', context)
 
 def instructions_view(request):
+    selected_category = request.GET.get('category')
     categories = Instruction.CATEGORY_CHOICES
     grouped_instructions = {}
     search = request.GET.get('search')
     sort = request.GET.get('sort')
-    side_instructions = Instruction.objects.all().order_by('-created_date')
+    side_instructions = Instruction.objects.all().order_by('-created_date')[:5]
 
-    instructions = Instruction.objects.all()
-
+    if selected_category:
+        instructions = Instruction.objects.filter(category=selected_category)
+    else:
+        instructions = Instruction.objects.all()
 
     if search:
         instructions = instructions.filter(
@@ -349,7 +352,9 @@ def instructions_view(request):
                 categorized_instructions = categorized_instructions[:limit]
             grouped_instructions[label] = categorized_instructions
 
-    context = {'grouped_instructions': grouped_instructions, 'instructions': instructions, 'request': request, 'side_instructions': side_instructions}
+
+
+    context = {'grouped_instructions': grouped_instructions, 'instructions': instructions, 'request': request, 'side_instructions': side_instructions, 'selected_category': selected_category, 'categories': categories,}
     return render(request, 'pages/instructions.html', context)
 
 

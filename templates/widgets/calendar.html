@@ -50,3 +50,20 @@
         {% endfor %}
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const params = new URLSearchParams(window.location.search);
+        const eventDate = params.get('event_date');
+        const calendarYear = params.get('calendar_year');
+        const calendarMonth = params.get('calendar_month');
+
+        if (eventDate || calendarYear || calendarMonth) {
+            const targetElement = document.getElementById('calendar');
+
+            if (targetElement) {
+                targetElement.scrollIntoView({block: 'center'});
+            }
+        }
+    });
+</script>

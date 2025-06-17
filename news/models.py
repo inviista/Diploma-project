@@ -249,6 +249,7 @@ class Document(models.Model):
     def __str__(self):
         return self.title
 
+
 class RiskManagement(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)
@@ -267,6 +268,7 @@ class RiskManagement(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class AutomationCases(models.Model):
     id = models.AutoField(primary_key=True)
@@ -299,6 +301,14 @@ class Checklist(models.Model):
     file = models.FileField("Файл", upload_to='uploads/checklist/', null=True, blank=True)
     valid_from = models.DateTimeField('Дата создания', default=timezone.now)
     views = models.IntegerField('Кол-во просмотров', default=0)
+
+    def get_file_extension(self):
+        if self.file:
+            return os.path.splitext(self.file.name)[1][1:].upper()  # "PDF", "DOCX"
+        if self.file_url:
+            path = urlparse(self.file_url).path
+            return os.path.splitext(path)[1][1:].upper()  # removes the dot
+        return ''
 
     def clean(self):
         if not self.file and not self.file_url:

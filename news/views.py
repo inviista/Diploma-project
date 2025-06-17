@@ -211,6 +211,35 @@ def all_news(request):
     }
     return render(request, 'pages/all_news.html', context)
 
+def news_detail(request, alias):
+    article = get_object_or_404(Article, alias=alias)
+    # calendar
+    today = date.today()
+    calendar_year = int(request.GET.get('calendar_year', today.year))
+    calendar_month = int(request.GET.get('calendar_month', today.month))
+    event_date_str = request.GET.get('event_date', None)
+    event_date = today
+    if event_date_str:
+        try:
+            event_date = datetime.strptime(event_date_str, '%Y-%m-%d').date()
+        except ValueError:
+            pass
+
+    featured_articles = Article.objects.filter(is_featured=True, published_date__year=calendar_year,
+                                               published_date__month=calendar_month)
+    events_by_day = {day: [] for day in range(1, 32)}
+    for article in featured_articles:
+        events_by_day[article.published_date.day].append(article)
+
+    context = {'article': article,
+               # calendar
+        'calendar_year': calendar_year,
+        'calendar_month': calendar_month,
+        'event_date': event_date,
+        'events_by_day': events_by_day,}
+
+    return render(request, 'pages/article.html', context)
+
 
 def documents_view(request):
     categories = Document.CATEGORY_CHOICES

@@ -64,7 +64,7 @@
                                                             src="{{ study.file_url }}"
                                                             allowfullscreen
                                                     ></iframe>
-                                                {% elif study.file.url %}
+                                                {% elif study.file %}
                                                     <iframe
                                                             class="w-full h-auto"
                                                             src="{{ study.file.url }}"
@@ -105,7 +105,7 @@
                                                 src="{{ video.file_url }}"
                                                 allowfullscreen
                                         ></iframe>
-                                    {% elif video.file.url %}
+                                    {% elif video.file %}
                                         <iframe
                                                 class="w-full h-auto"
                                                 src="{{ video.file.url }}"

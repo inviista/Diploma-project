@@ -1,5 +1,4 @@
 {% load sms_confirm_modal %}
-{% load auth_modal %}
 {% load static %}
 <html lang="ru">
 <head>
@@ -128,7 +127,7 @@
 </header>
 
 {% if messages %}
-    <ul class="space-y-2">
+    <ul>
         {% for message in messages %}
             <li class="text-sm text-white p-2
                       {% if message.tags == 'success' %} bg-green-600
@@ -142,7 +141,7 @@
     </ul>
 {% endif %}
 
-{% render_auth_modal %}
+{% include "includes/authModal.html" %}
 {% render_sms_confirm_modal show_sms_confirm_modal %}
 
 {% block content %} {% endblock content %}

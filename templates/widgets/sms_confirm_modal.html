@@ -8,7 +8,7 @@
         {% else %}
         	hidden
         {% endif %}"
-        onclick="closeModal()"
+        onclick="closeSmsConfirmModal()"
 >
     <!-- Modal Container -->
     <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl text-sm" onclick="event.stopPropagation()">
@@ -60,7 +60,7 @@
 </div>
 
 <script>
-    function closeModal() {
+    function closeSmsConfirmModal() {
         window.location.href = '/auth/register/abort'
     }
 </script>

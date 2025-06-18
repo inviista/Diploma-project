@@ -185,3 +185,5 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'hse@p-s.kz'
 EMAIL_HOST_PASSWORD = 'C*6kfpk2n86h'
 DEFAULT_FROM_EMAIL = 'hse@p-s.kz'
+
+LOGIN_URL = '/'

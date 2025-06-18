@@ -127,9 +127,6 @@ class DraftArticle(UUIDMixin):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return reverse('news_draft_article_detail', args=[str(self.alias)])
-
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if self.alias is None or self.alias == '':
             self.alias = slugify(self.title)

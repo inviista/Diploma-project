@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.utils.html import format_html
 
 from .form import ArticleAdminForm
@@ -12,7 +12,6 @@ admin.site.register(Document)
 admin.site.register(Instruction)
 admin.site.register(Law)
 admin.site.register(Study)
-admin.site.register(DraftArticle)
 admin.site.register(Event)
 admin.site.register(EventTag)
 admin.site.register(EventCategory)
@@ -36,3 +35,32 @@ class ArticleAdmin(admin.ModelAdmin):
         return "No image uploaded"
 
     image_preview.short_description = 'Current Image'
+
+
+@admin.action(description="Опубликовать")
+def publish_draft_articles(modeladmin, request, queryset):
+    created_count = 0
+
+    for draft in queryset:
+        article = Article.objects.create(
+            title=draft.title,
+            alias=draft.alias,
+            description=draft.description,
+            content=draft.content,
+            author=draft.author,
+            image=draft.image or {},
+        )
+
+        # Copy many-to-many relationships
+        article.tags.set(draft.tags.all())
+        article.categories.set(draft.categories.all())
+
+        created_count += 1
+
+    messages.success(request, f"{created_count} черновик(ов) опубликовано как новости.")
+
+
+@admin.register(DraftArticle)
+class DraftArticleAdmin(admin.ModelAdmin):
+    list_display = ('title', 'datetime_created')
+    actions = [publish_draft_articles]

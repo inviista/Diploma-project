@@ -63,7 +63,7 @@ def index(request):
     articles = Article.objects.all()[:10]
     tags = Tag.objects.all()
     laws = Law.objects.all()
-    faqs = FAQ.objects.all()[:5]
+    faqs = FAQ.objects.all()[:3]
     pinned_checklists = Checklist.objects.filter(pinned_to_main=True).order_by('-valid_from')[:5]
     checklists_categories = Checklist.CATEGORY_CHOICES
     analytics_articles = Article.objects.filter(categories__slug='analytics')

@@ -478,6 +478,7 @@ def study(request):
     search = request.GET.get('search')
     sort = request.GET.get('sort')
     study = Study.objects.all()
+    side_study = Study.objects.all()[:5]
     categories = Study.CATEGORY_CHOICES
     recent_days = 7
     recent_date = date.today() - timedelta(days=recent_days)
@@ -499,7 +500,7 @@ def study(request):
             'study': study_in_category
         })
 
-    context = {'study': study, 'categories': categories, 'categorized_study': categorized_study, 'recent_days': recent_days, 'recent_date': recent_date, 'search': search, 'sort': sort, 'selected_category': selected_category}
+    context = {'side_study':side_study, 'study': study, 'categories': categories, 'categorized_study': categorized_study, 'recent_days': recent_days, 'recent_date': recent_date, 'search': search, 'sort': sort, 'selected_category': selected_category}
     return render(request, 'pages/study.html', context)
 
 

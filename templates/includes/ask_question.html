@@ -1,0 +1,95 @@
+{% load static %}
+<!-- Modal Overlay -->
+<div
+        id="askQuestionModal"
+        class="fixed inset-0 z-50 hidden items-start justify-center bg-[#1E1E1EBF]/75 pt-[94px]"
+>
+    <!-- Modal Container -->
+    <div class="bg-white rounded-2xl w-full max-w-3xl p-6 shadow-xl text-sm" onclick="event.stopPropagation()">
+        <button onclick="closeModal('askQuestionModal')">
+            <img src="{% static 'img/24/close.svg' %}" alt="close">
+        </button>
+        <form action="{% url 'users:create_question' %}" method="post">
+            {% csrf_token %}
+
+            <label class="flex items-center gap-2 justify-between mt-6">
+                <input type="text" name="title" placeholder="Задайте свой вопрос..." class="py-3 focus:outline-none">
+                <button type="submit">
+                    <img src="{% static 'img/24/send.svg' %}" alt="send">
+                </button>
+            </label>
+        </form>
+        <p class="font-bold mt-6 mb-3">Раннее вами заданные вами вопросы</p>
+        {% for q in my_questions %}
+            <div class="flex justify-between py-3 border-b-1 border-b-[#EFEFEF]">
+                <div>
+                    <p class="text-sm font-bold">{{ q.title }}</p>
+                    <p class="text-sm text-[#444444]">Ответов – {{ q.answer_count }}</p>
+                    <p class="text-sm text-[#444444]">{{ q.created_at|date:"d.m.Y" }}</p>
+                </div>
+                <a href="?questionDetailsId={{ q.id }}">
+                    <img src="{% static 'img/24/messages.svg' %}" alt="messages">
+                </a>
+            </div>
+        {% empty %}
+            Вы еще не задали ни один вопрос
+        {% endfor %}
+    </div>
+</div>
+
+{% if detailed_question %}
+    <div
+            id="questionDetailsModal"
+            class="fixed inset-0 z-50 flex items-start justify-center bg-[#1E1E1EBF]/75 pt-[94px]"
+    >
+        <!-- Modal Container -->
+        <div class="bg-white rounded-2xl w-full max-w-3xl p-6 shadow-xl text-sm" onclick="event.stopPropagation()">
+            <button onclick="closeModal('questionDetailsModal'); openModal('askQuestionModal')">
+                <img src="{% static 'img/24/back.svg' %}" alt="back">
+            </button>
+            <div class="flex justify-between py-3 border-b-1 border-b-[#EFEFEF] mt-6">
+                <div>
+                    <p class="text-sm font-bold">{{ detailed_question.title }}</p>
+                    <p class="text-sm text-[#444444]">Ответов – {{ detailed_question.answer_count }}</p>
+                    <p class="text-sm text-[#444444]">{{ detailed_question.created_at|date:"d.m.Y" }}</p>
+                </div>
+                <form action="{% url 'users:delete_question' detailed_question.id %}" method="post">
+                    {% csrf_token %}
+
+                    <button>
+                        <img src="{% static 'img/24/remove.svg' %}" alt="remove">
+                    </button>
+                </form>
+            </div>
+            {% for answer in detailed_question.answers.items %}
+                <div>
+                    <p class="text-sm font-bold">{{ answer.content|safe }}</p>
+                    <p class="text-sm text-[#444444]">{{ answer.author.profile.full_name }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const params = new URLSearchParams(window.location.search);
+        const showAskQuestionModal = params.get('showAskQuestionModal');
+        const questionDetailsId = params.get('questionDetailsId');
+
+        if (showAskQuestionModal) {
+            openModal('askQuestionModal')
+
+            const url = new URL(window.location);
+            url.searchParams.delete('showAskQuestionModal');
+            window.history.replaceState({}, document.title, url);
+        }
+
+        if (questionDetailsId) {
+            const url = new URL(window.location);
+            url.searchParams.delete('questionDetailsId');
+            window.history.replaceState({}, document.title, url);
+        }
+    });
+</script>

@@ -25,3 +25,26 @@ class EmailVerification(models.Model):
 
     def is_expired(self):
         return timezone.now() > self.created_at + timezone.timedelta(minutes=10)
+
+
+class Question(models.Model):
+    title = models.CharField("Вопрос", max_length=500)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="questions")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def answer_count(self):
+        return self.answers.count()
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="answers")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="answers")
+    content = models.TextField("Ответ")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.author.get_full_name()}: {self.content[:30]}..."

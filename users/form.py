@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import transaction
 
+from users.models import Question
+
 
 class RegistrationForm(forms.Form):
     full_name = forms.CharField(
@@ -91,3 +93,8 @@ class SmsConfirmForm(forms.Form):
         'class': 'w-full py-2 border-b border-[#EFEFEF] focus:outline-none focus:font-bold text-sm',
     }))
 
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['title']

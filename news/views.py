@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Prefetch
 from django.core.paginator import Paginator
 
+from users.models import Question
 from .mixins import three_days_ago
 from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, FAQ, \
     Event, Checklist, EventCategory, AutomationCases, RiskManagement
@@ -101,9 +102,13 @@ def index(request):
     # auth modal
     show_sms_confirm_modal = bool(request.session.get('user_email'))
 
-    # detailed new
-    selected_new_alias = request.GET.get('selected_new')
-
+    # ask question
+    my_questions = Question.objects.filter(created_by=request.user)
+    detailed_question_id = request.GET.get('questionDetailsId')
+    try:
+        detailed_question = my_questions.get(pk=detailed_question_id)
+    except Question.DoesNotExist:
+        detailed_question = None
 
     context = {
         'search': search,
@@ -119,6 +124,7 @@ def index(request):
         'checklists_categories': checklists_categories,
         'grouped_checklists': grouped_checklists,
         'analytics_articles': analytics_articles,
+
         # calendar
         'calendar_year': calendar_year,
         'calendar_month': calendar_month,
@@ -135,8 +141,9 @@ def index(request):
         # auth modal
         'show_sms_confirm_modal': show_sms_confirm_modal,
 
-        # detailed new
-        'selected_new_alias': selected_new_alias
+        # ask question
+        'my_questions': my_questions,
+        'detailed_question': detailed_question
     }
     return render(request, 'pages/index.html', context)
 
@@ -211,6 +218,7 @@ def all_news(request):
     }
     return render(request, 'pages/all_news.html', context)
 
+
 def news_detail(request, alias):
     article = get_object_or_404(Article, alias=alias)
     # calendar
@@ -233,10 +241,10 @@ def news_detail(request, alias):
 
     context = {'article': article,
                # calendar
-        'calendar_year': calendar_year,
-        'calendar_month': calendar_month,
-        'event_date': event_date,
-        'events_by_day': events_by_day,}
+               'calendar_year': calendar_year,
+               'calendar_month': calendar_month,
+               'event_date': event_date,
+               'events_by_day': events_by_day, }
 
     return render(request, 'pages/article.html', context)
 
@@ -286,6 +294,7 @@ def documents_view(request):
     }
     return render(request, 'pages/documents.html', context)
 
+
 def automation_cases(request):
     cases = AutomationCases.objects.all()
     search = request.GET.get('search')
@@ -301,6 +310,7 @@ def automation_cases(request):
     }
     return render(request, 'pages/automation_cases.html', context)
 
+
 def risk_management(request):
     risks = RiskManagement.objects.all()
     search = request.GET.get('search')
@@ -315,6 +325,7 @@ def risk_management(request):
         'request': request, 'risks': risks, 'side_risks': side_risks,
     }
     return render(request, 'pages/risk_management.html', context)
+
 
 def instructions_view(request):
     selected_category = request.GET.get('category')
@@ -352,9 +363,9 @@ def instructions_view(request):
                 categorized_instructions = categorized_instructions[:limit]
             grouped_instructions[label] = categorized_instructions
 
-
-
-    context = {'grouped_instructions': grouped_instructions, 'instructions': instructions, 'request': request, 'side_instructions': side_instructions, 'selected_category': selected_category, 'categories': categories,}
+    context = {'grouped_instructions': grouped_instructions, 'instructions': instructions, 'request': request,
+               'side_instructions': side_instructions, 'selected_category': selected_category,
+               'categories': categories, }
     return render(request, 'pages/instructions.html', context)
 
 
@@ -390,9 +401,8 @@ def laws_view(request):
                 'laws': laws_in_category
             })
 
-
-
-    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags": tags, 'side_laws': side_laws, 'search': search, 'sort': sort, 'selected_category': selected_category}
+    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags": tags,
+               'side_laws': side_laws, 'search': search, 'sort': sort, 'selected_category': selected_category}
     return render(request, 'pages/law.html', context)
 
 
@@ -426,8 +436,10 @@ def faqs(request):
                 'faqs': faqs_in_category
             })
 
-    context = {'faqs': faqs, 'categories': categories, 'categorized_faqs': categorized_faqs, 'request': request, 'side_faqs': side_faqs, 'search': search, 'sort': sort, 'selected_category': selected_category}
+    context = {'faqs': faqs, 'categories': categories, 'categorized_faqs': categorized_faqs, 'request': request,
+               'side_faqs': side_faqs, 'search': search, 'sort': sort, 'selected_category': selected_category}
     return render(request, 'pages/faqs.html', context)
+
 
 def checklists(request):
     categories = Checklist.CATEGORY_CHOICES
@@ -469,9 +481,11 @@ def checklists(request):
             grouped_checklists[label] = items
 
     context = {
-        'grouped_checklists': grouped_checklists, 'request': request, 'side_checklists': side_checklists,'search': search, 'sort': sort, 'categories': categories, 'selected_category': selected_category
+        'grouped_checklists': grouped_checklists, 'request': request, 'side_checklists': side_checklists,
+        'search': search, 'sort': sort, 'categories': categories, 'selected_category': selected_category
     }
     return render(request, 'pages/checklists.html', context)
+
 
 def study(request):
     selected_category = request.GET.get('category')
@@ -500,7 +514,9 @@ def study(request):
             'study': study_in_category
         })
 
-    context = {'side_study':side_study, 'study': study, 'categories': categories, 'categorized_study': categorized_study, 'recent_days': recent_days, 'recent_date': recent_date, 'search': search, 'sort': sort, 'selected_category': selected_category}
+    context = {'side_study': side_study, 'study': study, 'categories': categories,
+               'categorized_study': categorized_study, 'recent_days': recent_days, 'recent_date': recent_date,
+               'search': search, 'sort': sort, 'selected_category': selected_category}
     return render(request, 'pages/study.html', context)
 
 
@@ -528,16 +544,17 @@ def webinars_view(request):
     else:
         webinars = all_webinars
 
-
     if sort == 'popular':
         webinars = webinars.order_by('-view_count')
 
     if category_filter == 'soon':
         webinars = webinars[:6]
 
-    context = { 'webinars': webinars,
-               'last_education_webinars': last_education_webinars, 'category_filter': category_filter, 'live_webinars': live_webinars,'soon_webinars': soon_webinars}
+    context = {'webinars': webinars,
+               'last_education_webinars': last_education_webinars, 'category_filter': category_filter,
+               'live_webinars': live_webinars, 'soon_webinars': soon_webinars}
     return render(request, 'pages/webinars.html', context)
+
 
 def calendar_view(request):
     search = request.GET.get('search')
@@ -559,8 +576,10 @@ def calendar_view(request):
         webinars = webinars.order_by('-view_count')
 
     context = {'live_webinars': live_webinars, 'soon_webinars': soon_webinars, 'webinars': webinars,
-               'last_education_webinars': last_education_webinars, 'categories': categories, 'selected_category': selected_category}
+               'last_education_webinars': last_education_webinars, 'categories': categories,
+               'selected_category': selected_category}
     return render(request, 'pages/event_calendar.html', context)
+
 
 def author(request, uid):
     menu = FixedMenu.objects.all()

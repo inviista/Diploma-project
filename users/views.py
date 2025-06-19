@@ -1,14 +1,17 @@
 import random
 
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 
-from users.form import RegistrationForm, SmsConfirmForm
-from users.models import EmailVerification
+from users.form import RegistrationForm, SmsConfirmForm, QuestionForm
+from users.models import EmailVerification, Question
+from users.utils.forms import add_form_errors_to_messages
+from users.utils.urls import add_query_param_to_url
 
 
 def register(request):
@@ -42,9 +45,7 @@ def register(request):
 
             return redirect(request.META.get('HTTP_REFERER', '/'))
         else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{form.fields[field].label}: {error}")
+            add_form_errors_to_messages(request, form)
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
@@ -94,15 +95,7 @@ def login_view(request):
             login(request, form.get_user())
             messages.success(request, "Вы успешно вошли в систему.")
         else:
-            for error in form.non_field_errors():
-                messages.error(request, error)
-            for field, errors in form.errors.items():
-                if field == '__all__':
-                    continue  # skip non-field errors already handled
-                field_obj = form.fields.get(field)
-                label = field_obj.label if field_obj else field
-                for error in errors:
-                    messages.error(request, f"{label}: {error}")
+            add_form_errors_to_messages(request, form)
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
@@ -114,14 +107,37 @@ def reset_password_view(request):
             form.save(request=request)
             messages.success(request, "Письмо успешно отправлено!")
         else:
-            for error in form.non_field_errors():
-                messages.error(request, error)
-            for field, errors in form.errors.items():
-                if field == '__all__':
-                    continue  # skip non-field errors already handled
-                field_obj = form.fields.get(field)
-                label = field_obj.label if field_obj else field
-                for error in errors:
-                    messages.error(request, f"{label}: {error}")
+            add_form_errors_to_messages(request, form)
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+def create_question(request):
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.created_by = request.user
+            question.save()
+            messages.success(request, "Ваш вопрос был успешно добавлен.")
+        else:
+            add_form_errors_to_messages(request, form)
+    referer = request.META.get('HTTP_REFERER', '/')
+    redirect_url = add_query_param_to_url(referer, {'showAskQuestionModal': 'true'})
+    return redirect(redirect_url)
+
+
+@login_required
+def delete_question(request, pk):
+    try:
+        question = Question.objects.get(pk=pk, created_by=request.user)
+        if request.method == 'POST':
+            question.delete()
+            messages.success(request, "Вопрос удалён.")
+    except Question.DoesNotExist:
+        messages.error(request, "Произошла ошибка.")
+
+    referer = request.META.get('HTTP_REFERER', '/')
+    redirect_url = add_query_param_to_url(referer, {'showAskQuestionModal': 'true'})
+    return redirect(redirect_url)

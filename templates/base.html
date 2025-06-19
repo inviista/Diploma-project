@@ -74,11 +74,11 @@
                     class="flex font-[700] text-[16px] items-center justify-center"
             >О нас</a
             >
-            <a
-                    href=""
-                    class="flex font-[700] text-[16px] items-center justify-center"
-            >Задай вопрос</a
-            >
+            {% if request.user.is_authenticated %}
+                <button onclick="openModal('askQuestionModal')"
+                        class="flex font-[700] text-[16px] items-center justify-center">Задай вопрос
+                </button>
+            {% endif %}
         </div>
 
 
@@ -101,11 +101,11 @@
             </a>
             <form method="get" action="{% url 'news:search_results' %}">
                 <input
-                    type="text"
-                    name="search"
-                    placeholder="Поиск через HSE GPT..."
-                    class="font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] rounded px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] min-w-[300px]"
-            />
+                        type="text"
+                        name="search"
+                        placeholder="Поиск через HSE GPT..."
+                        class="font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] rounded px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] min-w-[300px]"
+                />
             </form>
 
             {% if request.user.is_authenticated %}
@@ -114,7 +114,7 @@
                 >{{ request.user.profile.full_name }}</button>
             {% else %}
                 <button
-                        onclick="showAuthModal()"
+                        onclick="openModal('authModal')"
                         class="h-[39px] flex font-[600] text-[12px] text-[#AF1E2A] w-[84px] justify-center border-1 bg-white rounded-[16px] items-center border-solid px-6 py-3"
                 >
                     Войти
@@ -141,16 +141,11 @@
     </ul>
 {% endif %}
 
-{% include "includes/authModal.html" %}
+{% include "includes/auth_modal.html" %}
+{% include "includes/ask_question.html" %}
 {% render_sms_confirm_modal show_sms_confirm_modal %}
 
 {% block content %} {% endblock content %}
 </body>
 </html>
 
-<script>
-    function showAuthModal() {
-        document.getElementById('authModal').classList.remove('hidden');
-        document.getElementById('authModal').classList.add('flex');
-    }
-</script>

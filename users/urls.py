@@ -10,4 +10,7 @@ urlpatterns = [
     path('register/abort', views.abort, name='register_abort'),
     path('login', views.login_view, name='login'),
     path('reset', views.reset_password_view, name='reset_password_view'),
+    path('askQuestion', views.reset_password_view, name='reset_password_view'),
+    path('question/create', views.create_question, name='create_question'),
+    path('question/<int:pk>/delete', views.delete_question, name='delete_question'),
 ]

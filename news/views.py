@@ -103,12 +103,15 @@ def index(request):
     show_sms_confirm_modal = bool(request.session.get('user_email'))
 
     # ask question
-    my_questions = Question.objects.filter(created_by=request.user)
-    detailed_question_id = request.GET.get('questionDetailsId')
-    try:
-        detailed_question = my_questions.get(pk=detailed_question_id)
-    except Question.DoesNotExist:
-        detailed_question = None
+    my_questions = None
+    detailed_question = None
+    if request.user.is_authenticated:
+        my_questions = Question.objects.filter(created_by=request.user)
+        detailed_question_id = request.GET.get('questionDetailsId')
+        try:
+            detailed_question = my_questions.get(pk=detailed_question_id)
+        except Question.DoesNotExist:
+            pass
 
     context = {
         'search': search,

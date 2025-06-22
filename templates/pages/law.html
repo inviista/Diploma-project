@@ -198,20 +198,24 @@
                             <p class="text-sm ml-[9px]">Ничего нет</p>
                         {% endfor %}
                     </div>
-                    <form action="{% url 'news:create_law_comment' detailed_law.id %}" method="post">
-                        {% csrf_token %}
-                        <div class="flex flex-row w-full items-center">
-                            <label class="w-full">
-                                <input type="text"
-                                       name="text"
-                                       placeholder="Ваш комментарий..."
-                                       class="w-full border-b-1 border-[#EFEFEF] text-[#444444] placeholder:text-[#444444] ml-[9px] py-3 text-sm focus:outline-none"/>
-                            </label>
-                            <button type="submit">
-                                <img class="w-[24px] h-[24px]" src="{% static 'img/_src/icons/send.png' %}" alt="send">
-                            </button>
-                        </div>
-                    </form>
+                    {% if request.user.is_authenticated %}
+                        <form action="{% url 'news:create_law_comment' detailed_law.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="flex flex-row w-full items-center">
+                                <label class="w-full">
+                                    <input type="text"
+                                           name="text"
+                                           placeholder="Ваш комментарий..."
+                                           class="w-full border-b-1 border-[#EFEFEF] text-[#444444] placeholder:text-[#444444] ml-[9px] py-3 text-sm focus:outline-none"/>
+                                </label>
+                                <button type="submit">
+                                    <img class="w-[24px] h-[24px]" src="{% static 'img/_src/icons/send.png' %}"
+                                         alt="send">
+                                </button>
+                            </div>
+                        </form>
+                    {% endif %}
+
                 </div>
             </div>
         </div>

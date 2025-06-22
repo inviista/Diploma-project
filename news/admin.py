@@ -19,7 +19,6 @@ admin.site.register(City)
 admin.site.register(Checklist)
 admin.site.register(AutomationCases)
 admin.site.register(RiskManagement)
-admin.site.register(ArticleComment)
 
 
 @admin.register(Article)

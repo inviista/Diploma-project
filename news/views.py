@@ -1,11 +1,16 @@
 from datetime import date, timedelta, datetime
 
-from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q, Prefetch
 from django.core.paginator import Paginator
 from django.utils import timezone
 
 from users.models import Question
+from users.utils.forms import add_form_errors_to_messages
+from users.utils.urls import add_query_param_to_url
+from .form import ArticleCommentForm, LawCommentForm
 from .mixins import three_days_ago
 from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, FAQ, \
     Event, Checklist, EventCategory, AutomationCases, RiskManagement, City
@@ -243,14 +248,57 @@ def news_detail(request, alias):
     for article in featured_articles:
         events_by_day[article.published_date.day].append(article)
 
-    context = {'article': article,
-               # calendar
-               'calendar_year': calendar_year,
-               'calendar_month': calendar_month,
-               'event_date': event_date,
-               'events_by_day': events_by_day, }
+    comments = article.comments.all()
+
+    context = {
+        'article': article,
+        'comments': comments,
+        # calendar
+        'calendar_year': calendar_year,
+        'calendar_month': calendar_month,
+        'event_date': event_date,
+        'events_by_day': events_by_day, }
 
     return render(request, 'pages/article.html', context)
+
+
+@login_required
+def create_article_comment(request, alias):
+    # Safe redirect fallback
+    redirect_url = request.META.get('HTTP_REFERER', '/')
+
+    try:
+        if request.method != 'POST':
+            messages.error(request, "Комментарий можно отправить только через POST-запрос.")
+            return redirect(redirect_url)
+
+        article = get_object_or_404(Article, alias=alias)
+        form = ArticleCommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+
+            # Get full name from profile or user
+            full_name = getattr(request.user.profile, 'full_name', None)
+            if not full_name:
+                full_name = request.user.get_full_name().strip()
+            if not full_name:
+                full_name = request.user.username  # Fallback
+
+            comment.author_full_name = full_name
+            comment.article = article
+            comment.created_by = request.user
+            comment.save()
+
+            messages.success(request, "Ваш комментарий был успешно добавлен!")
+        else:
+            add_form_errors_to_messages(request, form)
+
+    except Exception as e:
+        # Optional: log the error
+        messages.error(request, f"Произошла ошибка при отправке комментария: {str(e)}")
+
+    return redirect(redirect_url)
 
 
 def documents_view(request):
@@ -375,8 +423,9 @@ def instructions_view(request):
 
 def laws_view(request):
     search = request.GET.get('search')
-    sort = request.GET.get('sort')
     selected_category = request.GET.get('category')
+    detailed_id = request.GET.get('detailedId')
+
     categories = Law.CATEGORY_CHOICES
     categorized_laws = []
     laws = Law.objects.all()
@@ -387,11 +436,6 @@ def laws_view(request):
         laws = laws.filter(
             Q(title__icontains=search) |
             Q(description__icontains=search)
-        )
-
-    if sort == 'popular':
-        laws = laws.order_by(
-            '-views'
         )
 
     if selected_category:
@@ -405,9 +449,61 @@ def laws_view(request):
                 'laws': laws_in_category
             })
 
-    context = {'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags": tags,
-               'side_laws': side_laws, 'search': search, 'sort': sort, 'selected_category': selected_category}
+    detailed_law = None
+    comments = None
+    if detailed_id:
+        try:
+            detailed_law = Law.objects.get(id=detailed_id)
+            comments = detailed_law.comments.all()
+        except Exception as e:
+            pass
+
+    context = {
+        'laws': laws, 'categories': categories, 'categorized_laws': categorized_laws, "tags": tags,
+        'side_laws': side_laws, 'search': search, 'selected_category': selected_category, 'detailed_law': detailed_law,
+        'comments': comments
+    }
     return render(request, 'pages/law.html', context)
+
+
+@login_required
+def create_law_comment(request, id):
+    # Safe redirect fallback
+    redirect_url = request.META.get('HTTP_REFERER', '/')
+
+    try:
+        if request.method != 'POST':
+            messages.error(request, "Комментарий можно отправить только через POST-запрос.")
+            return redirect(redirect_url)
+
+        law = get_object_or_404(Law, id=id)
+        redirect_url = add_query_param_to_url(redirect_url, {'detailedId': law.id})
+        form = LawCommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+
+            # Get full name from profile or user
+            full_name = getattr(request.user.profile, 'full_name', None)
+            if not full_name:
+                full_name = request.user.get_full_name().strip()
+            if not full_name:
+                full_name = request.user.username  # Fallback
+
+            comment.author_full_name = full_name
+            comment.law = law
+            comment.created_by = request.user
+            comment.save()
+
+            messages.success(request, "Ваш комментарий был успешно добавлен!")
+        else:
+            add_form_errors_to_messages(request, form)
+
+    except Exception as e:
+        # Optional: log the error
+        messages.error(request, f"Произошла ошибка при отправке комментария: {str(e)}")
+
+    return redirect(redirect_url)
 
 
 def faqs(request):

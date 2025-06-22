@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Article
+from .models import Article, ArticleComment, LawComment
 
 
 class ArticleAdminForm(forms.ModelForm):
@@ -27,3 +27,15 @@ class ArticleAdminForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+
+class ArticleCommentForm(forms.ModelForm):
+    class Meta:
+        model = ArticleComment
+        fields = ['text']
+
+
+class LawCommentForm(forms.ModelForm):
+    class Meta:
+        model = LawComment
+        fields = ['text']

@@ -138,6 +138,30 @@ class DraftArticle(UUIDMixin):
         verbose_name_plural = 'Черновики новостей'
 
 
+class ArticleComment(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments', verbose_name='Новость')
+    text = models.TextField("Комментарий")
+    created_at = models.DateTimeField("Дата", auto_now_add=True)
+    author_full_name = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Имя и фамилия эксперта'
+    )
+    author_avatar = models.ImageField(
+        upload_to='uploads/article/avatars/',
+        blank=True,
+        verbose_name='Аватар эксперта'
+    )
+
+    class Meta:
+        verbose_name = "Комментарий к новости"
+        verbose_name_plural = "Комментарии к новостям"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.author_full_name}: {self.text[:50]}..."
+
+
 class FixedArticle(UUIDMixin):
     article = models.ForeignKey(Article, related_name="fixed_news", on_delete=models.CASCADE)
     order = models.IntegerField(unique=True)
@@ -299,6 +323,7 @@ class Checklist(models.Model):
     valid_from = models.DateTimeField('Дата создания', default=timezone.now)
     views = models.IntegerField('Кол-во просмотров', default=0)
     pinned_to_main = models.BooleanField(default=False, verbose_name="Закрепить на главную")
+
     def get_file_extension(self):
         if self.file:
             return os.path.splitext(self.file.name)[1][1:].upper()  # "PDF", "DOCX"
@@ -356,6 +381,29 @@ class Law(models.Model):
     def __str__(self):
         return self.title
 
+
+class LawComment(models.Model):
+    law = models.ForeignKey(Law, on_delete=models.CASCADE, related_name='comments', verbose_name='Законодательство')
+    text = models.TextField("Комментарий")
+    created_at = models.DateTimeField("Дата", auto_now_add=True)
+    author_full_name = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name='Имя и фамилия эксперта'
+    )
+    author_avatar = models.ImageField(
+        upload_to='uploads/laws/avatars/',
+        blank=True,
+        verbose_name='Аватар эксперта'
+    )
+
+    class Meta:
+        verbose_name = "Комментарий к новости"
+        verbose_name_plural = "Комментарии к новостям"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.author_full_name}: {self.text[:50]}..."
 
 class Study(models.Model):
     CATEGORY_CHOICES = [
@@ -552,7 +600,7 @@ class Event(models.Model):
         verbose_name='Должность спикера'
     )
     author_avatar = models.ImageField(
-        upload_to='speakers/',
+        upload_to='events/author/',
         blank=True,
         verbose_name='Аватар спикера'
     )

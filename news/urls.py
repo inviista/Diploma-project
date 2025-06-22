@@ -12,6 +12,7 @@ sitemaps = {
 
 urlpatterns = [
     path('news/<str:alias>/', views.news_detail, name='news_detail'),
+    path('news/<str:alias>/comment', views.create_article_comment, name='create_article_comment'),
     path('', views.index, name='index'),
     path('news/', views.all_news, name='all_news'),
     path('instructions/', views.instructions_view, name='instructions'),
@@ -26,6 +27,7 @@ urlpatterns = [
     path('qauipmedia/', views.qauipmedia, name='qauipmedia'),
     path('documents/', views.documents_view, name='documents'),
     path('laws/', views.laws_view, name='laws'),
+    path('laws/<str:id>/comment', views.create_law_comment, name='create_law_comment'),
     path('study/', views.study, name='study'),
     path('webinars/', views.webinars_view, name='webinars'),
     path('faqs/', views.faqs, name='faqs'),

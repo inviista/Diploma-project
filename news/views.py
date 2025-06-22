@@ -3,11 +3,12 @@ from datetime import date, timedelta, datetime
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Prefetch
 from django.core.paginator import Paginator
+from django.utils import timezone
 
 from users.models import Question
 from .mixins import three_days_ago
 from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, FAQ, \
-    Event, Checklist, EventCategory, AutomationCases, RiskManagement
+    Event, Checklist, EventCategory, AutomationCases, RiskManagement, City
 from .decorators import counted
 
 
@@ -560,27 +561,51 @@ def webinars_view(request):
 
 
 def calendar_view(request):
+    today = timezone.now().date()
+
     search = request.GET.get('search')
-    sort = request.GET.get('sort')
-    categories = EventCategory.objects.all()
+    selected_date_str = request.GET.get('date')
+    city = request.GET.get('city')
     selected_category = request.GET.get('category')
 
-    live_webinars = Event.objects.filter(categories__slug__exact='webinar', tags__slug='live')
-    soon_webinars = Event.objects.filter(categories__slug__exact='webinar').order_by('-created_at')[:6]
-    webinars = Event.objects.all()
-    last_education_webinars = Event.objects.filter(categories__slug__exact='webinar', tags__slug='education')
+    selected_date = today
+    if selected_date_str:
+        try:
+            selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date()
+        except ValueError:
+            pass
+    categories = EventCategory.objects.all()
+    dates = [(today + timedelta(days=i)) for i in range(30)]
 
+    events = Event.objects.filter(date=selected_date)
+
+    end_of_year = date(today.year, 12, 31)
+
+    year_events = Event.objects.filter(
+        date__range=(today, end_of_year)
+    ).order_by('date')
+
+    if selected_category:
+        events = events.filter(categories__slug__exact=selected_category)
     if search:
-        webinars = webinars.filter(
+        events = events.filter(
             Q(title__icontains=search) |
             Q(description__icontains=search)
         )
-    if sort == 'popular':
-        webinars = webinars.order_by('-view_count')
+    if city:
+        events = events.filter(city__name=city)
 
-    context = {'live_webinars': live_webinars, 'soon_webinars': soon_webinars, 'webinars': webinars,
-               'last_education_webinars': last_education_webinars, 'categories': categories,
-               'selected_category': selected_category}
+    cities = City.objects.all()
+
+    context = {
+        'events': events,
+        'categories': categories,
+        'dates': dates,
+        'selected_date': selected_date,
+        'year_events': year_events,
+        'today': today,
+        'cities': cities
+    }
     return render(request, 'pages/event_calendar.html', context)
 
 

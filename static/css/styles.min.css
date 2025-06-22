@@ -18,3 +18,13 @@ select::-ms-expand {
 select:focus-visible {
   outline: none;
 }
+
+/* apply to any element with class `thin-scrollbar` */
+.thin-scrollbar::-webkit-scrollbar {
+  height: 6px;         /* for horizontal scrollbars */
+  width: 6px;          /* for vertical scrollbars if needed */
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}

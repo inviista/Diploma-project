@@ -34,7 +34,7 @@
 {% block content %}
     <main>
         <section>
-            <div class="flex flex-col justify-center mx-[100px]">
+            <div class="hidden lg:flex flex-col justify-center mx-[100px]">
                 <div class="flex flex-col w-full justify-center">
                     <!-- Мэйн-блок и мини-блоки с навигацией -->
                     {% include "includes/main/index_blocks.html" %}
@@ -71,6 +71,33 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="flex flex-col lg:hidden justify-center px-6 bg-white pb-4">
+                <!-- Мэйн-блок и мини-блоки с навигацией -->
+                {% include "includes/main/index_blocks.html" %}
+                <!-- Новости -->
+                {% include "includes/main/index_news.html" %}
+                <!-- Аналитика -->
+                {% include "includes/main/index_analytics.html" %}
+                <!-- Инструктажи -->
+                {% include "includes/main/index_briefing.html" %}
+                <!-- Документы -->
+                {% include "includes/main/index_documents.html" %}
+                <!-- Управление рисками -->
+                {% include "includes/main/index_risks.html" %}
+                <!-- Кауипмедиа -->
+                {% include "includes/main/index_qauipmedia.html" %}
+                <!-- Календарь событий -->
+                {% include "includes/main/calendar.html" %}
+                <!-- Кейсы автоматизации -->
+                {% include "includes/main/index_autoKeys.html" %}
+                <!-- Законодательство -->
+                {% include "includes/main/index_law.html" %}
+                <!-- Чек-листы -->
+                {% include "includes/main/index_checklists.html" %}
+                <!-- Вопросы и ответы -->
+                {% include "includes/main/index_questions.html" %}
             </div>
         </section>
     </main>

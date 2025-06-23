@@ -77,7 +77,7 @@
             >
             {% if request.user.is_authenticated %}
                 <button onclick="openModal('askQuestionModal')"
-                        class="flex font-[700] text-[16px] items-center justify-center">Задай вопрос
+                        class="flex font-[700] text-[16px] items-center justify-center cursor-pointer">Задай вопрос
                 </button>
             {% endif %}
         </div>
@@ -130,9 +130,46 @@
     <img class="h-8 w-[116px]" src="{% static 'img/_src/icons/Asset 6.png' %}" alt="logo"/>
     <div class="flex gap-3">
         <img class="h-8 w-8" src="{% static 'img/32/user.svg' %}" alt="user"/>
-        <img class="h-8 w-8" src="{% static 'img/32/menu.svg' %}" alt="menu"/>
+        <button onclick="toggleMenu()">
+            <img class="h-8 w-8" src="{% static 'img/32/menu.svg' %}" alt="menu"/>
+        </button>
     </div>
 </header>
+
+<div id="mobileMenu"
+     class="fixed inset-0 z-50 bg-[#1E1E1E] bg-opacity-80 text-white p-6 hidden lg:hidden">
+    <div class="flex justify-start mb-4">
+        <button onclick="toggleMenu()">
+            <img src="{% static 'img/32/close.png' %}" alt="close" class="h-6 w-6" />
+        </button>
+    </div>
+
+    <div class="flex flex-col gap-4 text-base font-semibold ">
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-4 border-1 border-[#2B2B2B] rounded-2xl p-6">
+            <img src="{% static 'img/_src/icons/Asset 6.png' %}" class="h-[64px]" alt="logo" />
+            <p class="text-sm ">Безопасность —<br/>не требование, а культура…</p>
+        </div>
+        <input type="text"
+               placeholder="Поиск через HSE GPT…"
+               class="w-full p-4  text-black text-base bg-white rounded-2xl placeholder:text-black" />
+
+        <a href="/" class="bg-neutral-800 rounded-2xl p-4">Главная</a>
+        <a href="/about/" class="bg-neutral-800 rounded-2xl p-4">О нас</a>
+        {% if request.user.is_authenticated %}
+                <button onclick="openModal('askQuestionModal')"
+                        class="flex flex-start cursor-pointer bg-neutral-800 rounded-2xl p-4">Задай вопрос
+                </button>
+        {% endif %}
+
+        <div class="flex gap-4">
+            <a href="https://hseprime.kz"
+               class="flex-1 text-center p-4 bg-[#3F8CFF] rounded-2xl">HSE Prime</a>
+            <a href="https://youtube.com/@HSEQauipsizAnalytics"
+               class="flex-1 text-center p-4 bg-[#ED1A39] rounded-2xl">Qauipmedia</a>
+        </div>
+    </div>
+</div>
+
 
 {% if messages %}
     <ul>
@@ -148,6 +185,13 @@
         {% endfor %}
     </ul>
 {% endif %}
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('hidden');
+    }
+</script>
 
 {% include "includes/auth_modal.html" %}
 {% include "includes/ask_question.html" %}

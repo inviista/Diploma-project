@@ -117,7 +117,9 @@
                                                     <div class="flex flex-row justify-start items-center">
                                                         <div class="flex flex-col gap-[2px]">
                                                             <text class="font-[700] text-[14px] ">{{faq.author}}</text>
-                                                            <text class="text-[14px] leading-3 ">{{faq.author_profession}}</text>
+                                                            {% if faq.author_profession %}
+                                                                <text class="text-[14px] leading-3 ">{{ faq.author_profession }}</text>
+                                                            {% endif %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -152,12 +154,14 @@
                             <div class="flex flex-col w-full h-auto gap-2">
                                 <div class="flex flex-col gap-[10px]">
                                     <div class="flex flex-row justify-start items-center">
-                                        <img class="w-[32px] h-[32px] mt-1" src="{% static 'img/_src/icons/Ellipse 1.svg' %}">
-                                        <div class="flex flex-col ml-[9px] gap-0.5">
-                                            <text class="font-[700] text-[14px] ">{{faq.author}}</text>
-                                            <text class="text-[14px] leading-3 ">{{faq.author_profession}}</text>
+                                        <div class="flex flex-col ml-[9px] gap-1.5">
+                                                <text class="font-[700] text-[14px] leading-3 ">{{ faq.author }}</text>
+                                            {% if faq.author_profession %}
+                                                <text class="text-[14px] leading-3 ">{{ faq.author_profession }}</text>
+                                            {% endif %}
                                         </div>
                                     </div>
+
                                     <div class="text-[14px] font-[400] text-[#444444] flex justify-end">{{ faq.created_at|date:"d.m.Y" }}</div>
 
                                 </div>

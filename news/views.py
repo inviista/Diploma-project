@@ -544,7 +544,7 @@ def faqs(request):
 def checklists(request):
     categories = Checklist.CATEGORY_CHOICES
     selected_category = request.GET.get('category')
-    side_checklists = Checklist.objects.all()[:5]
+    side_checklists = Checklist.objects.all().order_by('-valid_from')[:5]
     search = request.GET.get('search')
     sort = request.GET.get('sort')
 

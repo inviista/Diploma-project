@@ -127,7 +127,12 @@
 
 {# mobile #}
 <header class="flex lg:hidden justify-between items-center bg-[#7D151E] p-6">
-    <img class="h-8 w-[116px]" src="{% static 'img/_src/icons/Asset 6.png' %}" alt="logo"/>
+     <a href="{% url 'news:index' %}">
+                    <img
+                            class="h-8 w-[116px]"
+                            src="{% static 'img/_src/icons/Asset 6.png' %}"
+                            alt="logo"/>
+     </a>
     <div class="flex gap-3">
         <img class="h-8 w-8" src="{% static 'img/32/user.svg' %}" alt="user"/>
         <button onclick="toggleMenu()">

@@ -28,11 +28,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-row justify-between">
+                        <div class="flex flex-row justify-between gap-4">
                             <div class="text-sm text-[#ED1A39] font-medium flex w-full gap-2 overflow-x-auto">
                                 <img class="w-[24px]" src="{% static 'img/_src/icons/sell.svg' %}" alt="tags">
                                 {% for tags in article.tags.all %}
-                                    <div class="flex justify-center items-center font-[400] px-4 py-2 text-[14px] text-[#444444] bg-[#EAF4FF] rounded-[8px]">{{ tags.title }}</div>
+                                    <div class="flex justify-center items-center px-4 py-2 text-sm text-nowrap text-[#444444] bg-[#EAF4FF] rounded-[8px]">{{ tags.title }}</div>
                                 {% empty %}
                                     <div class="text-gray-400">Без категории</div>
                                 {% endfor %}

@@ -1,73 +1,79 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
-<div class="flex flex-col mx-[100px] justify-center">
-        <div class="flex flex-row gap-2 pt-[5px]">
-            <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 px-6 pt-5 rounded-[16px]">
-                <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
-                    <a href="javascript:history.back()" class="h-[29px] flex justify-center">
-                        <img class="w-[36px] h-[36px]" src="{% static 'img/_src/icons/Frame 115.svg' %}">
-                    </a>
-                    <div class="flex flex-col">
-                        <text class="font-[700] text-[24px]">Qauipmedia</text>
-                        <text class="font-[500] text-[16px]">
-                            Наш авторский видеопроект о безопасности с лучшими экспертами страны.
-                        </text>
-                    </div>
-                </div>
-
-                <div>
-  <div class="flex flex-col ml-auto mr-auto max-w-[79%] justify-center p-6">
-    <div class="flex justify-center gap-[16px]">
-      <div class="h-[489px] max-w-[50%] leading-5">
-        <div class="border-b-2 pb-[8px] border-red-500 text-[18px] font-[600]">
-          Техника безопасности — это не про каски.
-          <h1 class="text-[18px] font-[600]">Это про детство!</h1>
+<div class="hidden lg:flex flex-col mx-[100px] justify-center">
+    <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 px-6 pt-5 rounded-[16px]">
+        <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
+            <a href="javascript:history.back()" class="h-[29px] flex justify-center">
+                <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
+            </a>
+            <div class="flex flex-col">
+                <text class="font-[700] text-[24px]">Qauipmedia</text>
+                <text class="font-[500] text-[16px]">
+                    Наш авторский видеопроект о безопасности с лучшими экспертами страны.
+                </text>
+            </div>
         </div>
-        <h1 class="text-[14px]">
-          Первый эпизод подкаста ‪@HSEQauipsizAnalytics‬ — не про каски, а про
-          то, как привычки из детства и семейные ценности формируют культуру
-          безопасности. Гость — Максат Кубейсинов, HSE-специалист с 15-летним
-          опытом и отец троих детей, делится личными историями, инсайтами и
-          важными вопросами, о которых обычно молчат.
-        </h1>
-        <div class="video-container">
-          <iframe
-            class="w-full h-[316px] mt-[16px]"
-            src="https://www.youtube.com/embed/E5qEnuEF0tc?si=VcBIkbeOMZ40hrHV"
-            title="YouTube video"
-            allowfullscreen
-          >
-          </iframe>
-        </div>
-      </div>
-      <div class="h-[489px] max-w-[50%] leading-5">
-        <div
-          class="border-b-2 pb-[8px] text-[18px] border-red-500 h-[49.6px] font-[600]"
-        >
-          Вебинар "Эффективное управление безопасностью"
-        </div>
-        <h1 class="text-[14px]">
-          Обсуждаем, почему международные HSE-стандарты не всегда приживаются,
-          какие цифровые решения действительно работают и как формировать
-          культуру безопасности без давления — с фокусом на казахстанский
-          контекст и реальные кейсы.
-        </h1>
-        <div class="video-container">
-          <iframe
-            class="h-[316px] mt-[37px] w-full"
-            src="https://www.youtube.com/embed/ohEQtydX4Kc?si=B4Lj3U_3dukhVI3m"
-            title="YouTube video"
-            allowfullscreen
-          >
-          </iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
+        <div class="grid grid-cols-3 justify-center gap-10 p-6 mb-6 border-b-1 border-[#EFEFEF]">
+            <div class="flex flex-col video-container gap-[10px]">
+                <iframe
+                        class="w-full h-[222px]"
+                        src="https://www.youtube.com/embed/E5qEnuEF0tc?si=VcBIkbeOMZ40hrHV"
+                        title="YouTube video"
+                        allowfullscreen
+                >
+                </iframe>
+                <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
+            </div>
+            <div class="flex flex-col video-container gap-[10px]">
+                <iframe
+                        class="h-[222px] w-full"
+                        src="https://www.youtube.com/embed/ohEQtydX4Kc?si=B4Lj3U_3dukhVI3m"
+                        title="YouTube video"
+                        allowfullscreen
+                >
+                </iframe>
+                <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
             </div>
         </div>
     </div>
+</div>
 
+{# mobile #}
+<div class="lg:hidden flex p-6 bg-[#FFFFFF] h-full justify-center">
+    <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white rounded-[16px]">
+        <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
+            <a href="javascript:history.back()" class="h-[29px] flex justify-center">
+                <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
+            </a>
+            <div class="flex flex-col">
+                <text class="font-[700] text-[24px]">Qauipmedia</text>
+                <text class="font-[500] text-[16px]">
+                    Наш авторский видеопроект о безопасности с лучшими экспертами страны.
+                </text>
+            </div>
+        </div>
+        <div class="grid max-md:grid-cols-1 max-lg:grid-cols-2 justify-center gap-10 p-6 mb-6 border-b-1 border-[#EFEFEF]">
+            <div class="flex flex-col video-container gap-[10px]">
+                <iframe
+                        class="w-full h-[222px]"
+                        src="https://www.youtube.com/embed/E5qEnuEF0tc?si=VcBIkbeOMZ40hrHV"
+                        title="YouTube video"
+                        allowfullscreen
+                >
+                </iframe>
+                <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
+            </div>
+            <div class="flex flex-col video-container gap-[10px]">
+                <iframe
+                        class="h-[222px] w-full"
+                        src="https://www.youtube.com/embed/ohEQtydX4Kc?si=B4Lj3U_3dukhVI3m"
+                        title="YouTube video"
+                        allowfullscreen
+                >
+                </iframe>
+                <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
+            </div>
+        </div>
+    </div>
+    </div>
   {% endblock %}

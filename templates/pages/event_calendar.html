@@ -19,7 +19,7 @@
             <div class="flex flex-col shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-3xl">
                 <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
                     <a href="javascript:history.back()" class="h-[29px] flex justify-center">
-                        <img class="w-[36px] h-[36px]" src="{% static 'img/_src/icons/Frame 115.svg' %}">
+                        <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
                     </a>
                     <div class="flex flex-col">
                         <text class="font-[700] text-[24px]">Календарь событий</text>
@@ -186,7 +186,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-3xl h-fit">
+        <div class="flex flex-col shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-3xl h-fit">
                 <p class="text-2xl font-bold border-b-3 border-b-[#F5F5F5] pb-3">Фильтр по категориям событий</p>
                 <label class="flex items-center gap-3 mt-3 text-sm">
                     <input type="checkbox" class="w-[18px] h-[18px]"
@@ -206,9 +206,7 @@
                         {{ category }}
                     </label>
                 {% endfor %}
-
             </div>
-        </div>
     </div>
     <script>
         function updateQueryParamAndReload(key, value) {

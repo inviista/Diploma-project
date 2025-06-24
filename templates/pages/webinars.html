@@ -1,10 +1,10 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-    <div class="flex flex-col justify-center mx-[100px]">
+    <div class="hidden lg:flex flex-col justify-center mx-[100px]">
         <div class="flex flex-row gap-2 justify-center pt-3">
             <div class="flex flex-col max-w-[1312px] w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
                 <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
                     <a href="javascript:history.back()" class="h-[29px] flex justify-center">
-                        <img class="w-[36px] h-[36px]" src="{% static 'img/_src/icons/Frame 115.svg' %}">
+                        <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
                     </a>
                     <div class="flex flex-col">
                         <text class="font-[700] text-[24px]">Вебинары</text>
@@ -316,4 +316,293 @@
             </div>
         </div>
     </div>
+
+{# mobile #}
+    <div class="lg:hidden flex flex-col justify-center p-6 bg-[#FFFFFF]">
+        <div class="flex flex-col gap-2 justify-center">
+            <div class="flex flex-col max-w-[1312px] w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
+                <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
+                    <a href="javascript:history.back()" class="h-[29px] flex justify-center">
+                        <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
+                    </a>
+                    <div class="flex flex-col">
+                        <text class="font-[700] text-[24px] ">Вебинары</text>
+                        <text class="font-[500] text-[16px]">Много можно узнать у нас тут, лайфхаки, советы, и
+                            интересные истории
+                        </text>
+                    </div>
+                </div>
+                <div class="flex items-center py-6 gap-6">
+                    <form method="get" class="w-full">
+                        <label>
+                            <input
+                                    onchange="this.form.submit()"
+                                    type="text"
+                                    name="search"
+                                    value="{{ request.GET.search }}"
+                                    placeholder="Быстрый поиск информации по ключевым словам..."
+                                    class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
+                            />
+                        </label>
+                    </form>
+                </div>
+                <div class="flex mb-6">
+                    <a href="?category=all" class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if category_filter == 'all' or not category_filter %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}">Все</a>
+                     <a href="?category=live" class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if category_filter == 'live' %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}">Сейчас идет</a>
+                    <a href="?category=soon" class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if category_filter == 'soon' %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}">Ближайшие вебинары</a>
+
+                </div>
+                {% if category_filter == 'live' or category_filter == 'all' or not category_filter %}
+                    {% if live_webinars %}
+                        <div class="flex flex-col w-full h-auto">
+                            <div class="main-news flex flex-col gap-4 pt-[10px]">
+                                <div class="flex flex-col">
+                                    <div class="flex flex-row justify-between mb-3">
+                                        <h2 class="font-bold text-2xl">Сейчас идет</h2>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        {% for webinar in live_webinars %}
+                                            <div class="w-full relative flex flex-col gap-[10px] pb-6 col-span-1">
+                                                {% for tag in webinar.tags.all %}
+                                                    <div class="flex absolute top-[20px] left-[20px] justify-center items-center text-[10px] text-white rounded-[16px] py-1 px-2 w-fit h-4
+                                                        {% if tag.slug == 'free' %}
+                                                          bg-[#3F8CFF]
+                                                        {% elif tag.slug == 'certificate' %}
+                                                          bg-[#AF3FFF]
+                                                        {% elif tag.slug == 'live' %}
+                                                          bg-[#DF3131]
+                                                        {% endif %}"
+                                                    >
+                                                        {% if tag.slug == 'free' %}
+                                                            Бесплатно
+                                                        {% elif tag.slug == 'certificate' %}
+                                                            Сертификат
+                                                        {% elif tag.slug == 'live' %}
+                                                            Только в прямом эфире
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                                {% if webinar.image %}
+                                                    <img
+                                                            alt="photo"
+                                                            class="w-full h-auto"
+                                                            src={{ webinar.image.url }}
+                                                    />
+                                                {% endif %}
+                                                <div class="flex flex-col items-start justify-start gap-[10px]">
+                                                    <text class="font-bold text-[20px]">{{ webinar.title }}</text>
+                                                    <text class="text-sm text-[#787878]">{{ webinar.description }}</text>
+                                                </div>
+                                                <div class="flex flex-row justify-between w-full items-center gap-[10px]">
+                                                    <text class=" text-[14px] text-[#787878]">{{ webinar.duration }}</text>
+                                                    <text class="text-sm text-[14px] text-[#787878]">{{ webinar.date|date:"d.m.Y" }}</text>
+                                                </div>
+                                                <div class="flex flex-row justify-start items-center">
+                                                    {% if webinar.author_avatar %}
+                                                        <img height="32" width="32" class="mt-1"
+                                                             src="{{ webinar.author_avatar.url }}" alt="author avatar"/>
+                                                    {% endif %}
+                                                    <div class="flex flex-col ml-[9px] gap-0.5">
+                                                        <text class="font-[700] text-sm">{{ webinar.author_full_name }}</text>
+                                                        <text class="text-sm">{{ webinar.author_job_title }}</text>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+                {% if category_filter == 'soon' or category_filter == 'all' or not category_filter %}
+                    {% if soon_webinars %}
+                        <div class="flex flex-col w-full h-auto">
+                            <div class="main-news flex flex-col gap-4 pt-[10px]">
+                                <div class="flex flex-col">
+                                    <div class="flex flex-row justify-between mb-3">
+                                        <h2 class="font-bold text-2xl">Ближайшие вебинары (анонс)</h2>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        {% for webinar in soon_webinars %}
+                                           <div class="w-full relative flex flex-col gap-[10px] pb-6 col-span-1">
+                                                {% for tag in webinar.tags.all %}
+                                                    <div class="flex absolute top-[20px] left-[20px] justify-center items-center text-[10px] text-white rounded-[16px] py-1 px-2 w-fit h-4
+                                                        {% if tag.slug == 'free' %}
+                                                          bg-[#3F8CFF]
+                                                        {% elif tag.slug == 'certificate' %}
+                                                          bg-[#AF3FFF]
+                                                        {% elif tag.slug == 'live' %}
+                                                          bg-[#DF3131]
+                                                        {% endif %}"
+                                                    >
+                                                        {% if tag.slug == 'free' %}
+                                                            Бесплатно
+                                                        {% elif tag.slug == 'certificate' %}
+                                                            Сертификат
+                                                        {% elif tag.slug == 'live' %}
+                                                            Только в прямом эфире
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                                {% if webinar.image %}
+                                                    <img
+                                                            alt="photo"
+                                                            class="w-full h-auto"
+                                                            src={{ webinar.image.url }}
+                                                    />
+                                                {% endif %}
+                                                <div class="flex flex-col items-start justify-start gap-[10px]">
+                                                    <text class="font-bold text-[20px]">{{ webinar.title }}</text>
+                                                    <text class="text-sm text-[#787878]">{{ webinar.description }}</text>
+                                                </div>
+                                                <div class="flex flex-row justify-between w-full items-center gap-[10px]">
+                                                    <text class=" text-[14px] text-[#787878]">{{ webinar.duration }}</text>
+                                                    <text class="text-sm text-[14px] text-[#787878]">{{ webinar.date|date:"d.m.Y" }}</text>
+                                                </div>
+                                                <div class="flex flex-row justify-start items-center">
+                                                    {% if webinar.author_avatar %}
+                                                        <img height="32" width="32" class="mt-1"
+                                                             src="{{ webinar.author_avatar.url }}" alt="author avatar"/>
+                                                    {% endif %}
+                                                    <div class="flex flex-col ml-[9px] gap-0.5">
+                                                        <text class="font-[700] text-sm">{{ webinar.author_full_name }}</text>
+                                                        <text class="text-sm">{{ webinar.author_job_title }}</text>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                {% if category_filter == 'all' or not category_filter %}
+                {% if webinars %}
+                <div class="flex flex-col w-full h-auto">
+                    <div class="main-news flex flex-col gap-4 pt-[10px]">
+                        <div class="flex flex-col">
+                            <div class="flex flex-row justify-between mb-3">
+                                <h2 class="font-bold text-2xl">Все вебинары</h2>
+                            </div>
+                            <div class="flex flex-col">
+                                {% for webinar in webinars %}
+                                    <div class="w-full relative flex flex-col gap-[10px] pb-6 col-span-1">
+                                            {% for tag in webinar.tags.all %}
+                                                <div class="flex absolute top-[20px] left-[20px] justify-center items-center text-[10px] text-white rounded-[16px] py-1 px-2 w-fit h-4
+                                                    {% if tag.slug == 'free' %}
+                                                      bg-[#3F8CFF]
+                                                    {% elif tag.slug == 'certificate' %}
+                                                      bg-[#AF3FFF]
+                                                    {% elif tag.slug == 'live' %}
+                                                      bg-[#DF3131]
+                                                    {% endif %}"
+                                                >
+                                                    {% if tag.slug == 'free' %}
+                                                        Бесплатно
+                                                    {% elif tag.slug == 'certificate' %}
+                                                        Сертификат
+                                                    {% elif tag.slug == 'live' %}
+                                                        Только в прямом эфире
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
+                                            {% if webinar.image %}
+                                                <img
+                                                        alt="photo"
+                                                        class="w-full h-auto"
+                                                        src={{ webinar.image.url }}
+                                                />
+                                            {% endif %}
+                                            <div class="flex flex-col items-start justify-start gap-[10px]">
+                                                <text class="font-bold text-[20px]">{{ webinar.title }}</text>
+                                                <text class="text-sm text-[#787878]">{{ webinar.description }}</text>
+                                            </div>
+                                            <div class="flex flex-row justify-between w-full items-center gap-[10px]">
+                                                <text class=" text-[14px] text-[#787878]">{{ webinar.duration }}</text>
+                                                <text class="text-sm text-[14px] text-[#787878]">{{ webinar.date|date:"d.m.Y" }}</text>
+                                            </div>
+                                            <div class="flex flex-row justify-start items-center">
+                                                {% if webinar.author_avatar %}
+                                                    <img height="32" width="32" class="mt-1"
+                                                         src="{{ webinar.author_avatar.url }}" alt="author avatar"/>
+                                                {% endif %}
+                                                <div class="flex flex-col ml-[9px] gap-0.5">
+                                                    <text class="font-[700] text-sm">{{ webinar.author_full_name }}</text>
+                                                    <text class="text-sm">{{ webinar.author_job_title }}</text>
+                                                </div>
+                                            </div>
+                                        </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+            <div class="flex flex-col w-full gap-2">
+                <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
+                    <div class="flex flex-row justify-between w-full gap-[64px] h-[86px] border-b-2 border-[#EFEFEF] font-[700] text-[24px]">
+                        Последние обновления в разделе обучения
+                    </div>
+                    <div class="main-news flex flex-col gap-4 pt-[10px]">
+                        <div class="flex flex-col flex-wrap w-full">
+                            {% for webinar in last_education_webinars %}
+                                <div class="w-full relative flex flex-col gap-[10px] pb-6">
+                                            {% for tag in webinar.tags.all %}
+                                                <div class="flex absolute top-[20px] left-[20px] justify-center items-center text-[10px] text-white rounded-[16px] py-1 px-2 w-fit h-4
+                                                    {% if tag.slug == 'free' %}
+                                                      bg-[#3F8CFF]
+                                                    {% elif tag.slug == 'certificate' %}
+                                                      bg-[#AF3FFF]
+                                                    {% elif tag.slug == 'live' %}
+                                                      bg-[#DF3131]
+                                                    {% endif %}"
+                                                >
+                                                    {% if tag.slug == 'free' %}
+                                                        Бесплатно
+                                                    {% elif tag.slug == 'certificate' %}
+                                                        Сертификат
+                                                    {% elif tag.slug == 'live' %}
+                                                        Только в прямом эфире
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
+                                            {% if webinar.image %}
+                                                <img
+                                                        alt="photo"
+                                                        class="w-full h-auto"
+                                                        src={{ webinar.image.url }}
+                                                />
+                                            {% endif %}
+                                            <div class="flex flex-col items-start justify-start gap-[10px]">
+                                                <text class="font-bold text-[20px]">{{ webinar.title }}</text>
+                                                <text class="text-sm text-[#787878]">{{ webinar.description }}</text>
+                                            </div>
+                                            <div class="flex flex-row justify-between w-full items-center gap-[10px]">
+                                                <text class=" text-[14px] text-[#787878]">{{ webinar.duration }}</text>
+                                                <text class="text-sm text-[14px] text-[#787878]">{{ webinar.date|date:"d.m.Y" }}</text>
+                                            </div>
+                                            <div class="flex flex-row justify-start items-center">
+                                                {% if webinar.author_avatar %}
+                                                    <img height="32" width="32" class="mt-1"
+                                                         src="{{ webinar.author_avatar.url }}" alt="author avatar"/>
+                                                {% endif %}
+                                                <div class="flex flex-col ml-[9px] gap-0.5">
+                                                    <text class="font-[700] text-sm">{{ webinar.author_full_name }}</text>
+                                                    <text class="text-sm">{{ webinar.author_job_title }}</text>
+                                                </div>
+                                            </div>
+                                        </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

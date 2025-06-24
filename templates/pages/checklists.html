@@ -77,15 +77,15 @@
                                 </div>
                                 <div class="flex flex-col flex-wrap">
                                     {% for checklist in checklists %}
-                                        <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
+                                        <div class="flex flex-col items-center h-auto px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
                                             <div class="flex flex-row w-full justify-between">
                                                 <p class="text-[#3F8CFF]">{{ checklist.get_file_extension }}</p>
                                                 <p>{{ checklist.valid_from|date:"d.m.Y" }}</p>
                                             </div>
                                             <div class="flex flex-col gap-[10px] w-full justify-start">
                                                 <div class="flex item-center gap-[10px]">
-                                                    <text class="font-bold text-[20px]">{{ checklist.title }}</text>
-                                                    <div class="flex gap-3 justify-end w-full items-center">
+                                                    <p class="font-bold text-[20px] w-full">{{ checklist.title }}</p>
+                                                    <div class="flex gap-3 justify-end items-center">
                                                         <a href="
                                                         {% if checklist.file_url %}
                                                             {{ checklist.file_url }}
@@ -139,9 +139,9 @@
                                     <p>{{ checklist.valid_from|date:"d.m.Y" }}</p>
                                 </div>
                                 <div class="flex flex-col gap-[10px] w-full justify-start">
-                                    <div class="flex item-center gap-[10px]">
+                                    <div class="flex item-center justify-between gap-[10px]">
                                         <text class="font-bold text-[20px]">{{ checklist.title }}</text>
-                                        <div class="flex gap-3 justify-end w-full items-center">
+                                        <div class="flex gap-3 justify-end items-center">
                                             <a href="
                                                 {% if checklist.file_url %}
                                                     {{ checklist.file_url }}
@@ -227,9 +227,9 @@
                                                 <p>{{ checklist.valid_from|date:"d.m.Y" }}</p>
                                             </div>
                                             <div class="flex flex-col gap-[10px] w-full justify-start">
-                                                <div class="flex item-center gap-[10px]">
-                                                    <text class="font-bold text-[20px]">{{ checklist.title }}</text>
-                                                    <div class="flex gap-3 justify-end w-full items-center">
+                                                <div class="flex item-center justify-between gap-[10px]">
+                                                    <p class="font-bold text-[20px]">{{ checklist.title }}</p>
+                                                    <div class="flex gap-3 justify-end items-center">
                                                         <a href="
                                                         {% if checklist.file_url %}
                                                             {{ checklist.file_url }}
@@ -283,9 +283,9 @@
                                     <p>{{ checklist.valid_from|date:"d.m.Y" }}</p>
                                 </div>
                                 <div class="flex flex-col gap-[10px] w-full justify-start">
-                                    <div class="flex item-center gap-[10px]">
-                                        <text class="font-bold text-[20px]">{{ checklist.title }}</text>
-                                        <div class="flex gap-3 justify-end w-full items-center">
+                                    <div class="flex item-center justify-between gap-[10px]">
+                                        <p class="font-bold text-[20px]">{{ checklist.title }}</p>
+                                        <div class="flex gap-3 justify-end items-center">
                                             <a href="
                                                 {% if checklist.file_url %}
                                                     {{ checklist.file_url }}

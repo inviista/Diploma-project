@@ -4,7 +4,7 @@
 {% load calendar_widget %}
 
 {% block content %}
-    <div class="flex flex-col mx-[100px] justify-center">
+    <div class="hidden lg:flex flex-col mx-[100px] justify-center">
         <div class="flex flex-row gap-2 pt-[5px]">
             <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] gap-6 bg-white mt-3 px-6 py-6 rounded-[16px]">
                 <div class="flex flex-row w-full gap-6 items-start">
@@ -128,6 +128,140 @@
             </div>
         </div>
     </div>
+
+{# mobile #}
+    <div class="flex lg:hidden flex-col p-6 justify-center bg-[#FFFFFF]">
+        <div class="flex flex-col gap-2">
+            <div class="flex flex-col w-full h-auto gap-6 bg-white rounded-[16px]">
+                <div class="flex flex-row max-md:flex-col w-full gap-6 items-start">
+                    <div class="flex items-start">
+                        <a href="{% url 'news:all_news' %}" class="h-[29px] flex justify-start">
+                            <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
+                        </a>
+                    </div>
+                    <div class="flex flex-col w-full h-auto">
+                        <div class="main-news flex flex-col gap-4 ">
+                            <div class="flex flex-col  gap-5">
+                                <div class="flex flex-col gap-[10px] border-b-1 border-[#EFEFEF] pb-[24px] px-3">
+                                    <div class="flex gap-[10px] flex-col">
+                                        <div class="text-[14px] text-[#3F8CFF] font-[400]">Сегодня</div>
+                                        <div class="flex flex-row max-md:flex-col gap-4">
+                                            <img class="flex pt-1 w-[150px] h-fit"
+                                                 src="{{ article.image.path }}">
+                                            <div class="flex flex-col w-full gap-[10px]">
+                                                <div class=" text-[20px] text-[#000000] w-full font-[700] leading-6 max-w-[566px]">{{ article.title }}</div>
+                                                <div class=" text-[14px] w-full text-[#1E1E1E] font-[400] leading-4">{{ article.content|safe }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-row justify-between">
+                                        <div class="text-[14px] text-[#ED1A39] font-medium flex w-full gap-2">
+                                            <img class="w-[24px]"
+                                                 src="{% static 'img/_src/icons/sell.svg' %}">
+                                            {% for tags in article.tags.all %}
+                                                <div class="flex justify-center items-center font-[400] px-4 py-2 text-[14px] text-[#444444] bg-[#EAF4FF] rounded-[8px]">{{ tags.title }}</div>
+                                            {% empty %}
+                                                <div class="text-gray-400">Без категории</div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="text-nowrap flex justify-center items-center text-[14px] text-[#444444]">{{ article.published_date|date:"d.m.Y" }}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col w-full h-auto gap-6">
+                    <div class="flex flex-col">
+                        <p class="font-bold ml-[9px] mb-3">Экспертные комментарии</p>
+                        {% for comment in comments %}
+                            <div class="flex flex-row justify-start items-center pt-2 border-b-1 border-[#EFEFEF] py-3">
+                                <div class="flex flex-col ml-[9px] gap-0.5">
+                                    <p class="font-bold text-sm">{{ comment.author_full_name }}</p>
+                                    <p class="text-sm text-[#444444]">
+                                        {{ comment.text|safe }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p class="text-sm ml-[9px]">Ничего нет</p>
+                        {% endfor %}
+                    </div>
+                    {% if request.user.is_authenticated %}
+                        <form action="{% url 'news:create_article_comment' article.alias %}" method="post">
+                            {% csrf_token %}
+                            <div class="flex flex-row w-full items-center">
+                                <label class="w-full">
+                                    <input type="text"
+                                           name="text"
+                                           placeholder="Ваш комментарий..."
+                                           class="w-full border-b-1 border-[#EFEFEF] text-[#444444] placeholder:text-[#444444] ml-[9px] py-3 text-sm focus:outline-none"/>
+                                </label>
+                                <button type="submit">
+                                    <img class="w-[24px] h-[24px]" src="{% static 'img/_src/icons/send.png' %}"
+                                         alt="send">
+                                </button>
+                            </div>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="flex flex-col w-full">
+                <div class="flex flex-col w-full h-auto bg-white mt-3 p-6 rounded-[16px]">
+                    <div class="flex flex-row justify-between w-full gap-[64px] h-[80px] border-b-2 border-[#EFEFEF] font-[700] text-[24px]">
+                        Еженедельный дайджест новостей
+                    </div>
+                    <div class="flex flex-col w-full h-auto">
+                        {% render_calendar calendar_year calendar_month events_by_day %}
+
+                        <div class="flex flex-col gap-4 pt-[10px]">
+                            {% with events=events_by_day|dict_key:event_date.day %}
+                                {% if events %}
+                                    {% for article in events %}
+                                        <a href="{% url 'news:news_detail' article.alias %}">
+                                            <div class="flex flex-col gap-4 border-b-1 border-[#EFEFEF] pb-[16px]">
+                                                <div class="flex flex-col gap-3">
+                                                    <img class="flex h-auto pt-1 w-full"
+                                                         src="{{ article.image.path }}">
+                                                    <div class="flex flex-row gap-4">
+                                                        <div class="flex flex-col w-full">
+                                                            <div class=" text-[20px] text-[#000000] w-full font-[700] leading-6 ">{{ article.title }}</div>
+                                                            <div class=" text-[14px] pt-[4px] w-full text-[#787878] font-[400] leading-4 mt-[5px]">{{ article.description|truncatewords:15 }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-row justify-between">
+                                                    <div class="text-[14px] text-[#ED1A39] font-medium flex flex-wrap w-full gap-2">
+                                                        <img class="w-[24px]"
+                                                             src="{% static 'img/_src/icons/sell.svg' %}">
+                                                        {% for tags in article.tags.all %}
+                                                            <div class="flex justify-center items-center font-[400] px-4 py-2 text-[14px] text-[#444444] bg-[#EAF4FF] rounded-[8px]">{{ tags.title }}</div>
+                                                        {% empty %}
+                                                            <div class="text-gray-400">Без категории</div>
+                                                        {% endfor %}
+                                                        <div class="text-nowrap flex justify-center items-center text-[12px] text-[#444444]">{{ article.published_date|date:"d.m.Y" }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<style>
+  .truncate-2-lines {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
 
     {% render_new_details_modal selected_new_alias %}
 {% endblock %}

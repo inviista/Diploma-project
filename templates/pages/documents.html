@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-    <div class="flex flex-col justify-center mx-[100px]">
+    <div class="hidden lg:flex flex-col justify-center mx-[100px]">
         <div class="flex flex-row gap-2 justify-center pt-3">
             <div class="flex flex-col max-w-[1312px] w-full h-fit shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
                 <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
@@ -178,4 +178,155 @@
             </div>
         </div>
     </div>
+
+{# mobile #}
+    <div class="lg:hidden flex flex-col justify-center p-6 bg-[#FFFFFF]">
+        <div class="flex flex-col gap-2 justify-center pt-3">
+            <div class="flex flex-col max-w-[1312px] w-full h-fit shadow-[0px_4px_4px_0px_#0000001A] bg-white pb-6 rounded-[16px]">
+                <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
+                    <a href="javascript:history.back()" class="h-[29px] flex justify-center">
+                        <img class="w-[36px] h-[36px]" src="{% static 'img/_src/icons/Frame 115.svg' %}">
+                    </a>
+                    <div class="flex flex-col">
+                        <text class="font-[700] text-[24px]">Документы</text>
+                        <text class="font-[500] text-[16px]">Акты, журналы, приказы, инструкции</text>
+                    </div>
+                </div>
+                <div class="flex items-center py-6 gap-6">
+                    <form method="get" class="w-full">
+                        <label>
+                            <input
+                                    onchange="this.form.submit()"
+                                    type="text"
+                                    name="search"
+                                    value="{{ request.GET.search }}"
+                                    placeholder="Быстрый поиск информации по ключевым словам..."
+                                    class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
+                            />
+                        </label>
+                    </form>
+                </div>
+
+                <div class=" flex space-x-6 mb-6">
+                    {% for key, label in categories %}
+                        <a href="?category={{ key }}"
+
+                           class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if not selected_category and forloop.first or selected_category == key %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}"
+                        >
+                            {{ label }}
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <div class="flex flex-col w-full h-auto p-2">
+                    <div class="main-news flex flex-col gap-4 pt-[10px]">
+                        {% for category_name, documents in grouped_documents.items %}
+                            <div class="flex flex-col">
+                                <div class="flex flex-row justify-between mb-3">
+                                    <h2 class="font-bold text-2xl">{{ category_name }}</h2>
+                                </div>
+
+                                {% for document in documents %}
+                                    <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
+                                        <div class="flex flex-row w-full justify-between">
+                                            <p class="text-[#3F8CFF]">{{ document.get_file_extension }}</p>
+                                            <p>{{ document.valid_from|date:"d.m.Y" }}</p>
+                                        </div>
+                                        <div class="flex flex-col gap-[10px] w-full justify-start">
+                                            <div class="flex item-center">
+                                                <div class="flex flex-col gap-[10px] w-full justify-between">
+                                                    <p class="font-bold text-[20px]">{{ document.title }}</p>
+                                                    {% if document.description %}
+                                                        <p class="text-[14px] text-[#787878]">{{ document.description }}</p>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="flex gap-3 justify-end items-center">
+                                                    <a href="
+                                                        {% if document.file_url %}
+                                                            {{ document.file_url }}
+                                                        {% else %}
+                                                            {{ document.file.url }}
+                                                        {% endif %}
+                                                    "
+                                                       class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
+                                                        <img src="{% static 'img/_src/icons/visibility.svg' %}"
+                                                             alt="details"/>
+                                                    </a>
+                                                    <a href="
+                                                        {% if document.file_url %}
+                                                            {{ document.file_url }}
+                                                        {% else %}
+                                                            {{ document.file.url }}
+                                                        {% endif %}"
+                                                       class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
+                                                        <img src="{% static 'img/_src/icons/download.svg' %}"
+                                                             alt="download"/>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                {% empty %}
+                                    <p>Ничего нет</p>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
+                    <div class="flex flex-row justify-between w-full gap-[64px] border-b-3 border-[#EFEFEF] font-[700] text-[24px] pb-5">
+                        Последние обновления
+                    </div>
+                    <div class="flex flex-col w-full h-auto">
+                        {% for document in side_documents %}
+                            <div class="flex flex-col items-start justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
+                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">
+                                    Новое
+                                </div>
+                                <div class="flex flex-row w-full justify-between">
+                                            <p class="text-[#3F8CFF]">{{ document.get_file_extension }}</p>
+                                    <p>{{ document.valid_from|date:"d.m.Y" }}</p>
+                                </div>
+                                <div class="flex flex-col gap-[10px] w-full justify-start">
+                                    <div class="flex item-center">
+                                        <div class="flex flex-col gap-[10px]">
+                                            <text class="font-bold text-[20px]">{{ document.title }}</text>
+                                            {% if document.description %}
+                                                <text class="text-[14px] text-[#787878]">{{ document.description }}</text>
+                                            {% endif %}
+                                        </div>
+                                        <div class="flex gap-3 justify-end w-full items-center">
+                                            <a href="
+                                                {% if document.file_url %}
+                                                    {{ document.file_url }}
+                                                {% else %}
+                                                    {{ document.file.url }}
+                                                {% endif %}
+                                            "
+                                               class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
+                                                <img src="{% static 'img/_src/icons/visibility.svg' %}" alt="details"/>
+                                            </a>
+                                            <a href="
+                                                {% if document.file_url %}
+                                                    {{ document.file_url }}
+                                                {% else %}
+                                                    {{ document.file.url }}
+                                                {% endif %}"
+                                               class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
+                                                <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

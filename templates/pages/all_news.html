@@ -242,7 +242,7 @@
                     </label>
                 </form>
             </div>
-            <div class="flex mb-6 overflow-x-auto w-full max-w-xs">
+            <div class="flex mb-6 overflow-x-auto w-full max-w-[80vw]">
                 <a href="{% url 'news:all_news' %}"
                    class="shrink-0 tab-button text-xs p-[10px] font-medium pb-2 border-b-3
                            {% if not selected_category %}
@@ -292,7 +292,7 @@
                                             </div>
                                         </div>
                                         <div class="flex max-lg:flex-col justify-between gap-4">
-                                            <div class="text-sm text-[#ED1A39] font-medium flex w-full gap-2 overflow-x-auto">
+                                            <div class="text-sm text-[#ED1A39] font-medium flex w-full gap-2 overflow-x-auto max-w-[80vw]">
                                                 <img class="w-[24px]" src="{% static 'img/_src/icons/sell.svg' %}"
                                                      alt="tags">
                                                 {% for tags in article.tags.all %}
@@ -323,7 +323,7 @@
                                 </div>
                             </div>
                             <div class="flex max-lg:flex-col justify-between gap-4">
-                                <div class="text-sm text-[#ED1A39] font-medium flex w-full gap-2 overflow-x-auto">
+                                <div class="text-sm text-[#ED1A39] font-medium flex w-full gap-2 overflow-x-auto max-w-[80vw]">
                                     <img class="w-[24px]" src="{% static 'img/_src/icons/sell.svg' %}"
                                          alt="tags">
                                     {% for tags in article.tags.all %}

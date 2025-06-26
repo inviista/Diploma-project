@@ -201,9 +201,9 @@
                         </label>
                     </form>
                 </div>
-                <div class=" flex mb-6">
+                <div class="flex mb-6 overflow-x-auto w-full ">
                       <a href="{% url 'news:faqs' %}"
-                           class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
+                           class="shrink-0 tab-button text-xs p-[10px] font-medium pb-2 border-b-3
                            {% if not selected_category %}
                                border-red-600 text-red-600
                            {% else %}
@@ -213,7 +213,7 @@
                         </a>
                         {% for key, label in categories %}
                             <a href="?category={{ key }}"
-                               class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
+                               class="shrink-0 tab-button text-xs p-[10px] font-medium pb-2 border-b-3
                                {% if selected_category == key %}
                                    border-red-600 text-red-600
                                {% else %}

@@ -201,11 +201,11 @@
                     </form>
                 </div>
 
-                <div class=" flex space-x-6 mb-6">
+                <div class="flex mb-6 overflow-x-auto w-full">
                     {% for key, label in categories %}
                         <a href="?category={{ key }}"
 
-                           class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if not selected_category and forloop.first or selected_category == key %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}"
+                           class="shrink-0 tab-button text-xs p-[10px] font-medium pb-2 border-b-3 {% if not selected_category and forloop.first or selected_category == key %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}"
                         >
                             {{ label }}
                         </a>

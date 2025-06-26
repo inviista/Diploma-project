@@ -346,10 +346,10 @@
                         </label>
                     </form>
                 </div>
-                <div class="flex mb-6">
-                    <a href="?category=all" class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if category_filter == 'all' or not category_filter %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}">Все</a>
-                     <a href="?category=live" class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if category_filter == 'live' %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}">Сейчас идет</a>
-                    <a href="?category=soon" class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if category_filter == 'soon' %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}">Ближайшие вебинары</a>
+                 <div class="flex mb-6 overflow-x-auto w-full ">
+                    <a href="?category=all" class="shrink-0 tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if category_filter == 'all' or not category_filter %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}">Все</a>
+                     <a href="?category=live" class="shrink-0 tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if category_filter == 'live' %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}">Сейчас идет</a>
+                    <a href="?category=soon" class="shrink-0 tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if category_filter == 'soon' %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}">Ближайшие вебинары</a>
 
                 </div>
                 {% if category_filter == 'live' or category_filter == 'all' or not category_filter %}

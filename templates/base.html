@@ -127,12 +127,12 @@
 
 {# mobile #}
 <header class="flex lg:hidden justify-between items-center bg-[#7D151E] p-6">
-     <a href="{% url 'news:index' %}">
-                    <img
-                            class="h-8 w-[116px]"
-                            src="{% static 'img/_src/icons/Asset 6.png' %}"
-                            alt="logo"/>
-     </a>
+    <a href="{% url 'news:index' %}">
+        <img
+                class="h-8 w-[116px]"
+                src="{% static 'img/_src/icons/Asset 6.png' %}"
+                alt="logo"/>
+    </a>
     <div class="flex gap-3">
         <img class="h-8 w-8" src="{% static 'img/32/user.svg' %}" alt="user"/>
         <button onclick="toggleMenu()">
@@ -141,38 +141,39 @@
     </div>
 </header>
 
-<div id="mobileMenu" class="fixed inset-0 z-50 bg-[#1E1E1E] text-white p-6 transform translate-x-full opacity-0 transition-all duration-300 ease-in-out pointer-events-none lg:hidden">
+<div id="mobileMenu"
+     class="fixed inset-0 z-50 bg-[#1E1E1E] text-white p-6 transform translate-x-full opacity-0 transition-all duration-300 ease-in-out pointer-events-none lg:hidden">
     <div class="flex justify-start mb-4">
         <button onclick="toggleMenu()">
-            <img src="{% static 'img/32/close.png' %}" alt="close" class="h-6 w-6" />
+            <img src="{% static 'img/32/close.png' %}" alt="close" class="h-6 w-6"/>
         </button>
     </div>
     <div class="flex flex-col justify-between h-[90%]">
         <div class="flex flex-col gap-4 text-base font-semibold">
-        <div class="flex flex-col md:flex-row items-start md:items-center gap-4 border-1 border-[#2B2B2B] rounded-2xl p-6">
-            <img src="{% static 'img/_src/icons/Asset 6.png' %}" class="h-[64px]" alt="logo" />
-            <p class="text-sm ">Безопасность —<br/>не требование, а культура…</p>
-        </div>
-        <input type="text"
-               placeholder="Поиск через HSE GPT…"
-               class="w-full p-4  text-black text-base bg-white rounded-2xl placeholder:text-black" />
+            <div class="flex flex-col md:flex-row items-start md:items-center gap-4 border-1 border-[#2B2B2B] rounded-2xl p-6">
+                <img src="{% static 'img/_src/icons/Asset 6.png' %}" class="h-[64px]" alt="logo"/>
+                <p class="text-sm ">Безопасность —<br/>не требование, а культура…</p>
+            </div>
+            <input type="text"
+                   placeholder="Поиск через HSE GPT…"
+                   class="w-full p-4  text-black text-base bg-white rounded-2xl placeholder:text-black"/>
 
-        <a href="/" class="bg-[#2B2B2B] rounded-2xl p-4">Главная</a>
-        <a href="/about/" class="bg-[#2B2B2B] rounded-2xl p-4">О нас</a>
-        {% if request.user.is_authenticated %}
+            <a href="/" class="bg-[#2B2B2B] rounded-2xl p-4">Главная</a>
+            <a href="/about/" class="bg-[#2B2B2B] rounded-2xl p-4">О нас</a>
+            {% if request.user.is_authenticated %}
                 <button onclick="openModal('askQuestionModal')"
                         class="flex flex-start cursor-pointer bg-[#2B2B2B] rounded-2xl p-4">Задай вопрос
                 </button>
-        {% endif %}
-        <div class="flex gap-4">
-            <a href="https://hseprime.kz"
-               class="flex-1 text-center p-4 bg-[#3F8CFF] rounded-2xl">HSE Prime</a>
-            <a href="https://youtube.com/@HSEQauipsizAnalytics"
-               class="flex-1 text-center p-4 bg-[#ED1A39] rounded-2xl">Qauipmedia</a>
-        </div>
+            {% endif %}
+            <div class="flex gap-4">
+                <a href="https://hseprime.kz"
+                   class="flex-1 text-center p-4 bg-[#3F8CFF] rounded-2xl">HSE Prime</a>
+                <a href="https://youtube.com/@HSEQauipsizAnalytics"
+                   class="flex-1 text-center p-4 bg-[#ED1A39] rounded-2xl">Qauipmedia</a>
+            </div>
         </div>
         <div class="flex w-full">
-        {% if request.user.is_authenticated %}
+            {% if request.user.is_authenticated %}
                 <button
                         class="flex font-[600] w-full items-center bg-[#2B2B2B] rounded-2xl p-4"
                 >{{ request.user.profile.full_name }}</button>
@@ -217,6 +218,16 @@
             // Скрыть меню
             menu.classList.remove('translate-x-0', 'opacity-100');
             menu.classList.add('translate-x-full', 'opacity-0', 'pointer-events-none');
+        }
+    }
+
+    function goBack() {
+        const prevUrl = document.referrer;
+
+        if (prevUrl) {
+            window.location.href = new URL(prevUrl).pathname; // ignores ?query
+        } else {
+            window.location.href = '/'; // fallback
         }
     }
 </script>

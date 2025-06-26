@@ -106,8 +106,15 @@
                                                 <div class="flex gap-[10px] flex-col">
                                                     <div class="text-[14px] text-[#3F8CFF] font-[400]">Сегодня</div>
                                                     <div class="flex flex-row gap-4">
-                                                        <img class="flex h-fit pt-1 w-[150px]"
-                                                             src="{{ article.image.path }}">
+                                                        {% if article.image.path %}
+                                                            <img class="flex h-fit pt-1 w-[150px]"
+                                                                 src="{{ article.image.path }}" alt="new photo">
+                                                        {% endif %}
+                                                        {% if article.image.new_image_150_webp %}
+                                                            <img class="flex h-fit pt-1 w-[150px]"
+                                                                 src="{{ article.image.new_image_150_webp }}"
+                                                                 alt="{{ article.image.alt }}">
+                                                        {% endif %}
                                                         <div class="flex flex-col w-full gap-[10px]">
                                                             <div class=" text-[20px] text-[#000000] w-full font-[700] leading-6 ">{{ article.title }}</div>
                                                             <div class=" text-[14px] w-full text-[#787878] font-[400] leading-4">{{ article.description }}</div>
@@ -138,8 +145,15 @@
                                     <div class="flex gap-[10px] flex-col">
                                         <div class="text-[14px] text-[#3F8CFF] font-[400]">Сегодня</div>
                                         <div class="flex flex-row gap-4">
-                                            <img class="flex h-auto pt-1 w-[150px]"
-                                                 src="{{ article.image.path }}">
+                                            {% if article.image.path %}
+                                                <img class="flex h-fit pt-1 w-[150px]"
+                                                     src="{{ article.image.path }}" alt="new photo">
+                                            {% endif %}
+                                            {% if article.image.new_image_150_webp %}
+                                                <img class="flex h-fit pt-1 w-[150px]"
+                                                     src="{{ article.image.new_image_150_webp }}"
+                                                     alt="{{ article.image.alt }}">
+                                            {% endif %}
                                             <div class="flex flex-col w-full gap-[10px]">
                                                 <div class=" text-[20px] text-[#000000] w-full font-[700] leading-6 max-w-[566px]">{{ article.title }}</div>
                                                 <div class=" text-[14px] w-full text-[#787878] font-[400] max-w-[566px] leading-4">{{ article.description }}</div>
@@ -179,8 +193,15 @@
                                         <a href="{% url 'news:news_detail' article.alias %}">
                                             <div class="flex flex-col gap-4 border-b-1 border-[#EFEFEF] pb-[16px]">
                                                 <div class="flex flex-col gap-3">
-                                                    <img class="flex h-auto pt-1 w-full"
-                                                         src="{{ article.image.path }}">
+                                                    {% if article.image.path %}
+                                                        <img class="flex h-fit pt-1 w-[150px]"
+                                                             src="{{ article.image.path }}" alt="new photo">
+                                                    {% endif %}
+                                                    {% if article.image.new_image_150_webp %}
+                                                        <img class="flex h-fit pt-1 w-[150px]"
+                                                             src="{{ article.image.new_image_150_webp }}"
+                                                             alt="{{ article.image.alt }}">
+                                                    {% endif %}
                                                     <div class="flex flex-row gap-4">
                                                         <div class="flex flex-col w-full">
                                                             <div class=" text-[20px] text-[#000000] w-full font-[700] leading-6 ">{{ article.title }}</div>
@@ -283,8 +304,15 @@
                                         <div class="flex gap-[10px] flex-col">
                                             <div class="text-[14px] text-[#3F8CFF] font-[400]">Сегодня</div>
                                             <div class="flex max-lg:flex-col gap-4">
-                                                <img class="flex h-fit pt-1 w-[150px]"
-                                                     src="{{ article.image.path }}" alt="new photo">
+                                                {% if article.image.path %}
+                                                    <img class="flex h-fit pt-1 w-[150px]"
+                                                         src="{{ article.image.path }}" alt="new photo">
+                                                {% endif %}
+                                                {% if article.image.new_image_150_webp %}
+                                                    <img class="flex h-fit pt-1 w-[150px]"
+                                                         src="{{ article.image.new_image_150_webp }}"
+                                                         alt="{{ article.image.alt }}">
+                                                {% endif %}
                                                 <div class="flex flex-col w-full gap-[10px]">
                                                     <p class=" text-xl text-[#000000] w-full font-[700]">{{ article.title }}</p>
                                                     <p class=" text-sm w-full text-[#787878] line-clamp-2">{{ article.description }}</p>
@@ -314,8 +342,15 @@
                             <div class="flex gap-[10px] flex-col">
                                 <div class="text-[14px] text-[#3F8CFF] font-[400]">Сегодня</div>
                                 <div class="flex max-lg:flex-col gap-4">
-                                    <img class="flex h-fit pt-1 w-[150px]"
-                                         src="{{ article.image.path }}" alt="new photo">
+                                    {% if article.image.path %}
+                                        <img class="flex h-fit pt-1 w-[150px]"
+                                             src="{{ article.image.path }}" alt="new photo">
+                                    {% endif %}
+                                    {% if article.image.new_image_150_webp %}
+                                        <img class="flex h-fit pt-1 w-[150px]"
+                                             src="{{ article.image.new_image_150_webp }}"
+                                             alt="{{ article.image.alt }}">
+                                    {% endif %}
                                     <div class="flex flex-col w-full gap-[10px]">
                                         <p class=" text-xl text-[#000000] w-full font-[700]">{{ article.title }}</p>
                                         <p class=" text-sm w-full text-[#787878] line-clamp-2">{{ article.description }}</p>
@@ -354,8 +389,15 @@
                                     <a href="{% url 'news:news_detail' article.alias %}">
                                         <div class="flex flex-col gap-4 border-b-1 border-[#EFEFEF] pb-[16px]">
                                             <div class="flex flex-col gap-3">
-                                                <img class="flex h-auto pt-1 w-full"
-                                                     src="{{ article.image.path }}">
+                                                {% if article.image.path %}
+                                                    <img class="flex h-fit pt-1 w-[150px]"
+                                                         src="{{ article.image.path }}" alt="new photo">
+                                                {% endif %}
+                                                {% if article.image.new_image_150_webp %}
+                                                    <img class="flex h-fit pt-1 w-[150px]"
+                                                         src="{{ article.image.new_image_150_webp }}"
+                                                         alt="{{ article.image.alt }}">
+                                                {% endif %}
                                                 <div class="flex flex-row gap-4">
                                                     <div class="flex flex-col w-full">
                                                         <div class=" text-[20px] text-[#000000] w-full font-[700] leading-6 ">{{ article.title }}</div>

@@ -29,12 +29,22 @@ def register(request):
 
                 try:
                     send_mail(
-                        'Your Verification Code',
-                        f'Your code is {code}',
+                        'Добро пожаловать на TB Expert - подтвердите регистрацию',
+                        f'''
+                    Приветствуем вас на портале TB Expert!
+
+                    Для подтверждения регистрации используйте код:
+                    {code}
+
+                    Рады, что вы с нами. Впереди много полезного, практичного и интересного!
+
+                    С уважением,
+                    Команда TB Expert
+                    https://tbexpert.kz
+                    ''',
                         'hse@p-s.kz',
                         [email],
                     )
-
                     user.save()
                     EmailVerification.objects.create(email=email, code=code)
                     request.session['user_email'] = email

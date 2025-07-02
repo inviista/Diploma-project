@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 
 from users.form import RegistrationForm, SmsConfirmForm, QuestionForm
 from users.models import EmailVerification, Question
@@ -14,48 +14,65 @@ from users.utils.forms import add_form_errors_to_messages
 from users.utils.urls import add_query_param_to_url
 
 
+def send_verification_email(email, code):
+    try:
+        send_mail(
+            'Добро пожаловать на TB Expert - подтвердите регистрацию',
+            f'''
+Приветствуем вас на портале TB Expert!
+
+Для подтверждения регистрации используйте код:
+{code}
+
+Рады, что вы с нами. Впереди много полезного, практичного и интересного!
+
+С уважением,  
+Команда TB Expert  
+https://tbexpert.kz
+''',
+            'hse@p-s.kz',
+            [email],
+        )
+        return True, None
+    except Exception as e:
+        return False, str(e)
+
+
 def register(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            # Check if a user with this email already exists
-            if User.objects.filter(username=form.cleaned_data.get('email')).exists():
-                messages.error(request, "Вы уже зарегестрированы. Войдите в систему.")
-                return redirect(request.META.get('HTTP_REFERER', '/'))
-            else:
-                user = form.save()
-                code = str(random.randint(1000, 9999))
-                email = user.email
+    if request.method != 'POST':
+        return redirect(request.META.get('HTTP_REFERER', '/'))
 
-                try:
-                    send_mail(
-                        'Добро пожаловать на TB Expert - подтвердите регистрацию',
-                        f'''
-                    Приветствуем вас на портале TB Expert!
+    form = RegistrationForm(request.POST)
+    if not form.is_valid():
+        add_form_errors_to_messages(request, form)
+        return redirect(request.META.get('HTTP_REFERER', '/'))
 
-                    Для подтверждения регистрации используйте код:
-                    {code}
+    email = form.cleaned_data.get('email')
+    code = str(random.randint(1000, 9999))
 
-                    Рады, что вы с нами. Впереди много полезного, практичного и интересного!
+    active_user_exists = User.objects.filter(username=email, is_active=True).exists()
+    inactive_user_qs = User.objects.filter(username=email, is_active=False)
 
-                    С уважением,
-                    Команда TB Expert
-                    https://tbexpert.kz
-                    ''',
-                        'hse@p-s.kz',
-                        [email],
-                    )
-                    user.save()
-                    EmailVerification.objects.create(email=email, code=code)
-                    request.session['user_email'] = email
-                    messages.success(request, 'Код подтверждения отправлен на вашу почту.')
+    if active_user_exists:
+        messages.error(request, "Вы уже зарегистрированы. Войдите в систему.")
+        return redirect(request.META.get('HTTP_REFERER', '/'))
 
-                except Exception as e:
-                    messages.error(request, f'Ошибка при отправке письма: {e}')
+    # Если пользователь существует, но не активен — не пересоздаём его
+    if inactive_user_qs.exists():
+        user = inactive_user_qs.first()
+    else:
+        user = form.save(commit=False)
+        user.username = email
+        user.is_active = False
 
-            return redirect(request.META.get('HTTP_REFERER', '/'))
-        else:
-            add_form_errors_to_messages(request, form)
+    success, error = send_verification_email(email, code)
+    if success:
+        user.save()
+        EmailVerification.objects.update_or_create(email=email, defaults={'code': code})
+        request.session['user_email'] = email
+        messages.success(request, 'Код подтверждения отправлен на вашу почту.')
+    else:
+        messages.error(request, f'Ошибка при отправке письма: {error}')
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
 

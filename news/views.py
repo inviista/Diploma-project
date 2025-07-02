@@ -157,6 +157,28 @@ def index(request):
     return render(request, 'pages/index.html', context)
 
 
+def get_events_by_date_api(request):
+    today = timezone.now().date()
+
+    selected_date_str = request.GET.get('date')
+    selected_date = today
+    if selected_date_str:
+        try:
+            selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date()
+        except ValueError:
+            pass
+    events = Event.objects.filter(date=selected_date)
+
+    context = {
+        'events': events,
+        'today': today,
+        'selected_date': selected_date,
+        'event_day_localized': selected_date.strftime('%d %B'),
+
+    }
+    return render(request, 'includes/main/calendar_events.html', context)
+
+
 def qauipmedia(request):
     articles = Article.objects.all()
     context = {'articles': articles}

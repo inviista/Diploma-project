@@ -31,8 +31,8 @@
             <div class="flex justify-around">
                 {% for day in week %}
                     {% if day != 0 %}
-                        <a href="?event_date={% format_date_ymd year month day %}&calendar_year={{ year }}&calendar_month={{ month }}"
-                           class="w-10 h-10 flex justify-center items-center cursor-pointer rounded-full hover:bg-blue-300 hover:text-white transition duration-150 ease-in-out
+                        <button onclick="getEventsByDate('{% format_date_ymd year month day %}')"
+                                class="w-10 h-10 flex justify-center items-center cursor-pointer rounded-full hover:bg-blue-300 hover:text-white transition duration-150 ease-in-out
                               {% if day == event_date.day and month == event_date.month and year == event_date.year %}
                                  bg-[#F05F4B] text-white
                               {% elif events_by_day|dict_key:day|length > 0 %}
@@ -40,7 +40,7 @@
                               {% endif %}
                         ">
                             {{ day }}
-                        </a>
+                        </button>
                     {% else %}
                         <div class="w-10 h-10">
                         </div>

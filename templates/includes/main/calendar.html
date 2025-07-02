@@ -20,3 +20,21 @@
         {% include 'includes/main/calendar_events.html' %}
     </div>
 </div>
+
+<script>
+    function getEventsByDate(date) {
+         fetch(`{% url 'news:get_events_by_date' %}?date=${date}`)
+        .then((res) => res.text())
+        .then((html) => {
+            console.log(document.getElementById("calendarEvents"));
+            document.getElementById("calendarEvents").innerHTML = html;
+        })
+        .catch((err) => {
+          console.error("Failed to fetch events:", err);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        getEventsByDate(new Date())
+    });
+</script>

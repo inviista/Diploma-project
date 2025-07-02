@@ -19,19 +19,3 @@
     {% endfor %}
 </div>
 
-<script>
-    function getEventsByDate(date) {
-         fetch(`{% url 'news:get_events_by_date' %}?date=${date}`)
-        .then((res) => res.text())
-        .then((html) => {
-          document.getElementById("calendarEvents").innerHTML = html;
-        })
-        .catch((err) => {
-          console.error("Failed to fetch events:", err);
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        getEventsByDate(new Date())
-    });
-</script>

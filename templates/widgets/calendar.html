@@ -28,7 +28,7 @@
     </div>
     <div class="flex flex-col">
         {% for week in month_days %}
-            <div class="flex justify-around">
+            <div class="flex justify-around mt-1">
                 {% for day in week %}
                     {% if day != 0 %}
                         <button onclick="getEventsByDate('{% format_date_ymd year month day %}')"
@@ -53,6 +53,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
         const params = new URLSearchParams(window.location.search);
         const eventDate = params.get('event_date');
         const calendarYear = params.get('calendar_year');

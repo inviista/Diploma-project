@@ -1,24 +1,29 @@
 {% load static %}
 
-<div class="flex flex-row justify-between lg:min-h-[479px] shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 rounded-[16px] gap-6">
-    <div class="flex flex-col justify-center lg:pl-14 gap-3 lg:py-6 p-4">
-        <text class=" w-max-[819px] w-full text-sm lg:text-3xl lg:left-[52px] lg:top-[102px] font-[600] lg:leading-10 text-[#A96500]">
+<div class="flex flex-row justify-between shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 rounded-[16px] gap-6">
+    <div class="flex flex-col justify-center lg:pl-14 gap-3 lg:py-6 p-4 w-3/4">
+        <text class=" w-max-[819px] w-full text-sm lg:text-xl lg:left-[52px] lg:top-[102px] font-[600] text-[#A96500]">
             Портал по охране труда и технике безопасности в Казахстане.
         </text>
-        <text class=" w-max-[819px] w-full text-sm lg:text-3xl lg:left-[52px] lg:top-[102px] font-[600] lg:leading-10 text-[#A96500]">
+        <text class=" w-max-[819px] w-full text-sm lg:text-xl lg:left-[52px] lg:top-[102px] font-[600] text-[#A96500]">
             Инструкции, законы, новости и готовые решения - всё, что нужно специалисту ТБ.
         </text>
-        <text class=" w-max-[819px] w-full text-sm lg:text-3xl lg:left-[52px] lg:top-[102px] font-[600] lg:leading-10 text-[#A96500]">
+        <text class=" w-max-[819px] w-full text-sm lg:text-xl lg:left-[52px] lg:top-[102px] font-[600] text-[#A96500]">
             Только проверенная информация, умный поиск и ежедневные обновления - чтобы работать уверенно и безопасно.
         </text>
-        <a href="https://t.me/PrimeHSEanalytics" class="max-w-[288px] flex items-center justify-center px-4 py-3 lg:px-6 lg:py-[18px] text-nowrap font-[600] text-white text-sm lg:text-[18px] rounded-[16px] bg-[#ED1A39] border-solid mt-4">
+        <a href="https://t.me/PrimeHSEanalytics"
+           class="max-w-[288px] flex items-center justify-center px-4 py-3 lg:px-6 lg:py-[18px] text-nowrap font-[600] text-white text-sm lg:text-[18px] rounded-[16px] bg-[#ED1A39] border-solid mt-4">
             Стать частью сообщества
         </a>
     </div>
-    <img class="hidden lg:block rounded-r-[16px] w-full" src="{% static 'img/_src/icons/smile.png' %}" alt="main banner">
+    <div class="flex">
+        <img class="hidden lg:block rounded-r-[16px] h-auto" src="{% static 'img/_src/icons/smile.png' %}"
+             alt="main banner">
+    </div>
 </div>
 <div class="flex items-stretch gap-2 max-lg:overflow-auto mt-3 max-lg:pb-1">
-    <a href="{% url 'news:all_news' %}" class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
+    <a href="{% url 'news:all_news' %}"
+       class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
         <div class="flex flex-col justify-center items-center gap-2 shrink-0">
             <img class="w-7 lg:w-[58px]" src="{% static 'img/_src/icons/Frame 58.png' %}" alt="news">
             <text class="w-full max-lg:text-sm font-[600] text-[#1E1E1E]">
@@ -26,40 +31,45 @@
             </text>
         </div>
     </a>
-    <a href="{% url 'news:laws' %}" class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
-        <div  class="flex flex-col justify-center items-center gap-2">
+    <a href="{% url 'news:laws' %}"
+       class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
+        <div class="flex flex-col justify-center items-center gap-2">
             <img class="w-7 lg:w-[58px]" src="{% static 'img/_src/icons/Frame 58 (1).png' %}" alt="laws">
             <text class="w-full max-lg:text-sm font-[600] text-[#1E1E1E]">
                 Законодательство
             </text>
         </div>
     </a>
-    <a href="{% url 'news:checklists' %}" class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
-        <div  class="flex flex-col justify-center items-center gap-2">
+    <a href="{% url 'news:checklists' %}"
+       class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
+        <div class="flex flex-col justify-center items-center gap-2">
             <img class="w-7 lg:w-[58px]" src="{% static 'img/_src/icons/Frame 59.png' %}" alt="checklists">
             <text class="w-full max-lg:text-sm font-[600] text-[#1E1E1E] text-nowrap">
                 Чек-листы
             </text>
         </div>
     </a>
-    <a href="{% url 'news:faqs' %}" class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
-        <div  class="flex flex-col justify-center items-center gap-2">
+    <a href="{% url 'news:faqs' %}"
+       class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
+        <div class="flex flex-col justify-center items-center gap-2">
             <img class="w-7 lg:w-[58px]" src="{% static 'img/_src/icons/Frame 58 (2).png' %}" alt="faqs">
             <text class="w-full max-lg:text-sm font-[600] text-[#1E1E1E] text-nowrap">
                 Вопрос-ответ
             </text>
         </div>
     </a>
-    <a href="{% url 'news:study' %}" class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
-        <div  class="flex flex-col justify-center items-center gap-2">
+    <a href="{% url 'news:study' %}"
+       class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
+        <div class="flex flex-col justify-center items-center gap-2">
             <img class="w-7 lg:w-[58px]" src="{% static 'img/_src/icons/Frame 58 (3).png' %}" alt="study">
             <text class="w-full max-lg:text-sm font-[600] text-[#1E1E1E]">
                 Обучение
             </text>
         </div>
     </a>
-    <a  href="{% url 'news:webinars' %}" class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
-        <div  class="flex flex-col justify-center items-center gap-2">
+    <a href="{% url 'news:webinars' %}"
+       class="flex justify-center items-center h-[79px] lg:h-[137px] w-full shadow-[0px_4px_4px_0px_#0000001A] bg-white p-3 min-w-[150px]">
+        <div class="flex flex-col justify-center items-center gap-2">
             <img class="w-7 lg:w-[58px]" src="{% static 'img/_src/icons/Frame 58 (4).png' %}" alt="webinars">
             <text class="w-full max-lg:text-sm font-[600] text-[#1E1E1E]">
                 Вебинары

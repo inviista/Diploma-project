@@ -343,6 +343,10 @@ class Checklist(models.Model):
     def __str__(self):
         return self.title
 
+class Qauipmedia(models.Model):
+    title = models.CharField("Название", max_length=255,  null=True, blank=True)
+    file_url = models.URLField("Ссылка на файл", null=True, blank=True)
+    valid_from = models.DateTimeField('Дата создания', default=timezone.now)
 
 class Law(models.Model):
     CATEGORY_CHOICES = [

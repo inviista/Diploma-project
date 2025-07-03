@@ -13,7 +13,7 @@ from users.utils.urls import add_query_param_to_url
 from .form import ArticleCommentForm, LawCommentForm
 from .mixins import three_days_ago
 from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, FAQ, \
-    Event, Checklist, EventCategory, AutomationCases, RiskManagement, City
+    Event, Checklist, EventCategory, AutomationCases, RiskManagement, City, Qauipmedia
 from .decorators import counted
 
 
@@ -105,6 +105,9 @@ def index(request):
     # documents
     documents = Document.objects.all()[:3]
 
+    # qauipmedia
+    videos = Qauipmedia.objects.all().order_by('-valid_from')[:2]
+
     # auth modal
     show_sms_confirm_modal = bool(request.session.get('user_email'))
 
@@ -133,7 +136,7 @@ def index(request):
         'checklists_categories': checklists_categories,
         'grouped_checklists': grouped_checklists,
         'analytics_articles': analytics_articles,
-
+        'videos': videos,
         # calendar
         'calendar_year': calendar_year,
         'calendar_month': calendar_month,
@@ -180,8 +183,8 @@ def get_events_by_date_api(request):
 
 
 def qauipmedia(request):
-    articles = Article.objects.all()
-    context = {'articles': articles}
+    videos = Qauipmedia.objects.all().order_by('-valid_from')
+    context = {'videos': videos}
     return render(request, 'pages/qauipmedia.html', context)
 
 

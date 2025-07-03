@@ -19,6 +19,7 @@ admin.site.register(City)
 admin.site.register(Checklist)
 admin.site.register(AutomationCases)
 admin.site.register(RiskManagement)
+admin.site.register(Qauipmedia)
 
 
 @admin.register(Article)

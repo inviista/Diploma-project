@@ -14,26 +14,18 @@
             </div>
         </div>
         <div class="grid grid-cols-3 justify-center gap-10 p-6 mb-6 border-b-1 border-[#EFEFEF]">
+            {% for video in videos %}
             <div class="flex flex-col video-container gap-[10px]">
                 <iframe
                         class="w-full h-[222px]"
-                        src="https://www.youtube.com/embed/E5qEnuEF0tc?si=VcBIkbeOMZ40hrHV"
+                        src="{{video.file_url}}"
                         title="YouTube video"
                         allowfullscreen
                 >
                 </iframe>
-                <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
+                <div class="text-[14px] pr-2 text-[#444444] flex justify-end">{{video.valid_from|date:"d.m.Y"}}</div>
             </div>
-            <div class="flex flex-col video-container gap-[10px]">
-                <iframe
-                        class="h-[222px] w-full"
-                        src="https://www.youtube.com/embed/ohEQtydX4Kc?si=B4Lj3U_3dukhVI3m"
-                        title="YouTube video"
-                        allowfullscreen
-                >
-                </iframe>
-                <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
@@ -53,26 +45,18 @@
             </div>
         </div>
         <div class="grid max-md:grid-cols-1 max-lg:grid-cols-2 justify-center gap-10 p-6 mb-6 border-b-1 border-[#EFEFEF]">
+            {% for video in videos %}
             <div class="flex flex-col video-container gap-[10px]">
                 <iframe
                         class="w-full h-[222px]"
-                        src="https://www.youtube.com/embed/E5qEnuEF0tc?si=VcBIkbeOMZ40hrHV"
+                        src="{{video.file_url}}"
                         title="YouTube video"
                         allowfullscreen
                 >
                 </iframe>
-                <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
+                <div class="text-[14px] pr-2 text-[#444444] flex justify-end">{{video.valid_from|date:"d.m.Y"}}</div>
             </div>
-            <div class="flex flex-col video-container gap-[10px]">
-                <iframe
-                        class="h-[222px] w-full"
-                        src="https://www.youtube.com/embed/ohEQtydX4Kc?si=B4Lj3U_3dukhVI3m"
-                        title="YouTube video"
-                        allowfullscreen
-                >
-                </iframe>
-                <div class="text-[14px] pr-2 text-[#444444] flex justify-end">02.01.2025</div>
-            </div>
+            {% endfor %}
         </div>
     </div>
     </div>

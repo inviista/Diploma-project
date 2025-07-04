@@ -613,6 +613,7 @@ class Event(models.Model):
         blank=True,
         verbose_name='Обложка события'
     )
+    url = models.URLField(null=True, blank=True, verbose_name='Ссылка')
 
     class Meta:
         verbose_name = 'Событие'

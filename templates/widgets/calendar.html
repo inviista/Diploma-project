@@ -1,7 +1,7 @@
 {% load calendar_widget %}
 {% load static %}
 
-<div id="calendar">
+<div class="calendar">
     <div class="flex bg-[#3F8CFF] justify-between items-center">
         <a href="?calendar_year={{ prev_year }}&calendar_month={{ prev_month }}"
            class="cursor-pointer w-8 h-8 flex justify-center items-center">
@@ -62,11 +62,12 @@
         const calendarMonth = params.get('calendar_month');
 
         if (eventDate || calendarYear || calendarMonth) {
-            const targetElement = document.getElementById('calendar');
-
-            if (targetElement) {
-                targetElement.scrollIntoView({block: 'center'});
-            }
+            document.querySelectorAll('.calendar').forEach(el => {
+                const isVisible = el && el.offsetParent !== null;
+                if (isVisible) {
+                    el.scrollIntoView({block: 'center'});
+                }
+            });
         }
     });
 </script>

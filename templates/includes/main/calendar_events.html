@@ -1,7 +1,7 @@
 {% load static %}
 {% load calendar_widget %}
 
-<div id="calendarEvents" class="p-2">
+<div class="calendarEvents" class="p-2">
     {% for event in events %}
         <div class="flex flex-row justify-between items-center">
             <h1 class="text-[16px] font-bold text-primary text-center text-[#F05F4B]">{{ event_day_localized }}</h1>

@@ -33,31 +33,73 @@
 
 {% block content %}
     <main>
-        <div class="flex flex-col lg:flex-row gap-4 px-6 lg:px-[100px]">
-            <!-- Column 1 -->
-            <div class="flex flex-col w-full lg:max-w-[438px] order-2 lg:order-1">
-                {% include "includes/main/index_briefing.html" %}
-                {% include "includes/main/index_documents.html" %}
-                {% include "includes/main/index_risks.html" %}
-                {% include "includes/main/index_qauipmedia.html" %}
+        <section>
+            <div class="hidden lg:flex flex-col justify-center mx-[100px]">
+                <div class="flex flex-col w-full justify-center">
+                    <!-- Мэйн-блок и мини-блоки с навигацией -->
+                    {% include "includes/main/index_blocks.html" %}
+                    <!-- Инструктажи -->
+                    <div class="flex flex-row gap-2 pt-[5px] justify-between">
+                        <div class="flex flex-col max-w-[438px] w-full">
+                            <!-- Инструктажи -->
+                            {% include "includes/main/index_briefing.html" %}
+                            <!-- Документы -->
+                            {% include "includes/main/index_documents.html" %}
+                            <!-- Управление рисками -->
+                            {% include "includes/main/index_risks.html" %}
+                            <!-- Кауипмедиа -->
+                            {% include "includes/main/index_qauipmedia.html" %}
+
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <!-- Новости -->
+                            {% include "includes/main/index_news.html" %}
+                            <!-- Аналитика -->
+                            {% include "includes/main/index_analytics.html" %}
+                        </div>
+                        <div class="flex flex-col max-w-[464px] w-full">
+                            <!-- Календарь событий -->
+                            {% include "includes/main/calendar.html" %}
+                            <!-- Кейсы автоматизации -->
+                            {% include "includes/main/index_autoKeys.html" %}
+                            <!-- Законодательство -->
+                            {% include "includes/main/index_law.html" %}
+                            <!-- Чек-листы -->
+                            {% include "includes/main/index_checklists.html" %}
+                            <!-- Вопросы и ответы -->
+                            {% include "includes/main/index_questions.html" %}
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Column 2 -->
-            <div class="flex flex-col w-full order-1 lg:order-2">
+            <div class="flex flex-col lg:hidden justify-center px-6 bg-white pb-4">
+                <!-- Мэйн-блок и мини-блоки с навигацией -->
                 {% include "includes/main/index_blocks.html" %}
+                <!-- Новости -->
                 {% include "includes/main/index_news.html" %}
+                <!-- Аналитика -->
                 {% include "includes/main/index_analytics.html" %}
-            </div>
-
-            <!-- Column 3 -->
-            <div class="flex flex-col w-full lg:max-w-[464px] order-3">
+                <!-- Инструктажи -->
+                {% include "includes/main/index_briefing.html" %}
+                <!-- Документы -->
+                {% include "includes/main/index_documents.html" %}
+                <!-- Управление рисками -->
+                {% include "includes/main/index_risks.html" %}
+                <!-- Кауипмедиа -->
+                {% include "includes/main/index_qauipmedia.html" %}
+                <!-- Календарь событий -->
                 {% include "includes/main/calendar.html" %}
+                <!-- Кейсы автоматизации -->
                 {% include "includes/main/index_autoKeys.html" %}
+                <!-- Законодательство -->
                 {% include "includes/main/index_law.html" %}
+                <!-- Чек-листы -->
                 {% include "includes/main/index_checklists.html" %}
+                <!-- Вопросы и ответы -->
                 {% include "includes/main/index_questions.html" %}
             </div>
-        </div>
+        </section>
     </main>
 {% endblock %}
 

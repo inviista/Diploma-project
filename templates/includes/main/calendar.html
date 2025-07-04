@@ -7,7 +7,7 @@
             <text class="font-bold text-2xl">Календарь событий</text>
 
             <a href="{% url 'news:event_calendar' %}" class="w-[36px] h-fit">
-                <img src="{% static 'img/_src/icons/Frame 58 (6).png' %}">
+                <img src="{% static 'img/_src/icons/Frame 58 (6).png' %}" alt="all">
             </a>
         </div>
         <text class="font-medium max-lg:text-sm">Следи за важными датами в сфере охраны <br> труда: форумы, проверки,
@@ -26,8 +26,7 @@
          fetch(`{% url 'news:get_events_by_date' %}?date=${date}`)
         .then((res) => res.text())
         .then((html) => {
-            console.log(document.getElementById("calendarEvents"));
-            document.getElementById("calendarEvents").innerHTML = html;
+            document.querySelectorAll(".calendarEvents").forEach(el => el.innerHTML = html)
         })
         .catch((err) => {
           console.error("Failed to fetch events:", err);

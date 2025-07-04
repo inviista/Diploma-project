@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'news.apps.NewsConfig',
     'users.apps.UsersConfig',
+    'trix_editor',
 ]
 
 MIDDLEWARE = [

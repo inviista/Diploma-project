@@ -1,7 +1,7 @@
 from django.contrib import admin, messages
 from django.utils.html import format_html
 
-from .form import ArticleAdminForm
+from .form import ArticleAdminForm, EventForm
 from .models import *
 
 admin.site.register(Category)
@@ -12,7 +12,6 @@ admin.site.register(Document)
 admin.site.register(Instruction)
 admin.site.register(Law)
 admin.site.register(Study)
-admin.site.register(Event)
 admin.site.register(EventTag)
 admin.site.register(EventCategory)
 admin.site.register(City)
@@ -65,3 +64,8 @@ def publish_draft_articles(modeladmin, request, queryset):
 class DraftArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'datetime_created')
     actions = [publish_draft_articles]
+
+
+@admin.register(Event)
+class ArticleAdmin(admin.ModelAdmin):
+    form = EventForm

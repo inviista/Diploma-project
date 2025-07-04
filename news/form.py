@@ -1,6 +1,7 @@
 from django import forms
+from trix_editor.widgets import TrixEditorWidget
 
-from .models import Article, ArticleComment, LawComment
+from .models import Article, ArticleComment, LawComment, Event
 
 
 class ArticleAdminForm(forms.ModelForm):
@@ -9,6 +10,9 @@ class ArticleAdminForm(forms.ModelForm):
     class Meta:
         model = Article
         exclude = ['image']
+        widgets = {
+            "content": TrixEditorWidget(),
+        }
 
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -39,3 +43,12 @@ class LawCommentForm(forms.ModelForm):
     class Meta:
         model = LawComment
         fields = ['text']
+
+
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = '__all__'
+        widgets = {
+            "description": TrixEditorWidget(),
+        }

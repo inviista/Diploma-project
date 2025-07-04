@@ -1,11 +1,13 @@
 asgiref==3.7.2
 async-timeout==4.0.2
-Django==3.2
+Django==4.2.23
 django-cacheops==7.0.1
 django-cors-headers==4.0.0
 django-filter==23.2
+django-js-asset==2.2.0
 django-redis==5.2.0
 django-scheduler==0.10.1
+django-trix-editor==0.3
 funcy==1.18
 gunicorn==20.0.4
 icalendar==6.3.1

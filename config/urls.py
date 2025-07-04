@@ -16,6 +16,7 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     # password successfully reset
     path('reset/complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('trix-editor/', include('trix_editor.urls')),
 ]
 
 if settings.DEBUG:

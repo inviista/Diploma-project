@@ -153,9 +153,13 @@
             <img src="{% static 'img/_src/icons/Asset 6.png' %}" class="h-[64px]" alt="logo" />
             <p class="text-sm ">Безопасность —<br/>не требование, а культура…</p>
         </div>
-        <input type="text"
-               placeholder="Поиск через HSE GPT…"
-               class="w-full p-4  text-black text-base bg-white rounded-2xl placeholder:text-black" />
+            <form method="get" action="{% url 'news:search_results' %}">
+                <input
+                        type="text"
+                        name="search"
+                        placeholder="Поиск через HSE GPT..."
+                        class="w-full p-4  text-black text-base bg-white rounded-2xl placeholder:text-black" />
+            </form>
 
         <a href="/" class="bg-[#2B2B2B] rounded-2xl p-4">Главная</a>
         <a href="/about/" class="bg-[#2B2B2B] rounded-2xl p-4">О нас</a>

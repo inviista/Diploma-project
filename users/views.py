@@ -68,7 +68,8 @@ def register(request):
     success, error = send_verification_email(email, code)
     if success:
         user.save()
-        EmailVerification.objects.update_or_create(email=email, defaults={'code': code})
+        EmailVerification.objects.filter(email=email).delete()
+        EmailVerification.objects.create(email=email, code=code)
         request.session['user_email'] = email
         messages.success(request, 'Код подтверждения отправлен на вашу почту.')
     else:

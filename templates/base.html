@@ -102,7 +102,7 @@
                         type="text"
                         name="search"
                         placeholder="Поиск через HSE GPT..."
-                        class="font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] rounded px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] min-w-[300px]"
+                        class="font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] h-[39px] rounded px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] min-w-[300px]"
                 />
             </form>
 
@@ -118,6 +118,12 @@
                     Войти
                 </button>
             {% endif %}
+            {% if request.user.is_authenticated %}
+            <button
+                        class="h-[39px] flex justify-center border-1 bg-white rounded-[16px] items-center border-solid px-6 py-3">
+                <img class="min-w-6 min-h-6 w-6 h-6" src="{% static 'img/_src/icons/exit_to_app.svg' %}">
+            </button>
+            {% endif %}
         </div>
     </div>
 </header>
@@ -131,10 +137,22 @@
                 alt="logo"/>
     </a>
     <div class="flex gap-3">
+        {% if request.user.is_authenticated %}
+            <button
+                        class="hidden sm:flex font-[600] text-[12px] text-white justify-center items-center text-nowrap"
+                >{{ request.user.profile.full_name }}</button>
+            <button
+                        class=" flex justify-center items-center ">
+                <img class="min-w-8 min-h-8 w-8 h-8" src="{% static 'img/_src/icons/exit_to_app1.svg' %}">
+            </button>
+        {% else %}
         <img class="h-8 w-8" src="{% static 'img/32/user.svg' %}" alt="user"/>
+        {% endif %}
+
         <button onclick="toggleMenu()">
             <img class="h-8 w-8" src="{% static 'img/32/menu.svg' %}" alt="menu"/>
         </button>
+
     </div>
 </header>
 

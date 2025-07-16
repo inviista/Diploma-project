@@ -19,7 +19,9 @@
                 <a href="{% url 'news:news_detail' article.alias %}"
                    class="flex flex-col gap-4 border-b-1 border-[#EFEFEF] pb-[16px]">
                     <div>
+                        {% if article.published_date|date:"Y-m-d" == today|date:"Y-m-d" %}
                         <div class="text-[12px] text-[#3F8CFF] font-[400]">Сегодня</div>
+                         {% endif %}
                         <div class="flex max-md:flex-col gap-4">
                             {% if article.image.path %}
                                 <img class="flex h-fit pt-1 w-[150px]"

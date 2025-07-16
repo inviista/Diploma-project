@@ -143,7 +143,7 @@ def index(request):
         'event_date': event_date,
         'events_by_day': events_by_day,
         'event_day_localized': event_date.strftime('%d %B'),
-
+        'today': date.today(),
         # instructions
         'instructions': instructions,
 
@@ -246,7 +246,7 @@ def all_news(request):
         'calendar_month': calendar_month,
         'event_date': event_date,
         'events_by_day': events_by_day,
-
+        'today': date.today(),
         # detailed new
         'selected_new_alias': selected_new_alias
     }
@@ -282,7 +282,8 @@ def news_detail(request, alias):
         'calendar_year': calendar_year,
         'calendar_month': calendar_month,
         'event_date': event_date,
-        'events_by_day': events_by_day, }
+        'events_by_day': events_by_day,
+        'today': date.today(),}
 
     return render(request, 'pages/article.html', context)
 

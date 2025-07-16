@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.sitemaps.views import sitemap
-
+from django.contrib.auth import views as auth_views
 from .sitemaps import ArticleSitemap
 from news import views
 
@@ -36,7 +36,7 @@ urlpatterns = [
     path('get_events_by_date/', views.get_events_by_date_api, name='get_events_by_date'),
     path('automation_cases/', views.automation_cases, name='automation_cases'),
     path('risk_management/', views.risk_management, name='risk_management'),
-
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 
     # AMP
     path('amp/<str:alias>/', views.amp_views, name='amp'),

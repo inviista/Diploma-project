@@ -682,42 +682,71 @@ def webinars_view(request):
     return render(request, 'pages/webinars.html', context)
 
 
+RUSSIAN_MONTHS = {
+    'Январь': 1, 'Февраль': 2, 'Март': 3, 'Апрель': 4,
+    'Май': 5, 'Июнь': 6, 'Июль': 7, 'Август': 8,
+    'Сентябрь': 9, 'Октябрь': 10, 'Ноябрь': 11, 'Декабрь': 12
+}
+
 def calendar_view(request):
     today = timezone.now().date()
 
+    # GET параметры
     search = request.GET.get('search')
     selected_date_str = request.GET.get('date')
+    selected_month_name = request.GET.get('month')
     city = request.GET.get('city')
     selected_category = request.GET.get('category')
 
-    selected_date = today
+    selected_date = None
     if selected_date_str:
         try:
             selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date()
         except ValueError:
             pass
+
+    month_number = None
+    if selected_month_name in RUSSIAN_MONTHS:
+        month_number = RUSSIAN_MONTHS[selected_month_name]
+
+    # Начальный queryset
+    events = Event.objects.all()
+
+    # Применяем ВСЕ фильтры вместе
+    if selected_date:
+        events = events.filter(date=selected_date)
+    if month_number:
+        events = events.filter(date__month=month_number)
+    if city:
+        events = events.filter(city__name__iexact=city)
+    if selected_category:
+        events = events.filter(categories__slug=selected_category)
+    if search:
+        events = events.filter(Q(title__icontains=search) | Q(description__icontains=search))
+
+    # Остальная часть — как у тебя
     categories = EventCategory.objects.all()
+    cities = City.objects.all()
     dates = [(today + timedelta(days=i)) for i in range(30)]
 
-    events = Event.objects.filter(date=selected_date)
-
     end_of_year = date(today.year, 12, 31)
+    year_events = Event.objects.filter(date__range=(today, end_of_year)).order_by('date')
 
-    year_events = Event.objects.filter(
-        date__range=(today, end_of_year)
-    ).order_by('date')
+    # Для календаря
+    calendar_year = int(request.GET.get('calendar_year', today.year))
+    calendar_month = int(request.GET.get('calendar_month', today.month))
+    event_date_str = request.GET.get('event_date')
+    event_date = today
+    if event_date_str:
+        try:
+            event_date = datetime.strptime(event_date_str, '%Y-%m-%d').date()
+        except ValueError:
+            pass
 
-    if selected_category:
-        events = events.filter(categories__slug__exact=selected_category)
-    if search:
-        events = events.filter(
-            Q(title__icontains=search) |
-            Q(description__icontains=search)
-        )
-    if city:
-        events = events.filter(city__name=city)
-
-    cities = City.objects.all()
+    calendar_events = Event.objects.filter(date__year=calendar_year, date__month=calendar_month)
+    events_by_day = {day: [] for day in range(1, 32)}
+    for event in calendar_events:
+        events_by_day[event.date.day].append(event)
 
     context = {
         'events': events,
@@ -725,10 +754,20 @@ def calendar_view(request):
         'dates': dates,
         'selected_date': selected_date,
         'year_events': year_events,
+        'cities': cities,
+        'calendar_year': calendar_year,
+        'calendar_month': calendar_month,
+        'event_date': event_date,
+        'events_by_day': events_by_day,
+        'event_day_localized': event_date.strftime('%d %B'),
         'today': today,
-        'cities': cities
+        'months': list(RUSSIAN_MONTHS.keys()),
     }
+
     return render(request, 'pages/event_calendar.html', context)
+
+
+
 
 
 def author(request, uid):

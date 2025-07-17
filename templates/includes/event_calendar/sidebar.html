@@ -1,0 +1,19 @@
+{% load static %}
+{% load new_details_modal %}
+{% load calendar_widget %}
+
+<div class="flex flex-col gap-2 max-lg:gap-4 max-lg:p-6">
+        <div class="flex flex-col bg-white lg:shadow-[0px_4px_4px_0px_#0000001A] rounded-3xl lg:p-6 h-fit max-lg:order-first gap-3">
+            <p class="text-2xl font-bold border-b-3 border-b-[#F5F5F5] pb-3">Самые обсуждаемые и интересные события не упустите мероприятия</p>
+            {% render_calendar calendar_year calendar_month events_by_day %}
+            <button class="bg-[#3F8CFF] justify-center items-center text-white text-xs w-full h-[39px] rounded-[16px] font-[600]">
+                Применить
+            </button>
+        </div>
+        <div class="flex flex-col bg-white lg:shadow-[0px_4px_4px_0px_#0000001A] rounded-3xl lg:p-6 h-fit max-lg:order-first gap-3">
+            <p class="text-2xl font-bold border-b-3 border-b-[#F5F5F5] pb-3">Напоминания</p>
+            <button class="bg-[#3F8CFF] justify-center items-center text-white text-xs w-full h-[39px] rounded-[16px] font-[600]">
+                Telegram-подписка на события
+            </button>
+        </div>
+    </div>

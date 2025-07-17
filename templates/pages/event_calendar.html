@@ -1,70 +1,87 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load new_details_modal %}
+{% load calendar_widget %}
 {% block content %}
-    <div class="flex flex-col justify-center mb-6 max-lg:bg-white">
-        <div class="p-6 bg-white mb-3 lg:px-[100px]">
-            <p class="text-xs font-bold text-center mb-4">
-                Мероприятия по ТБ на {{ today.year }}
-            </p>
-            <div class="flex overflow-auto gap-3">
-                {% for event in year_events %}
-                    <div class="flex justify-between rounded-3xl bg-[#F5F5F5] px-3 py-4 items-center min-w-[250px] max-w-[250px] gap-4">
-                        <p class="line-clamp-2 text-[10px]">{{ event.title }}</p>
-                        <p class="rounded-lg bg-[#F05F4B] text-white p-[6px] text-xs text-nowrap">{{ event.date|date:"j E" }}</p>
-                    </div>
-                {% endfor %}
+<div class="flex flex-col justify-center mb-6 max-lg:bg-white" xmlns="http://www.w3.org/1999/html">
+    <div class="p-6 bg-white mb-3 lg:px-[100px]">
+        <p class="text-xs font-bold text-center mb-4">
+            Мероприятия по ТБ на {{ today.year }}
+        </p>
+        <div class="flex overflow-auto gap-3">
+            {% for event in year_events %}
+            <div class="flex justify-between rounded-3xl bg-[#F5F5F5] px-3 py-4 items-center min-w-[250px] max-w-[250px] gap-4">
+                <p class="line-clamp-2 text-[10px]">{{ event.title }}</p>
+                <p class="rounded-lg bg-[#F05F4B] text-white p-[6px] text-xs text-nowrap">{{ event.date|date:"j E" }}</p>
             </div>
+            {% endfor %}
         </div>
-        <div class="flex flex-row max-lg:flex-col gap-2 max-lg:gap-8 justify-center pt-3 lg:mx-[100px] mb-6 mx-6">
-            <div class="flex flex-col lg:shadow-[0px_4px_4px_0px_#0000001A] lg:p-6 bg-white rounded-3xl">
-                <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
-                    <a href="{% url 'news:index' %}" class="h-[29px] flex justify-center">
-                        <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
-                    </a>
-                    <div class="flex flex-col">
-                        <text class="font-[700] text-[24px]">Календарь событий</text>
-                        <text class="font-[500] text-[16px] max-lg:text-[14px]">Смотрите и планируйте все мероприятия вместе с нами
-                        </text>
-                    </div>
+    </div>
+    <div class="flex flex-row max-lg:flex-col gap-2 max-lg:gap-8 justify-center pt-3 lg:mx-[100px] mb-6 mx-6">
+        <div class="flex flex-col lg:max-w-[1312px] lg:shadow-[0px_4px_4px_0px_#0000001A] lg:p-6 bg-white rounded-3xl">
+            <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
+                <a href="{% url 'news:index' %}" class="h-[29px] flex justify-center">
+                    <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
+                </a>
+                <div class="flex flex-col">
+                    <text class="font-[700] text-[24px]">Календарь событий</text>
+                    <text class="font-[500] text-[16px] max-lg:text-[14px]">Смотрите и планируйте все мероприятия вместе с нами
+                    </text>
                 </div>
-                <div class="flex items-center max-lg:items-start py-6 gap-6 max-lg:flex-col">
-                    <div class="flex gap-1">
+            </div>
+            <div class="lg:hidden">
+                {% include 'includes/event_calendar/sidebar.html' %}
+            </div>
+            <div class="flex items-center max-lg:items-start py-6 gap-6 max-lg:flex-col">
+                <div class="flex w-full gap-6 max-sm:justify-between max-sm:gap-6 max-sm:flex-row flex-wrap">
+                    <div class="flex flex-row">
                         <div class="flex items-center gap-2 px-3 py-[7.5px] rounded-xl">
                             <label>
                                 <select class="text-[#AF1E2A] text-xs"
                                         onchange="updateQueryParamAndReload('city', event.target.value)">
-                                    <option disabled
-                                            {% if not request.GET.city %}
-                                            selected
-                                            {% endif %} >
-                                        Город
-                                    </option>
+                                    <option disabled {% if not request.GET.city %}selected{% endif %}>Город</option>
                                     {% for city in cities %}
-                                        <option value="{{ city }}"
-                                                {% if request.GET.city == city %}
-                                                selected
-                                                {% endif %}>
-                                            {{ city }}
-                                        </option>
+                                    <option value="{{ city.name }}"
+                                            {% if request.GET.city == city.name %}selected{% endif %}>
+                                        {{ city.name }}
+                                    </option>
                                     {% endfor %}
                                 </select>
                             </label>
                             <div class="w-6 h-6">
-                                <img src="{% static 'img/_src/icons/swap_vert.svg' %}" alt="swap"/>
+                                <img src="{% static 'img/_src/icons/arrow_drop_down1.svg' %}" alt="swap"/>
                             </div>
                         </div>
-
-                        <a href="?"
-                           class="
-                                      flex items-center gap-2 px-3 py-[7.5px] rounded-xl
-                                      {% if not request.GET.sort and not request.GET.search %}
+                        <div class="flex items-center px-3 py-[7.5px] rounded-xl">
+                            <label>
+                                <select class="text-[#AF1E2A] text-xs"
+                                        onchange="updateQueryParamAndReload('month', event.target.value)">
+                                    <option disabled {% if not request.GET.month %} selected {% endif %} >
+                                        Месяц
+                                    </option>
+                                    {% for month  in months  %}
+                                    <option value="{{ month }}" {% if request.GET.month == month %} selected {% endif %}>
+                                        {{ month }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                            <div class="w-6 h-6">
+                                <img src="{% static 'img/_src/icons/arrow_drop_down1.svg' %}" alt="swap"/>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="?"
+                       class="
+                                     flex items-center gap-2 px-6 py-3 rounded-[16px] h-[39px]
+                                     {% if not request.GET.sort and not request.GET.search %}
                                           bg-[#AF1E2A]
                                       {% else %}
                                           hover:bg-gray-100
                                       {% endif %}
                                    "
-                        >
-                            <text class="
+                    >
+                        <text class="
                                         text-xs text-nowrap
                                         {% if not request.GET.sort and not request.GET.search %}
                                             bg-[#AF1E2A] text-white
@@ -72,18 +89,14 @@
                                             text-[#AF1E2A]
                                         {% endif %}
                                     ">
-                                Показать все
-                            </text>
-                            <div class="w-6 h-6">
-                                {% if not request.GET.sort and not request.GET.search %}
-                                    <img src="{% static 'img/_src/icons/arrow_drop_down_white.svg' %}"
-                                         alt="show all"/>
-                                {% else %}
-                                    <img src="{% static 'img/_src/icons/arrow_drop_down.svg' %}" alt="show all"/>
-                                {% endif %}
-                            </div>
-                        </a>
-                    </div>
+                            Сбросить фильтры
+                        </text>
+                    </a>
+                </div>
+                <div class="flex flex-row gap-6 w-full max-sm:flex-col">
+                    <button class="h-[39px] bg-[#3F8CFF] text-start rounded-[16px] text-white text-[12px] font-[600] justify-center items-center text-nowrap px-6 py-3">
+                        Предложить своё событие
+                    </button>
                     <label class="w-full">
                         <input
                                 onchange="updateQueryParamAndReload('search', event.target.value)"
@@ -91,130 +104,112 @@
                                 name="search"
                                 value="{{ request.GET.search }}"
                                 placeholder="Быстрый поиск..."
-                                class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
+                                class="w-full h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
                         />
                     </label>
                 </div>
-                <div class="flex gap-2 overflow-x-auto mb-6 thin-scrollbar lg:max-w-[70vw]">
-                    {% for date in dates %}
-                        <div onclick="updateQueryParamAndReload('date', '{{ date|date:"Y-m-d" }}')"
-                             class="shrink-0 flex items-center justify-center rounded-2xl h-[52px] w-[52px] cursor-pointer
-                            {% if selected_date == date %}
-                                bg-[#F05F4B] text-white
-                            {% else %}
-                                bg-[#F5F5F5]
-                           {% endif %} "
-                        >
-                            {{ date.day }}
-                        </div>
-                    {% endfor %}
-                </div>
-
-                <div class=" flex mb-6 max-lg:overflow-x-auto w-full ">
-                    <a onclick="updateQueryParamAndReload('category', '')"
-                       class="max-lg:shrink-0 cursor-pointer text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if not request.GET.category %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}"
+            </div>
+            <div class="flex gap-2 overflow-x-auto mb-6 thin-scrollbar lg:max-w-[70vw]">
+                {% for date in dates %}
+                    <div onclick="updateQueryParamAndReload('date', '{{ date|date:"Y-m-d" }}')"
+                    class="shrink-0 flex items-center justify-center rounded-2xl h-[52px] w-[52px] cursor-pointer
+                    {% if selected_date == date %}
+                    bg-[#F05F4B] text-white
+                    {% else %}
+                    bg-[#F5F5F5]
+                    {% endif %} "
                     >
-                        Все
-                    </a>
-                    {% for category in categories %}
-                        <div onclick="updateQueryParamAndReload('category', '{{ category.slug }}')"
-                             class="max-lg:shrink-0 cursor-pointer text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if request.GET.category == category.slug %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}"
-                        >
-                            {{ category.name }}
-                        </div>
-                    {% endfor %}
+                    {{ date.day }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class=" flex mb-6 max-lg:overflow-x-auto w-full ">
+                <a onclick="updateQueryParamAndReload('category', '')"
+                   class="max-lg:shrink-0 cursor-pointer text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if not request.GET.category %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}"
+                >
+                    Все
+                </a>
+                {% for category in categories %}
+                <div onclick="updateQueryParamAndReload('category', '{{ category.slug }}')"
+                     class="max-lg:shrink-0 cursor-pointer text-[12px] p-[10px] font-medium pb-2 border-b-3 {% if request.GET.category == category.slug %}border-red-600 text-red-600{% else %}border-transparent text-gray-600{% endif %}"
+                >
+                    {{ category.name }}
                 </div>
-                <div class="flex flex-col w-full h-auto">
-                    <div class="main-news flex flex-col gap-4 pt-[10px]">
-                        <div class="flex flex-col">
-                            <div class="grid sm:grid-cols-1 max-md:mx-auto md:grid-cols-2 xl:grid-cols-3">
-                                {% for event in events %}
-                                    <div class="max-w-[415px] w-full relative flex flex-col gap-[10px] px-3 py-3 pb-6">
-                                        {% for tag in event.tags.all %}
-                                            <div
-                                                    class="flex absolute top-[20px] left-[20px] justify-center items-center text-[10px] text-white rounded-[16px] py-1 px-2 w-fit h-4
-                                                        {% if tag.slug == 'free' %}
-                                                          bg-[#3F8CFF]
-                                                        {% elif tag.slug == 'certificate' %}
-                                                          bg-[#AF3FFF]
-                                                        {% elif tag.slug == 'live' %}
-                                                          bg-[#DF3131]
-                                                        {% endif %}"
-                                            >
-                                                {% if tag.slug == 'free' %}
-                                                    Бесплатно
-                                                {% elif tag.slug == 'certificate' %}
-                                                    Сертификат
-                                                {% elif tag.slug == 'live' %}
-                                                    Только в прямом эфире
-                                                {% endif %}
-                                            </div>
-                                        {% endfor %}
-                                        {% if event.image %}
-                                            <img
-                                                    alt="photo"
-                                                    class="w-full h-auto"
-                                                    src={{ event.image.url }}
-                                            />
-                                        {% endif %}
-                                        <div class="flex flex-col items-start justify-start gap-[10px]">
-                                            <text class="font-bold text-[20px]">{{ event.title }}</text>
-                                            <text class="text-sm text-[#787878]">{{ event.description|safe }}</text>
-                                            {% if event.url %}
-                                                <a href="{{ event.url }}" target="_blank" rel="noopener noreferrer"
-                                                   class="text-sm text-blue-600 underline hover:text-blue-800 break-all">
-                                                    {{ event.url }}
-                                                </a>
-                                            {% endif %}
-                                        </div>
-                                        <div class="flex flex-row justify-between w-full items-center gap-[10px]">
-                                            <text class=" text-[14px] text-[#787878]">{{ event.duration_hours }}
-                                                часа
-                                            </text>
-                                            <text class="text-sm text-[14px] text-[#787878]">{{ event.date|date:"d.m.Y" }}</text>
-                                        </div>
-                                        <div class="flex flex-row justify-start items-center">
-                                            {% if event.author_avatar %}
-                                                <img class="mt-1 rounded-full w-8 h-8 object-cover"
-                                                     src="{{ event.author_avatar.url }}" alt="avatar">
-                                            {% endif %}
-                                            <div class="flex flex-col ml-[9px] gap-0.5">
-                                                <text class="font-[700] text-sm">{{ event.author_full_name }}</text>
-                                                <text class="text-sm">{{ event.author_job_title }}</text>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% empty %}
-                                    <p class="text-sm">Ничего не найдено</p>
+                {% endfor %}
+            </div>
+            <div class="flex flex-col w-full h-auto">
+                <div class="main-news flex flex-col gap-4 pt-[10px]">
+                    <div class="flex flex-col">
+                        <div class="grid sm:grid-cols-1 max-md:mx-auto md:grid-cols-2 xl:grid-cols-3">
+                            {% for event in events %}
+                            <div class="max-w-[415px] w-full relative flex flex-col gap-[10px] px-3 py-3 pb-6">
+                                {% for tag in event.tags.all %}
+                                <div
+                                        class="flex absolute top-[20px] left-[20px] justify-center items-center text-[10px] text-white rounded-[16px] py-1 px-2 w-fit h-4
+                                                            {% if tag.slug == 'free' %}
+                                                              bg-[#3F8CFF]
+                                                            {% elif tag.slug == 'certificate' %}
+                                                              bg-[#AF3FFF]
+                                                            {% elif tag.slug == 'live' %}
+                                                              bg-[#DF3131]
+                                                            {% endif %}"
+                                >
+                                    {% if tag.slug == 'free' %}
+                                    Бесплатно
+                                    {% elif tag.slug == 'certificate' %}
+                                    Сертификат
+                                    {% elif tag.slug == 'live' %}
+                                    Только в прямом эфире
+                                    {% endif %}
+                                </div>
                                 {% endfor %}
+                                {% if event.image %}
+                                <img
+                                        alt="photo"
+                                        class="w-full h-auto"
+                                        src={{ event.image.url }}
+                                />
+                                {% endif %}
+                                <div class="flex flex-col items-start justify-start gap-[10px]">
+                                    <text class="font-bold text-[20px]">{{ event.title }}</text>
+                                    <text class="text-sm text-[#787878]">{{ event.description|safe }}</text>
+                                    {% if event.url %}
+                                    <a href="{{ event.url }}" target="_blank" rel="noopener noreferrer"
+                                       class="text-sm text-blue-600 underline hover:text-blue-800 break-all">
+                                        {{ event.url }}
+                                    </a>
+                                    {% endif %}
+                                </div>
+                                <div class="flex flex-row justify-between w-full items-center gap-[10px]">
+                                    <text class=" text-[14px] text-[#787878]">{{ event.duration_hours }}
+                                        часа
+                                    </text>
+                                    <text class="text-sm text-[14px] text-[#787878]">{{ event.date|date:"d.m.Y" }}</text>
+                                </div>
+                                <div class="flex flex-row justify-start items-center">
+                                    {% if event.author_avatar %}
+                                    <img class="mt-1 rounded-full w-8 h-8 object-cover"
+                                         src="{{ event.author_avatar.url }}" alt="avatar">
+                                    {% endif %}
+                                    <div class="flex flex-col ml-[9px] gap-0.5">
+                                        <text class="font-[700] text-sm">{{ event.author_full_name }}</text>
+                                        <text class="text-sm">{{ event.author_job_title }}</text>
+                                    </div>
+                                </div>
                             </div>
+                            {% empty %}
+                            <p class="text-sm">Ничего не найдено</p>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
-        <div class="flex flex-col bg-white lg:shadow-[0px_4px_4px_0px_#0000001A] rounded-3xl lg:p-6 h-fit max-lg:order-first">
-                <p class="text-2xl font-bold border-b-3 border-b-[#F5F5F5] pb-3">Фильтр по категориям событий</p>
-                <label class="flex items-center gap-3 mt-3 text-sm">
-                    <input type="checkbox" class="w-[18px] h-[18px]"
-                            {% if not request.GET.category %}
-                           checked
-                            {% endif %}
-                           onchange="updateQueryParamAndReload('category', '')"/>
-                    Показать все
-                </label>
-                {% for category in categories %}
-                    <label class="flex items-center gap-3 mt-3 text-sm">
-                        <input type="checkbox" class="w-[18px] h-[18px]"
-                                {% if request.GET.category and request.GET.category == category.slug %}
-                               checked
-                                {% endif %}
-                               onchange="updateQueryParamAndReload('category', event.target.checked ? '{{ category.slug }}' : '')"/>
-                        {{ category }}
-                    </label>
-                {% endfor %}
-            </div>
+        </div>
+    <div class="hidden lg:block">
+        {% include 'includes/event_calendar/sidebar.html' %}
     </div>
 </div>
+
     <script>
         function updateQueryParamAndReload(key, value) {
             console.log(key, value);

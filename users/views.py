@@ -61,7 +61,7 @@ def register(request):
     if inactive_user_qs.exists():
         user = inactive_user_qs.first()
     else:
-        user = form.save(commit=False)
+        user = form.save()
         user.username = email
         user.is_active = False
 
@@ -118,6 +118,7 @@ def abort(request):
 
 def login_view(request):
     if request.method == 'POST':
+        print(request.POST)
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             login(request, form.get_user())

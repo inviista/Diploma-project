@@ -78,7 +78,11 @@
 
                                 {% for document in documents %}
                                     <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
+                                        {% if document.is_new %}
+                                            <div class="flex justify-center items-center self-start text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                        {% endif %}
                                         <div class="flex flex-row w-full justify-between">
+
                                             <p class="text-[#3F8CFF]">{{ document.get_file_extension }}</p>
                                             <p>{{ document.valid_from|date:"d.m.Y" }}</p>
                                         </div>
@@ -133,6 +137,9 @@
                     <div class="flex flex-col w-full h-auto">
                         {% for document in side_documents %}
                             <div class="flex flex-col items-start justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
+                                {% if document.is_new %}
+                                    <div class="flex justify-center items-center self-start text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                {% endif %}
                                 <div class="flex flex-row w-full justify-between">
                                             <p class="text-[#3F8CFF]">{{ document.get_file_extension }}</p>
                                     <p>{{ document.valid_from|date:"d.m.Y" }}</p>
@@ -224,6 +231,9 @@
 
                                 {% for document in documents %}
                                     <div class="flex flex-col items-center justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
+                                        {% if document.is_new %}
+                                            <div class="flex justify-center items-center self-start text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                        {% endif %}
                                         <div class="flex flex-row w-full justify-between">
                                             <p class="text-[#3F8CFF]">{{ document.get_file_extension }}</p>
                                             <p>{{ document.valid_from|date:"d.m.Y" }}</p>
@@ -279,7 +289,9 @@
                     <div class="flex flex-col w-full h-auto">
                         {% for document in side_documents %}
                             <div class="flex flex-col items-start justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
-
+                                {% if document.is_new %}
+                                <div class="flex justify-center items-center self-start text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                {% endif %}
                                 <div class="flex flex-row w-full justify-between">
                                             <p class="text-[#3F8CFF]">{{ document.get_file_extension }}</p>
                                     <p>{{ document.valid_from|date:"d.m.Y" }}</p>

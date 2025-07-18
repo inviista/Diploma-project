@@ -78,6 +78,9 @@
                                 <div class="flex flex-col flex-wrap">
                                     {% for checklist in checklists %}
                                         <div class="flex flex-col items-center h-auto px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
+                                            {% if checklist.is_new %}
+                                                <div class="flex justify-center items-center self-start text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                            {% endif %}
                                             <div class="flex flex-row w-full justify-between">
                                                 <p class="text-[#3F8CFF]">{{ checklist.get_file_extension }}</p>
                                                 <p>{{ checklist.valid_from|date:"d.m.Y" }}</p>
@@ -131,9 +134,9 @@
                     <div class="flex flex-col w-full h-auto">
                         {% for checklist in side_checklists %}
                             <div class="flex flex-col items-start justify-between px-3 py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
-                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">
-                                    Новое
-                                </div>
+                                {% if checklist.is_new %}
+                                    <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                {% endif %}
                                 <div class="flex flex-row w-full justify-between">
                                     <p class="text-[#3F8CFF]">{{ checklist.get_file_extension }}</p>
                                     <p>{{ checklist.valid_from|date:"d.m.Y" }}</p>
@@ -222,6 +225,9 @@
                                 <div class="flex flex-col flex-wrap">
                                     {% for checklist in checklists %}
                                         <div class="flex flex-col items-center justify-between py-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
+                                            {% if checklist.is_new %}
+                                                <div class="flex justify-center self-start items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                            {% endif %}
                                             <div class="flex flex-row w-full justify-between">
                                                 <p class="text-[#3F8CFF]">{{ checklist.get_file_extension }}</p>
                                                 <p>{{ checklist.valid_from|date:"d.m.Y" }}</p>
@@ -275,9 +281,9 @@
                     <div class="flex flex-col w-full h-auto">
                         {% for checklist in side_checklists %}
                             <div class="flex flex-col items-start justify-between pt-3 pb-6 border-[#EFEFEF] border-b-1 gap-[10px]">
-                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">
-                                    Новое
-                                </div>
+                                {% if checklist.is_new %}
+                                    <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                {% endif %}
                                 <div class="flex flex-row w-full justify-between">
                                     <p class="text-[#3F8CFF]">{{ checklist.get_file_extension }}</p>
                                     <p>{{ checklist.valid_from|date:"d.m.Y" }}</p>

@@ -59,8 +59,10 @@
                 <div class="flex flex-col w-full h-auto p-2">
                     <div class="main-news flex flex-col gap-4 pt-[10px]">
                         {% for risk in risks %}
-                            <div class="flex flex-row w-full h-auto p-3 border-b-2 gap-6 border-[#EFEFEF]">
-                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4 mt-3">Новое</div>
+                            <div class="flex flex-row w-full h-auto p-3 border-b-2 items-center gap-3 border-[#EFEFEF]">
+                                {% if risk.is_new %}
+                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                {% endif %}
                                 <div class="flex flex-row justify-between w-full">
                                     <div class="flex flex-row justify-start items-center">
                                          <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/warning.svg' %}">
@@ -91,7 +93,9 @@
                     <div class="flex flex-col w-full h-auto">
                         {% for risk in side_risks %}
                             <div class="flex flex-col w-full h-auto p-3 border-b-2 gap-[10px] border-[#EFEFEF]">
-                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4 mt-3">Новое</div>
+                                {% if risk.is_new %}
+                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                {% endif %}
                                 <div class="flex flex-row justify-between w-full">
                                     <div class="flex flex-row justify-start items-center">
                                          <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/warning.svg' %}">
@@ -136,8 +140,10 @@
                 <div class="flex flex-col w-full h-auto p-2">
                     <div class="main-news flex flex-col gap-4 pt-[10px]">
                         {% for risk in risks %}
-                            <div class="flex flex-row w-full h-auto p-3 border-b-2 gap-3 border-[#EFEFEF]">
-                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4 mt-3">Новое</div>
+                            <div class="flex flex-col w-full h-auto p-3 border-b-2 gap-2 border-[#EFEFEF]">
+                                {% if risk.is_new %}
+                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                {% endif %}
                                 <div class="flex flex-row justify-between w-full">
                                     <div class="flex flex-row justify-start items-center">
                                          <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/warning.svg' %}">
@@ -168,7 +174,9 @@
                     <div class="flex flex-col w-full h-auto">
                         {% for risk in side_risks %}
                             <div class="flex flex-col w-full h-auto p-3 border-b-2 gap-[10px] border-[#EFEFEF]">
-                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4 mt-3">Новое</div>
+                                {% if risk.is_new %}
+                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
+                                {% endif %}
                                 <div class="flex flex-row justify-between w-full">
                                     <div class="flex flex-row justify-start items-center">
                                          <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/warning.svg' %}">

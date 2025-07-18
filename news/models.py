@@ -10,7 +10,7 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.urls import reverse
 from django.utils import timezone
-
+from datetime import timedelta
 from . import types
 
 
@@ -213,6 +213,15 @@ class Instruction(models.Model):
     related_documents = models.ManyToManyField('Document', blank=True, related_name='instructions',
                                                verbose_name="Связанные документы")
 
+    custom_new_days = models.PositiveIntegerField(
+        "Период новизны (дней)", null=True, blank=True,
+        help_text="Если указано, переопределяет стандартные 7 дней"
+    )
+
+    def is_new(self):
+        days = self.custom_new_days if self.custom_new_days is not None else 7
+        return timezone.now() - self.created_date <= timedelta(days=days)
+
     def clean(self):
         if self.format == 'text':
             if not self.description:
@@ -249,6 +258,14 @@ class Document(models.Model):
     valid_to = models.DateField("Дата окончания действия")
     views = models.IntegerField('Кол-во просмотров', default=0)
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
+    custom_new_days = models.PositiveIntegerField(
+        "Период новизны (дней)", null=True, blank=True,
+        help_text="Если указано, переопределяет стандартные 7 дней"
+    )
+
+    def is_new(self):
+        days = self.custom_new_days if self.custom_new_days is not None else 7
+        return timezone.now() - self.created_date <= timedelta(days=days)
 
     def clean(self):
         if not self.file and not self.file_url:
@@ -278,6 +295,14 @@ class RiskManagement(models.Model):
     file = models.FileField("Файл", upload_to='uploads/riskManagement/', null=True, blank=True)
     file_url = models.URLField("Ссылка на файл", null=True, blank=True)
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
+    custom_new_days = models.PositiveIntegerField(
+        "Период новизны (дней)", null=True, blank=True,
+        help_text="Если указано, переопределяет стандартные 7 дней"
+    )
+
+    def is_new(self):
+        days = self.custom_new_days if self.custom_new_days is not None else 7
+        return timezone.now() - self.created_date <= timedelta(days=days)
 
     def clean(self):
         if not self.file and not self.file_url:
@@ -297,6 +322,14 @@ class AutomationCases(models.Model):
     description = models.TextField(verbose_name='Полное описание', null=True, blank=True)
     company = models.CharField("Компания", max_length=255, blank=True)
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
+    custom_new_days = models.PositiveIntegerField(
+        "Период новизны (дней)", null=True, blank=True,
+        help_text="Если указано, переопределяет стандартные 7 дней"
+    )
+
+    def is_new(self):
+        days = self.custom_new_days if self.custom_new_days is not None else 7
+        return timezone.now() - self.created_date <= timedelta(days=days)
 
     class Meta:
         ordering = ['-created_date']
@@ -323,6 +356,14 @@ class Checklist(models.Model):
     valid_from = models.DateTimeField('Дата создания', default=timezone.now)
     views = models.IntegerField('Кол-во просмотров', default=0)
     pinned_to_main = models.BooleanField(default=False, verbose_name="Закрепить на главную")
+    custom_new_days = models.PositiveIntegerField(
+        "Период новизны (дней)", null=True, blank=True,
+        help_text="Если указано, переопределяет стандартные 7 дней"
+    )
+
+    def is_new(self):
+        days = self.custom_new_days if self.custom_new_days is not None else 7
+        return timezone.now() - self.valid_from <= timedelta(days=days)
 
     def get_file_extension(self):
         if self.file:
@@ -372,6 +413,14 @@ class Law(models.Model):
     tags = models.ManyToManyField(Tag, related_name="tags_law", blank=True)
     views = models.IntegerField('Кол-во просмотров', default=0)
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
+    custom_new_days = models.PositiveIntegerField(
+        "Период новизны (дней)", null=True, blank=True,
+        help_text="Если указано, переопределяет стандартные 7 дней"
+    )
+
+    def is_new(self):
+        days = self.custom_new_days if self.custom_new_days is not None else 7
+        return timezone.now() - self.created_date <= timedelta(days=days)
 
     def clean(self):
         if not self.file and not self.file_url:

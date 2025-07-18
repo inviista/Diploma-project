@@ -82,7 +82,7 @@ def index(request):
             grouped_checklists[label] = items
 
     cases = AutomationCases.objects.all()
-    risks = RiskManagement.objects.all()
+    risks = RiskManagement.objects.all().order_by('-created_date')
     # calendar
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))
@@ -390,9 +390,9 @@ def automation_cases(request):
 
 
 def risk_management(request):
-    risks = RiskManagement.objects.all()
+    risks = RiskManagement.objects.all().order_by('-created_date')
     search = request.GET.get('search')
-    side_risks = RiskManagement.objects.all()[:5]
+    side_risks = RiskManagement.objects.all().order_by('-created_date')[:5]
     if search:
         risks = risks.filter(
             Q(title__icontains=search) |
@@ -456,7 +456,7 @@ def laws_view(request):
     categorized_laws = []
     laws = Law.objects.all()
     tags = Tag.objects.all()
-    side_laws = Law.objects.all().order_by('-valid_from')
+    side_laws = Law.objects.all().order_by('-created_date')
 
     if search:
         laws = laws.filter(

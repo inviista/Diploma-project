@@ -2,12 +2,13 @@
 {% load calendar_widget %}
 
 <div class="calendarEvents" class="p-2">
-    {% for event in events %}
         <div class="flex flex-row justify-between items-center">
             <h1 class="text-[16px] font-bold text-primary text-center text-[#F05F4B]">{{ event_day_localized }}</h1>
             <img class="w-auto h-[24px]" src="{% static 'img/_src/icons/stat_minus_1.svg' %}" alt="event photo">
         </div>
         <!-- Список мероприятий -->
+     {% if events %}
+
         <ul class="font-medium text-[13px] font-[400]">
             {% for event in events %}
                 <li class="flex items-start pt-2">
@@ -16,6 +17,8 @@
                 </li>
             {% endfor %}
         </ul>
-    {% endfor %}
+    {% else %}
+        <p class="text-gray-500 text-[13px] font-[400] italic pt-2">Событий нет</p>
+    {% endif %}
 </div>
 

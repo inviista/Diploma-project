@@ -22,12 +22,12 @@
                         {% if article.published_date|date:"Y-m-d" == today|date:"Y-m-d" %}
                         <div class="text-[12px] text-[#3F8CFF] font-[400]">Сегодня</div>
                          {% endif %}
-                        <div class="flex max-md:flex-col gap-4">
+                        <div class="flex items-start max-md:flex-col gap-4">
                             {% if article.image.path %}
-                                <img class="flex h-fit pt-1 w-[150px]"
+                                <img class="pt-1 w-[150px]"
                                      src="{{ article.image.path }}" alt="new photo">
                             {% elif article.image.new_image_150_webp %}
-                                <img class="flex h-fit pt-1 w-[150px]"
+                                <img class="pt-1 w-[150px]"
                                      src="{{ article.image.new_image_150_webp }}"
                                      alt="{{ article.image.alt }}">
                             {% endif %}

@@ -21,10 +21,10 @@
                                                     {% endif %}
                                                     <div class="flex flex-row max-lg:flex-col gap-4">
                                                         {% if article.image.path %}
-                                                            <img class="flex h-fit pt-1 w-[150px]"
+                                                            <img class="flex pt-1 w-[150px]"
                                                                  src="{{ article.image.path }}" alt="new photo">
                                                         {% elif article.image.new_image_150_webp %}
-                                                            <img class="flex h-fit pt-1 w-[150px]"
+                                                            <img class="flex pt-1 w-[150px]"
                                                                  src="{{ article.image.new_image_150_webp }}"
                                                                  alt="{{ article.image.alt }}">
                                                         {% endif %}

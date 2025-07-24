@@ -1,6 +1,5 @@
 from django import forms
 from trix_editor.widgets import TrixEditorWidget
-
 from .models import Article, ArticleComment, LawComment, Event
 
 

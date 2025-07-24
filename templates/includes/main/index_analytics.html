@@ -11,46 +11,11 @@
         <text class="font-medium max-lg:text-sm">Обзоры, исследования и инфографика на основе реальных данных
         </text>
     </div>
-    <div class="flex flex-col w-full h-auto p-2">
+    <div class="flex flex-col w-full h-auto">
         <div class="main-news flex flex-col gap-4 pt-[10px]">
             {% for article in analytics_articles|slice:":2" %}
-            <a href="{% url 'news:news_detail' article.alias %}"
-               class="flex flex-col gap-[10px] border-b-1 border-[#EFEFEF] pb-[24px] px-3">
-                <div class="flex gap-[10px] flex-col">
-                    {% if article.published_date|date:"Y-m-d" == today|date:"Y-m-d" %}
-                    <div class="text-[14px] text-[#3F8CFF] font-[400]">Сегодня</div>
-                    {% endif %}
-                    <div class="flex items-start max-lg:flex-col gap-4">
-                        {% if article.image.path %}
-                        <img class="pt-1 w-[150px]"
-                             src="{{ article.image.path }}" alt="new photo">
-                        {% elif article.image.new_image_150_webp %}
-                        <img class="pt-1 w-[150px]"
-                             src="{{ article.image.new_image_150_webp }}"
-                             alt="{{ article.image.alt }}">
-                        {% endif %}
-                        <div class="flex flex-col w-full gap-[10px]">
-                            <p class=" text-xl text-[#000000] w-full font-[700]">{{ article.title }}</p>
-                            <p class=" text-sm w-full text-[#787878] line-clamp-2">{{ article.description }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex max-lg:flex-col justify-between gap-4">
-                    <div class="text-sm text-[#ED1A39] font-medium flex w-full gap-2 overflow-x-auto max-w-[80vw]">
-                        <img class="w-[24px]" src="{% static 'img/_src/icons/sell.svg' %}"
-                             alt="tags">
-                        {% for tags in article.tags.all %}
-                        <div class="flex justify-center items-center px-4 py-2 text-sm text-nowrap text-[#444444] bg-[#EAF4FF] rounded-[8px] max-lg:order-last">
-                            {{ tags.title }}
-                        </div>
-                        {% empty %}
-                        <div class="text-gray-400">Без категории</div>
-                        {% endfor %}
-                    </div>
-                    <div class="text-nowrap flex justify-end lg:justify-center items-center text-[14px] text-[#444444] max-lg:order-first">
-                        {{ article.published_date|date:"d.m.Y" }}
-                    </div>
-                </div>
+            <a href="{% url 'news:news_detail' article.alias %}">
+                {% include 'includes/news/card.html' %}
             </a>
             {% endfor %}
         </div>

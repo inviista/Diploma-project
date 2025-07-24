@@ -251,6 +251,15 @@
     }
 </script>
 
+<script>
+  function goBackOrHome() {
+    if (document.referrer === '' || window.history.length <= 1) {
+      window.location.href = '/';
+    } else {
+      window.history.back();
+    }
+  }
+</script>
 
 {% include "includes/auth_modal.html" %}
 {% include "includes/ask_question.html" %}

@@ -159,6 +159,13 @@ def index(request):
     }
     return render(request, 'pages/index.html', context)
 
+def forum(request):
+
+    context = {
+
+
+    }
+    return render(request, 'pages/forum.html', context)
 
 def get_events_by_date_api(request):
     today = timezone.now().date()
@@ -278,6 +285,7 @@ def news_detail(request, alias):
     context = {
         'article': article,
         'comments': comments,
+        'is_detail': True,
         # calendar
         'calendar_year': calendar_year,
         'calendar_month': calendar_month,

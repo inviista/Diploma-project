@@ -3,7 +3,7 @@
 <html lang="ru">
 <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XR6K9NKDKJ"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KB1KDHHHNJ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -13,8 +13,9 @@
 
         gtag('js', new Date());
 
-        gtag('config', 'G-XR6K9NKDKJ');
+        gtag('config', 'G-KB1KDHHHNJ');
     </script>
+
     <meta charset="utf-8"/>
     {% block meta_data %}
         <title>
@@ -119,15 +120,15 @@
                 </button>
             {% endif %}
             {% if request.user.is_authenticated %}
-                 <form method="post" action="{% url 'news:logout' %}">
+                <form method="post" action="{% url 'news:logout' %}">
                     {% csrf_token %}
                     <button
-                             type="submit"
+                            type="submit"
                             title="Выйти"
-                             class="cursor-pointer h-[48px] flex justify-center border-1 bg-white rounded-[16px] items-center border-solid px-6 py-3">
+                            class="cursor-pointer h-[48px] flex justify-center border-1 bg-white rounded-[16px] items-center border-solid px-6 py-3">
                         <img class="min-w-6 min-h-6 w-6 h-6" src="{% static 'img/_src/icons/exit_to_app.svg' %}">
                     </button>
-                 </form>
+                </form>
             {% endif %}
         </div>
     </div>
@@ -144,19 +145,19 @@
     <div class="flex gap-3">
         {% if request.user.is_authenticated %}
             <button
-                        class="hidden sm:flex font-[600] text-[12px] text-white justify-center items-center text-nowrap"
-                >{{ request.user.profile.full_name }}</button>
+                    class="hidden sm:flex font-[600] text-[12px] text-white justify-center items-center text-nowrap"
+            >{{ request.user.profile.full_name }}</button>
             <form method="post" action="{% url 'news:logout' %}">
-                    {% csrf_token %}
-                    <button
-                             type="submit"
-                            title="Выйти"
-                             class=" flex justify-center items-center ">
-                       <img class="min-w-8 min-h-8 w-8 h-8" src="{% static 'img/_src/icons/exit_to_app1.svg' %}">
-                    </button>
+                {% csrf_token %}
+                <button
+                        type="submit"
+                        title="Выйти"
+                        class=" flex justify-center items-center ">
+                    <img class="min-w-8 min-h-8 w-8 h-8" src="{% static 'img/_src/icons/exit_to_app1.svg' %}">
+                </button>
             </form>
         {% else %}
-        <img class="h-8 w-8" src="{% static 'img/32/user.svg' %}" alt="user"/>
+            <img class="h-8 w-8" src="{% static 'img/32/user.svg' %}" alt="user"/>
         {% endif %}
 
         <button onclick="toggleMenu()">
@@ -252,13 +253,13 @@
 </script>
 
 <script>
-  function goBackOrHome() {
-    if (document.referrer === '' || window.history.length <= 1) {
-      window.location.href = '/';
-    } else {
-      window.history.back();
+    function goBackOrHome() {
+        if (document.referrer === '' || window.history.length <= 1) {
+            window.location.href = '/';
+        } else {
+            window.history.back();
+        }
     }
-  }
 </script>
 
 {% include "includes/auth_modal.html" %}

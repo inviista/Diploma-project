@@ -1,6 +1,6 @@
 from django import forms
 from trix_editor.widgets import TrixEditorWidget
-from .models import Article, ArticleComment, LawComment, Event
+from .models import Article, ArticleComment, LawComment, Event, Author
 
 
 class ArticleAdminForm(forms.ModelForm):
@@ -47,6 +47,14 @@ class LawCommentForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
+        fields = '__all__'
+        widgets = {
+            "description": TrixEditorWidget(),
+        }
+
+class AuthorAdminForm(forms.ModelForm):
+    class Meta:
+        model = Author
         fields = '__all__'
         widgets = {
             "description": TrixEditorWidget(),

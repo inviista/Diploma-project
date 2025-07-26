@@ -288,6 +288,27 @@ class Document(models.Model):
         return self.title
 
 
+class Author(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField("ФИО", max_length=255)
+    profession = models.TextField(verbose_name='Профессия', null=True, blank=True)
+    description = models.TextField(verbose_name='Полное описание')
+    article_count = models.IntegerField('Кол-во статей', default=0)
+    linkedin_url = models.URLField("Ссылка на LinkedIn", null=True, blank=True)
+    whatsapp_url = models.URLField("Ссылка на WhatsApp", null=True, blank=True)
+    image = models.ImageField(
+        upload_to='authors/',
+        blank=True,
+        verbose_name='Фото автора'
+    )
+    class Meta:
+        verbose_name = "Автор"
+        verbose_name_plural = "Авторы"
+
+    def __str__(self):
+        return self.name
+
+
 class RiskManagement(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField("Название", max_length=255)

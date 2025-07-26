@@ -2,15 +2,28 @@
 <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 p-4 rounded-[16px]">
     <div class="flex flex-col w-full border-b-3 border-[#EFEFEF] pb-3">
         <div class="flex justify-between">
-            <h2 class="font-bold text-2xl">Новости</h2>
-
+            {% if is_forum %}
+            <h2 class="font-bold text-2xl">
+                Авторские статьи
+            </h2>
+            {% else %}
+            <h2 class="font-bold text-2xl">
+                Новости
+            </h2>
             <a href="{% url 'news:all_news' %}" class="w-[36px] h-fit">
                 <img src="{% static 'img/_src/icons/Frame 58 (6).png' %}" alt="all">
             </a>
+            {% endif %}
         </div>
-        <p class="font-[500] max-md:text-sm">Будь в курсе последних событий в сфере ОТ и ТБ — мы собираем и обновляем
+
+        <p class="font-[500] max-md:text-sm">
+            {% if is_forum %}
+            Ренат Салимгалиев
+            {% else %}
+            Будь в курсе последних событий в сфере ОТ и ТБ — мы собираем и обновляем
             <br>
             новости из более чем 100 проверенных источников.
+            {% endif %}
         </p>
     </div>
     <div class="flex flex-col w-full h-auto">

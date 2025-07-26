@@ -1,7 +1,7 @@
 from django.contrib import admin, messages
 from django.utils.html import format_html
 
-from .form import ArticleAdminForm, EventForm
+from .form import ArticleAdminForm, EventForm, AuthorAdminForm
 from .models import *
 
 admin.site.register(Category)
@@ -19,7 +19,7 @@ admin.site.register(Checklist)
 admin.site.register(AutomationCases)
 admin.site.register(RiskManagement)
 admin.site.register(Qauipmedia)
-
+admin.site.register(Author)
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
@@ -69,3 +69,6 @@ class DraftArticleAdmin(admin.ModelAdmin):
 @admin.register(Event)
 class ArticleAdmin(admin.ModelAdmin):
     form = EventForm
+
+class AuthorAdmin(admin.ModelAdmin):
+    form = AuthorAdminForm

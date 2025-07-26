@@ -18,60 +18,55 @@
                     <text class="font-[500] ">
                         Читайте работы наших экспертов
                     </text>
+                    <div class="grid grid-cols-2 gap-3 pt-8">
+                    {% for author in authors %}
+                        <div onclick="window.location.href='?author_id={{ author.id }}'" class="flex gap-3 p-3 bg-[#F5F5F5] justify-start items-center rounded-[16px] cursor-pointer {% if selected_author and author.id == selected_author.id %} border-[4px] border-red-600 {% else %} bg-[#F5F5F5] {% endif %}">
+                            <img class="max-w-[84px] max-h-[84px]" src="{{ author.image.url }}" alt="photo">
+                            <div class="flex gap-3 flex-col">
+                                <div class="flex flex-col gap-0">
+                                    <p class="text-[10px] font-[700]">{{author.name}}</p>
+                                    <p class="text-[10px] font-[400]">{{author.profession}}</p>
+                                    <p class="text-[10px] font-[400]">{{author.article_count}} -статьи</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    </div>
                 </div>
             </div>
             <div class="flex flex-col h-auto lg:shadow-[0px_4px_4px_0px_#0000001A] lg:bg-white mt-3 lg:px-6 pt-5 rounded-[16px] max-w-[1200px] w-full gap-6 pb-3 items-start">
-                <div class="flex flex-row justify-center items-center gap-2">
-                    <a href="{% url 'news:index' %}" class=" flex justify-center">
-                        <img class="w-[36px] h-[36px] min-w-9 min-h-9"
-                             src="{% static 'img/_src/icons/Frame 115.svg' %}">
-                    </a>
-                    <p class="font-[500]">Вернуться на главную</p>
-                </div>
-                <div class="flex flex-col gap-1">
-                    <text class="font-[700] text-2xl">Эксперты нашего портала</text>
-                    <text class="font-[500] ">
-                        Читайте работы наших экспертов
-                    </text>
-                </div>
+                <p class="font-[700] text-[20px]">Форум для всех зарегистрированных пользователей</p>
             </div>
         </div>
-
-
-        <div class="flex flex-col w-full h-auto lg:p-2">
-            <div class="main-news flex flex-col gap-4 pt-[10px]">
-                {% for category in categories %}
-                {% if category.category_article.count > 0 %}
-                <div class="flex flex-col gap-5 pb-[16px]">
-                    <div class="flex flex-row justify-between items-center">
-                        <div class="flex flex-col">
-                            <div class="text-[12px] font-[400] text-[#9E9E9E]">Категория</div>
-                            <h2 class="font-bold text-2xl">{{ category.title }}</h2>
-                        </div>
+        <div class="flex flex-col h-auto lg:shadow-[0px_4px_4px_0px_#0000001A] lg:bg-white lg:p-5 pt-3 rounded-[16px] w-full pb-3 items-start">
+            <div class="flex flex-row gap-3 justify-center items-center">
+                <img class="min-w-[194px] min-h-[194px]" src="{{ selected_author.image.url }}" alt="photo">
+                <div class="flex gap-3 flex-col">
+                    <div class="flex flex-col gap-0">
+                        <p class="text-lg font-[700]">{{selected_author.name}}</p>
+                        <p class="text-lg font-[400]">{{selected_author.profession}}</p>
                     </div>
-                    {% for article in category.category_article.all %}
-                    <a href="{% url 'news:news_detail' article.alias %}">
-                        {% include 'includes/news/card.html' %}
-                    </a>
-                    {% endfor %}
+                    <div class="flex flex-row gap-3">
+                        <a href="{{selected_author.linkedin_url}}"
+                           class="text-white py-3 px-6 rounded-[8px] bg-[#3F8CFF] font-[600] text-xs">LinkedIn</a>
+                        <a href="{{selected_author.whatsapp_url}}"
+                           class="text-white py-3 px-6 rounded-[8px] bg-[#3F8CFF] font-[600] text-xs">WhatsApp</a>
+                    </div>
                 </div>
-                {% endif %}
-                {% endfor %}
-                {% for article in articles_without_categories %}
-                <a href="{% url 'news:news_detail' article.alias %}">
-                    {% include 'includes/news/card.html' %}
-                </a>
-                {% endfor %}
+                <div class="pl-6">{{selected_author.description|safe}}</div>
             </div>
+            <div></div>
+
         </div>
     </div>
-    <div class="hidden lg:flex flex-col max-w-[400px]">
-        <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 p-6 rounded-[16px]">
-            <div class="flex flex-row justify-between w-full gap-[64px] h-[80px] border-b-2 border-[#EFEFEF] font-[700] text-[24px]">
-                Еженедельный дайджест новостей
-            </div>
-            <div class="flex flex-col w-full h-auto">
-            </div>
+    <div class="flex flex-row gap-2">
+        <div class="max-w-[1376px] w-full">
+            {% include "includes/main/index_news.html" %}
+        </div>
+        <div class="hidden lg:flex flex-col max-w-[486px] w-full">
+            {% include "includes/main/index_documents.html" %}
+            {% include "includes/main/index_checklists.html" %}
         </div>
     </div>
 </div>

@@ -13,7 +13,7 @@ from users.utils.urls import add_query_param_to_url
 from .form import ArticleCommentForm, LawCommentForm
 from .mixins import three_days_ago
 from .models import Article, Category, Tag, FixedMenu, Instruction, Document, Law, Study, FAQ, \
-    Event, Checklist, EventCategory, AutomationCases, RiskManagement, City, Qauipmedia
+    Event, Checklist, EventCategory, AutomationCases, RiskManagement, City, Qauipmedia, Author
 from .decorators import counted
 
 
@@ -160,10 +160,35 @@ def index(request):
     return render(request, 'pages/index.html', context)
 
 def forum(request):
+    articles = Article.objects.all()[:10]
+    documents = Document.objects.all()[:3]
+    checklists_categories = Checklist.CATEGORY_CHOICES
+    grouped_checklists = {}
+    authors = Author.objects.all()
+    author_id = request.GET.get('author_id')  # <-- вот тут получаем ID
+    selected_author = None
 
+    if author_id:
+        try:
+            selected_author = Author.objects.get(id=author_id)
+        except Author.DoesNotExist:
+            selected_author = None
+
+    if not selected_author and authors.exists():
+        selected_author = authors.first()
+
+    for key, label in checklists_categories:
+        items = Checklist.objects.filter(category=key, pinned_to_main=True).order_by('-valid_from')[:5]
+        if items.exists():
+            grouped_checklists[label] = items
     context = {
-
-
+        'selected_author': selected_author,
+        'authors': authors,
+        'articles': articles,
+        'documents': documents,
+        'checklists_categories': checklists_categories,
+        'grouped_checklists': grouped_checklists,
+        'is_forum': True,
     }
     return render(request, 'pages/forum.html', context)
 
@@ -781,7 +806,6 @@ def calendar_view(request):
 def author(request, uid):
     menu = FixedMenu.objects.all()
     articles = Article.objects.filter(article_status=True, article_type='P', author=uid)
-
     popular_news = Article.objects.filter(article_status=True, article_type='P',
                                           published_date__gte=three_days_ago).order_by('-view_count')[:6]
     paginator = Paginator(articles, 12)

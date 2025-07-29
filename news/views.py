@@ -209,7 +209,6 @@ def get_events_by_date_api(request):
         'today': today,
         'selected_date': selected_date,
         'event_day_localized': selected_date.strftime('%d %B'),
-
     }
     return render(request, 'includes/main/calendar_events.html', context)
 
@@ -287,6 +286,9 @@ def all_news(request):
 
 def news_detail(request, alias):
     article = get_object_or_404(Article, alias=alias)
+
+    print(article)
+
     # calendar
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))

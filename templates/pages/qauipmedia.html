@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load youtube_embed %} {% load static %} {% block content %}
 
-<div class="hidden lg:flex flex-col mx-[100px] justify-center">
+<div class="flex flex-col lg:mx-[100px] mb-6 mx-6 justify-center">
     <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white mt-3 px-6 pt-5 rounded-[16px]">
         <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
             <a href="#" onclick="goBackOrHome()" class="h-[29px] flex justify-center">
@@ -14,7 +14,7 @@
                 </text>
             </div>
         </div>
-        <div class="grid grid-cols-3 justify-center gap-10 p-6 mb-6 border-b-1 border-[#EFEFEF]">
+        <div class="grid max-md:grid-cols-1 max-lg:grid-cols-2 grid-cols-3 justify-center gap-10 lg:p-6 max-lg:py-6 mb-6 border-b-1 border-[#EFEFEF]">
             {% for video in videos %}
             <div class="flex flex-col video-container gap-[10px]">
                 <iframe
@@ -30,35 +30,4 @@
         </div>
     </div>
 </div>
-
-{# mobile #}
-<div class="lg:hidden flex p-6 bg-[#FFFFFF] h-full justify-center">
-    <div class="flex flex-col w-full h-fit shadow-[0px_4px_4px_0px_#0000001A] bg-white rounded-[16px]">
-        <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
-            <a  href="#" onclick="goBackOrHome()" class="h-[29px] flex justify-center">
-                <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
-            </a>
-            <div class="flex flex-col">
-                <text class="font-[700] text-[24px]">Qauipmedia</text>
-                <text class="font-[500] text-[16px]">
-                    Наш авторский видеопроект о безопасности с лучшими экспертами страны.
-                </text>
-            </div>
-        </div>
-        <div class="grid max-md:grid-cols-1 max-lg:grid-cols-2 justify-center gap-10 p-6 mb-6 border-b-1 border-[#EFEFEF]">
-            {% for video in videos %}
-            <div class="flex flex-col video-container gap-[10px]">
-                <iframe
-                        class="w-full h-[222px]"
-                        src="{{video.file_url|youtube_embed}}"
-                        title="YouTube video"
-                        allowfullscreen
-                >
-                </iframe>
-                <div class="text-[14px] pr-2 text-[#444444] flex justify-end">{{video.valid_from|date:"d.m.Y"}}</div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    </div>
   {% endblock %}

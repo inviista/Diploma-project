@@ -6,7 +6,7 @@
         <a  href="#" onclick="goBackOrHome()" class="h-[29px] flex justify-center">
             <img class="w-[36px] h-[36px]" src="{% static 'img/_src/icons/Frame 115.svg' %}">
         </a>
-        <text class="font-[700] text-[24px]">Вернуться на главную</text>
+        <text class="font-[700] text-2xl">Вернуться на главную</text>
     </div>
   <div class="flex flex-col gap-2">
       {% if articles %}
@@ -24,7 +24,7 @@
                 <p class="text-[24px] font-[700] pb-6">Инструктажи</p>
 
           {% for instruction in instructions %}
-                                      <div class="flex items-center justify-between px-3  pb-6 border-[#EFEFEF] border-b-1">
+                                      <div class="flex items-center justify-between p-3  pb-6 border-[#EFEFEF] border-b-1">
                                           <div class="flex flex-col gap-[10px]">
                                               <p>{{ instruction.created_date|date:"d.m.Y" }}</p>
                                               <div class="flex item-center gap-[10px]">
@@ -125,7 +125,7 @@
                                 <p class="text-[24px] font-[700] pb-6">Вопросы и ответы</p>
 
           {% for faq in faqs %}
-              <div class="flex flex-col w-full h-auto px-3 border-b-2 border-[#EFEFEF]">
+              <div class="flex flex-col w-full h-auto px-3 border-b-2 border-[#EFEFEF] gap-2">
                   <div class="flex flex-col w-full h-auto  gap-[10px]">
                       <text class="font-[700] text-[20px] ">{{ faq.question }}</text>
                       <div class="flex flex-row justify-start items-center">

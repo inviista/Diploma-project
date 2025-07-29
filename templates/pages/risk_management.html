@@ -1,18 +1,18 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-    <div class="hidden lg:flex flex-col justify-center mx-[100px]">
-        <div class="flex flex-row gap-2 justify-center pt-3">
+    <div class="flex flex-col justify-center lg:mx-[100px] mb-6 mx-6">
+        <div class="flex flex-row max-lg:flex-col gap-2 justify-center pt-3">
             <div class="flex flex-col max-w-[1312px] w-full h-fit shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
                 <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
                     <a href="#" onclick="goBackOrHome()" class="h-[29px] flex justify-center">
                         <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
                     </a>
                     <div class="flex flex-col">
-                        <text class="font-[700] text-[24px]">Управление рисками</text>
+                        <text class="font-[700] text-2xl">Управление рисками</text>
                         <text class="font-[500] text-[16px]">Узнай как грамотно подходить к анализу рисков в своей зоне ответственности.</text>
                     </div>
                 </div>
                 <div class="flex items-center py-6 gap-6">
-                    <div class="flex gap-1">
+                    <div class="hidden lg:flex gap-1">
                         <a href="?"
                            class="
                                   flex items-center gap-2 px-3 py-[7.5px] rounded-xl
@@ -56,10 +56,10 @@
                         </label>
                     </form>
                 </div>
-                <div class="flex flex-col w-full h-auto p-2">
+                <div class="flex flex-col w-full h-auto lg:p-2">
                     <div class="main-news flex flex-col gap-4 pt-[10px]">
                         {% for risk in risks %}
-                            <div class="flex flex-row w-full h-auto p-3 border-b-2 items-center gap-3 border-[#EFEFEF]">
+                            <div class="flex flex-row w-full h-auto max-lg:py-3 lg:p-3 border-b-2 items-center gap-3 border-[#EFEFEF]">
                                 {% if risk.is_new %}
                                 <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
                                 {% endif %}
@@ -85,14 +85,14 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col max-w-[400px] gap-2 w-full">
+            <div class="flex flex-col lg:max-w-[400px] gap-2 w-full">
                 <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
                     <div class="flex flex-row justify-between w-full gap-[64px] border-b-3 border-[#EFEFEF] font-[700] text-[24px] pb-5">
                         Последние обновления в кейсах автоматизации
                     </div>
                     <div class="flex flex-col w-full h-auto">
                         {% for risk in side_risks %}
-                            <div class="flex flex-col w-full h-auto p-3 border-b-2 gap-[10px] border-[#EFEFEF]">
+                            <div class="flex flex-col w-full h-auto max-lg:py-3 lg:p-3 border-b-2 gap-[10px] border-[#EFEFEF]">
                                 {% if risk.is_new %}
                                 <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
                                 {% endif %}
@@ -110,84 +110,4 @@
         </div>
     </div>
 
-{# mobile #}
-    <div class="lg:hidden flex flex-col justify-center p-6 bg-[#FFFFFF]">
-        <div class="flex flex-col gap-2 justify-center pt-3">
-            <div class="flex flex-col max-w-[1312px] w-full h-fit shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
-                <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
-                    <a  href="#" onclick="goBackOrHome()" class="h-[29px] flex justify-center">
-                        <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
-                    </a>
-                    <div class="flex flex-col">
-                        <text class="font-[700] text-[24px]">Управление рисками</text>
-                        <text class="font-[500] text-[16px]">Узнай как грамотно подходить к анализу рисков в своей зоне ответственности.</text>
-                    </div>
-                </div>
-                <div class="flex items-center py-6 gap-6">
-                    <form method="get" class="w-full">
-                        <label>
-                            <input
-                                    onchange="this.form.submit()"
-                                    type="text"
-                                    name="search"
-                                    value="{{ request.GET.search }}"
-                                    placeholder="Быстрый поиск информации по ключевым словам..."
-                                    class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
-                            />
-                        </label>
-                    </form>
-                </div>
-                <div class="flex flex-col w-full h-auto p-2">
-                    <div class="main-news flex flex-col gap-4 pt-[10px]">
-                        {% for risk in risks %}
-                            <div class="flex flex-col w-full h-auto p-3 border-b-2 gap-2 border-[#EFEFEF]">
-                                {% if risk.is_new %}
-                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
-                                {% endif %}
-                                <div class="flex flex-row justify-between w-full">
-                                    <div class="flex flex-row justify-start items-center">
-                                         <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/warning.svg' %}">
-                                        <text class="font-[700] text-[16px] ml-[9px]">{{risk.title}}</text>
-                                    </div>
-                                    <div class="flex gap-3 justify-end items-center">
-                                                    <a href="
-                                                        {% if risk.file_url %}
-                                                            {{ risk.file_url }}
-                                                        {% else %}
-                                                            {{ risk.file.url }}
-                                                        {% endif %}"
-                                                       class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] min-w-[36px] min-h-[36px] max-w-[36px] max-h-[36px]">
-                                                        <img src="{% static 'img/_src/icons/download.svg' %}" alt="download"/>
-                                                    </a>
-                                                </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-col gap-2 w-full">
-                <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
-                    <div class="flex flex-row justify-between w-full gap-[64px] border-b-3 border-[#EFEFEF] font-[700] text-[24px] pb-5">
-                        Последние обновления в кейсах автоматизации
-                    </div>
-                    <div class="flex flex-col w-full h-auto">
-                        {% for risk in side_risks %}
-                            <div class="flex flex-col w-full h-auto p-3 border-b-2 gap-[10px] border-[#EFEFEF]">
-                                {% if risk.is_new %}
-                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">Новое</div>
-                                {% endif %}
-                                <div class="flex flex-row justify-between w-full">
-                                    <div class="flex flex-row justify-start items-center">
-                                         <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/warning.svg' %}">
-                                        <text class="font-[700] text-[16px] ml-[9px]">{{risk.title}}</text>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock %}

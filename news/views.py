@@ -287,8 +287,6 @@ def all_news(request):
 def news_detail(request, alias):
     article = get_object_or_404(Article, alias=alias)
 
-    print(article)
-
     # calendar
     today = date.today()
     calendar_year = int(request.GET.get('calendar_year', today.year))
@@ -304,10 +302,12 @@ def news_detail(request, alias):
     featured_articles = Article.objects.filter(is_featured=True, published_date__year=calendar_year,
                                                published_date__month=calendar_month)
     events_by_day = {day: [] for day in range(1, 32)}
-    for article in featured_articles:
-        events_by_day[article.published_date.day].append(article)
+    for featured_article in featured_articles:
+        events_by_day[article.published_date.day].append(featured_article)
 
     comments = article.comments.all()
+
+    print(article)
 
     context = {
         'article': article,

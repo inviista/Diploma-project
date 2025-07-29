@@ -14,7 +14,7 @@
         <p class="text-[24px] font-[700] pb-6">Новости</p>
         {% for article in articles %}
             <a href="{% url 'news:news_detail' article.alias %}">
-                {% include 'includes/news/card.html' %}
+                {% include 'includes/news/card.html' with article=article %}
             </a>
           {% endfor %}
       </div>

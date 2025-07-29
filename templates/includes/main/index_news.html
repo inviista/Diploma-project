@@ -30,7 +30,7 @@
         <div class="main-news flex flex-col gap-4 pt-[10px]">
             {% for article in articles|slice:":10" %}
                 <a href="{% url 'news:news_detail' article.alias %}">
-                    {% include 'includes/news/card.html' %}
+                    {% include 'includes/news/card.html' with article=article %}
                 </a>
             {% endfor %}
         </div>

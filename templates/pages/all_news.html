@@ -102,7 +102,7 @@
                                     </div>
                                     {% for article in category.category_article.all %}
                                         <a href="{% url 'news:news_detail' article.alias %}">
-                                            {% include 'includes/news/card.html' %}
+                                            {% include 'includes/news/card.html' with article=article %}
                                         </a>
                                     {% endfor %}
                                 </div>
@@ -110,7 +110,7 @@
                         {% endfor %}
                         {% for article in articles_without_categories %}
                             <a href="{% url 'news:news_detail' article.alias %}">
-                                {% include 'includes/news/card.html' %}
+                                {% include 'includes/news/card.html' with article=article %}
                             </a>
                         {% endfor %}
                     </div>
@@ -129,7 +129,7 @@
                                 {% if events %}
                                     {% for article in events %}
                                         <a href="{% url 'news:news_detail' article.alias %}">
-                                            {% include 'includes/news/card.html' %}
+                                            {% include 'includes/news/card.html' with article=article %}
                                         </a>
                                     {% endfor %}
                                 {% endif %}

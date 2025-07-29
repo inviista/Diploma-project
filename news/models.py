@@ -66,6 +66,25 @@ class Tag(UUIDMixin):
     def __str__(self):
         return self.title
 
+class Author(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField("ФИО", max_length=255)
+    profession = models.TextField(verbose_name='Профессия', null=True, blank=True)
+    description = models.TextField(verbose_name='Полное описание')
+    article_count = models.IntegerField('Кол-во статей', default=0)
+    linkedin_url = models.URLField("Ссылка на LinkedIn", null=True, blank=True)
+    whatsapp_url = models.URLField("Ссылка на WhatsApp", null=True, blank=True)
+    image = models.ImageField(
+        upload_to='authors/',
+        blank=True,
+        verbose_name='Фото автора'
+    )
+    class Meta:
+        verbose_name = "Автор"
+        verbose_name_plural = "Авторы"
+
+    def __str__(self):
+        return self.name
 
 class Article(UUIDMixin):
     image = models.JSONField('Картинки', default=dict)
@@ -79,7 +98,14 @@ class Article(UUIDMixin):
     datetime_updated = models.DateTimeField('Время обновления', auto_now=True)
     datetime_created = models.DateTimeField('Время создания', auto_now_add=True)
     changed_user = models.JSONField('Внесший изменения', default=dict, blank=True, null=True)
-    author = models.UUIDField('Автор', blank=True, null=True)
+    author = models.ForeignKey(
+        Author,
+        verbose_name='Автор',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='articles'
+    )
     pseudonym = models.CharField('Псевдоним', max_length=50, null=True, blank=True)
     view_count = models.IntegerField('Кол-во просмотров', default=0)
     locked = models.BooleanField(default=False)
@@ -257,6 +283,14 @@ class Document(models.Model):
     valid_from = models.DateField("Дата начала действия")
     valid_to = models.DateField("Дата окончания действия")
     views = models.IntegerField('Кол-во просмотров', default=0)
+    author = models.ForeignKey(
+        Author,
+        verbose_name='Автор',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='documents'
+    )
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
     custom_new_days = models.PositiveIntegerField(
         "Период новизны (дней)", null=True, blank=True,
@@ -288,25 +322,7 @@ class Document(models.Model):
         return self.title
 
 
-class Author(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField("ФИО", max_length=255)
-    profession = models.TextField(verbose_name='Профессия', null=True, blank=True)
-    description = models.TextField(verbose_name='Полное описание')
-    article_count = models.IntegerField('Кол-во статей', default=0)
-    linkedin_url = models.URLField("Ссылка на LinkedIn", null=True, blank=True)
-    whatsapp_url = models.URLField("Ссылка на WhatsApp", null=True, blank=True)
-    image = models.ImageField(
-        upload_to='authors/',
-        blank=True,
-        verbose_name='Фото автора'
-    )
-    class Meta:
-        verbose_name = "Автор"
-        verbose_name_plural = "Авторы"
 
-    def __str__(self):
-        return self.name
 
 
 class RiskManagement(models.Model):
@@ -377,6 +393,14 @@ class Checklist(models.Model):
     valid_from = models.DateTimeField('Дата создания', default=timezone.now)
     views = models.IntegerField('Кол-во просмотров', default=0)
     pinned_to_main = models.BooleanField(default=False, verbose_name="Закрепить на главную")
+    author = models.ForeignKey(
+        Author,
+        verbose_name='Автор',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='checklists',
+    )
     custom_new_days = models.PositiveIntegerField(
         "Период новизны (дней)", null=True, blank=True,
         help_text="Если указано, переопределяет стандартные 7 дней"

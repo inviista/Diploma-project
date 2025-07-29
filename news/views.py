@@ -161,12 +161,8 @@ def index(request):
 
 
 def forum(request):
-    articles = Article.objects.all()[:10]
-    documents = Document.objects.all()[:3]
-    checklists_categories = Checklist.CATEGORY_CHOICES
-    grouped_checklists = {}
-    authors = Author.objects.all()
-    author_id = request.GET.get('author_id')  # <-- вот тут получаем ID
+    authors = Author.objects.all().order_by('id')
+    author_id = request.GET.get('author_id')
     selected_author = None
 
     if author_id:
@@ -178,10 +174,20 @@ def forum(request):
     if not selected_author and authors.exists():
         selected_author = authors.first()
 
+    articles = Article.objects.filter(author=selected_author)[:10]
+    documents = Document.objects.filter(author=selected_author)[:3]
+    checklists_categories = Checklist.CATEGORY_CHOICES
+    grouped_checklists = {}
+
     for key, label in checklists_categories:
-        items = Checklist.objects.filter(category=key, pinned_to_main=True).order_by('-valid_from')[:5]
+        items = Checklist.objects.filter(
+            category=key,
+            pinned_to_main=True,
+            author=selected_author
+        ).order_by('-valid_from')[:5]
         if items.exists():
             grouped_checklists[label] = items
+
     context = {
         'selected_author': selected_author,
         'authors': authors,

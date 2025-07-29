@@ -19,7 +19,6 @@ admin.site.register(Checklist)
 admin.site.register(AutomationCases)
 admin.site.register(RiskManagement)
 admin.site.register(Qauipmedia)
-admin.site.register(Author)
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
@@ -70,5 +69,6 @@ class DraftArticleAdmin(admin.ModelAdmin):
 class ArticleAdmin(admin.ModelAdmin):
     form = EventForm
 
+@admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
     form = AuthorAdminForm

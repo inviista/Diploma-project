@@ -4,7 +4,13 @@
         {% if article.published_date|date:"Y-m-d" == today|date:"Y-m-d" %}
             <div class="text-[14px] text-[#3F8CFF] font-[400]">Сегодня</div>
         {% endif %}
-        <div class="flex flex-row items-start max-lg:flex-col gap-4">
+        <div class="flex  items-start max-lg:flex-col gap-4
+            {% if is_column %}
+        	    flex-col
+        	{% else %}
+        	    flex-row
+            {% endif %}
+        ">
             {% if article.image.path %}
                 <img class=" pt-1 w-[150px]"
                      src="{{ article.image.path }}" alt="new photo">

@@ -34,6 +34,7 @@ urlpatterns = [
     path('checklists/', views.checklists, name='checklists'),
     path('event_calendar/', views.calendar_view, name='event_calendar'),
     path('get_events_by_date/', views.get_events_by_date_api, name='get_events_by_date'),
+    path('get_news_by_date/', views.get_news_by_date_api, name='get_news_by_date'),
     path('automation_cases/', views.automation_cases, name='automation_cases'),
     path('risk_management/', views.risk_management, name='risk_management'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),

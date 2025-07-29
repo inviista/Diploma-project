@@ -159,6 +159,7 @@ def index(request):
     }
     return render(request, 'pages/index.html', context)
 
+
 def forum(request):
     articles = Article.objects.all()[:10]
     documents = Document.objects.all()[:3]
@@ -192,6 +193,7 @@ def forum(request):
     }
     return render(request, 'pages/forum.html', context)
 
+
 def get_events_by_date_api(request):
     today = timezone.now().date()
 
@@ -211,6 +213,29 @@ def get_events_by_date_api(request):
         'event_day_localized': selected_date.strftime('%d %B'),
     }
     return render(request, 'includes/main/calendar_events.html', context)
+
+
+def get_news_by_date_api(request):
+    today = timezone.now().date()
+
+    selected_date_str = request.GET.get('date')
+    selected_date = today
+    if selected_date_str:
+        try:
+            selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date()
+        except ValueError:
+            pass
+
+    news = Article.objects.filter(published_date__year=selected_date.year,
+                                  published_date__month=selected_date.month, published_date__day=selected_date.day,
+                                  is_featured=True)
+    context = {
+        'news': news,
+        'today': today,
+        'selected_date': selected_date,
+        'event_day_localized': selected_date.strftime('%d %B'),
+    }
+    return render(request, 'includes/news/calendar_news.html', context)
 
 
 def qauipmedia(request):
@@ -261,8 +286,8 @@ def all_news(request):
     featured_articles = Article.objects.filter(is_featured=True, published_date__year=calendar_year,
                                                published_date__month=calendar_month)
     events_by_day = {day: [] for day in range(1, 32)}
-    for article in featured_articles:
-        events_by_day[article.published_date.day].append(article)
+    for featured_article in featured_articles:
+        events_by_day[featured_article.published_date.day].append(featured_article)
 
     # detailed new
     selected_new_alias = request.GET.get('selected_new')
@@ -303,11 +328,9 @@ def news_detail(request, alias):
                                                published_date__month=calendar_month)
     events_by_day = {day: [] for day in range(1, 32)}
     for featured_article in featured_articles:
-        events_by_day[article.published_date.day].append(featured_article)
+        events_by_day[featured_article.published_date.day].append(featured_article)
 
     comments = article.comments.all()
-
-    print(article)
 
     context = {
         'article': article,
@@ -318,7 +341,7 @@ def news_detail(request, alias):
         'calendar_month': calendar_month,
         'event_date': event_date,
         'events_by_day': events_by_day,
-        'today': date.today(),}
+        'today': date.today(), }
 
     return render(request, 'pages/article.html', context)
 
@@ -723,6 +746,7 @@ RUSSIAN_MONTHS = {
     'Сентябрь': 9, 'Октябрь': 10, 'Ноябрь': 11, 'Декабрь': 12
 }
 
+
 def calendar_view(request):
     today = timezone.now().date()
 
@@ -800,9 +824,6 @@ def calendar_view(request):
     }
 
     return render(request, 'pages/event_calendar.html', context)
-
-
-
 
 
 def author(request, uid):

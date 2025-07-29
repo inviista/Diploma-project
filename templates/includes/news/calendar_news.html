@@ -1,0 +1,15 @@
+{% load static %}
+{% load calendar_widget %}
+
+<div class="calendarNews py-2">
+    {% if news %}
+        {% for article in news %}
+            <a href="{% url 'news:news_detail' article.alias %}">
+                {% include 'includes/news/card.html' with is_column=True %}
+            </a>
+        {% endfor %}
+    {% else %}
+        <p class="text-gray-500 text-[13px] italic pt-2">Новостей нет</p>
+    {% endif %}
+</div>
+

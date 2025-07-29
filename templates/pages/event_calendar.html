@@ -198,7 +198,6 @@
 
     <script>
         function updateQueryParamAndReload(key, value) {
-            console.log(key, value);
             const url = new URL(window.location.href);
             url.searchParams.set(key, value);
             window.location.href = url.toString(); // triggers a full reload

@@ -66,28 +66,28 @@
                     </form>
                 </div>
                 <div class="flex mb-6 overflow-x-auto w-full max-w-[87vw]">
-                <a href="{% url 'news:all_news' %}"
-                   class="shrink-0 tab-button text-xs p-[10px] font-medium pb-2 border-b-3
+                    <a href="{% url 'news:all_news' %}"
+                       class="shrink-0 tab-button text-xs p-[10px] font-medium pb-2 border-b-3
                            {% if not selected_category %}
                                border-red-600 text-red-600
                            {% else %}
                                border-transparent text-gray-600
                            {% endif %}">
-                    Все
-                </a>
+                        Все
+                    </a>
 
-                {% for category in categories %}
-                    <a href="?category={{ category.slug }}"
-                       class="shrink-0 tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
+                    {% for category in categories %}
+                        <a href="?category={{ category.slug }}"
+                           class="shrink-0 tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
                                {% if selected_category and selected_category.slug == category.slug %}
                                    border-red-600 text-red-600
                                {% else %}
                                    border-transparent text-gray-600
                                {% endif %}">
-                        {{ category.title }}
-                    </a>
-                {% endfor %}
-            </div>
+                            {{ category.title }}
+                        </a>
+                    {% endfor %}
+                </div>
 
                 <div class="flex flex-col w-full h-auto lg:p-2">
                     <div class="main-news flex flex-col gap-4 pt-[10px]">
@@ -124,21 +124,27 @@
                     <div class="flex flex-col w-full h-auto">
                         {% render_calendar calendar_year calendar_month events_by_day %}
 
-                        <div class="flex flex-col gap-4 pt-[10px]">
-                            {% with events=events_by_day|dict_key:event_date.day %}
-                                {% if events %}
-                                    {% for article in events %}
-                                        <a href="{% url 'news:news_detail' article.alias %}">
-                                            {% include 'includes/news/card.html' with article=article %}
-                                        </a>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endwith %}
-                        </div>
+                        {% include 'includes/news/calendar_news.html' %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+        function getEventsByDate(date) {
+            fetch(`{% url 'news:get_news_by_date' %}?date=${date}`)
+                .then((res) => res.text())
+                .then((html) => {
+                    document.querySelectorAll(".calendarNews").forEach(el => el.innerHTML = html)
+                })
+                .catch((err) => {
+                    console.error("Failed to fetch events:", err);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            getEventsByDate(new Date())
+        });
+    </script>
 {% endblock %}

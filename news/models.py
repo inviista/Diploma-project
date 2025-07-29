@@ -92,7 +92,7 @@ class Article(UUIDMixin):
                                blank=True, null=True)
     public_types = ArrayField(models.IntegerField(choices=types.PUBLIC_TYPE_CHOICES),
                               default=list, blank=True, null=True)
-    is_featured = models.BooleanField(default=False)
+    is_featured = models.BooleanField('Закрепить в календарь', default=False)
     is_popular = models.BooleanField(default=False)
 
     def __str__(self):

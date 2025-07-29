@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-    <div class="hidden lg:flex flex-col justify-center mx-[100px]">
-        <div class="flex flex-row gap-2 justify-center pt-3">
+    <div class="flex flex-col justify-center lg:mx-[100px] mb-6 mx-6">
+        <div class="flex flex-row max-lg:flex-col gap-2 justify-center pt-3">
             <div class="flex flex-col max-w-[1312px] w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
                 <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
                     <a href="{% url 'news:index' %}" class="h-[29px] flex justify-center">
@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="flex items-center py-6 gap-6">
-                    <div class="flex gap-1">
+                    <div class="hidden lg:flex gap-1">
                         <a href="?"
                            class="
                                   flex items-center gap-2 px-3 py-[7.5px] rounded-xl
@@ -56,9 +56,9 @@
                         </label>
                     </form>
                 </div>
-                <div class=" flex mb-6">
+                <div class=" flex mb-6 overflow-x-auto w-full">
                       <a href="{% url 'news:faqs' %}"
-                           class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
+                           class="shrink-0 tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
                            {% if not selected_category %}
                                border-red-600 text-red-600
                            {% else %}
@@ -68,7 +68,7 @@
                         </a>
                         {% for key, label in categories %}
                             <a href="?category={{ key }}"
-                               class="tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
+                               class="shrink-0 tab-button text-[12px] p-[10px] font-medium pb-2 border-b-3
                                {% if selected_category == key %}
                                    border-red-600 text-red-600
                                {% else %}
@@ -78,7 +78,7 @@
                             </a>
                         {% endfor %}
                 </div>
-                <div class="flex flex-col w-full h-auto p-2">
+                <div class="flex flex-col w-full h-auto lg:p-2">
                     <div class="main-news flex flex-col gap-4 pt-[10px]">
                         {% for category in categorized_faqs  %}
                             <div class="flex flex-col">
@@ -89,7 +89,7 @@
                                     <div class="border-b-1 flex flex-wrap flex-row border-[#EFEFEF] w-full">
                                         {% for faq in category.faqs %}
 
-                                        <div class="flex flex-col  h-fit px-3 py-3 pb-6 gap-3 w-full">
+                                        <div class="flex flex-col  h-fit lg:px-3 py-3 pb-6 gap-3 w-full">
                                             <div class="flex items-center justify-between w-full">
                                                 <div class="flex flex-col gap-[10px] w-full">
                                                     <div class="flex flex-row justify-between w-full">
@@ -133,7 +133,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col max-w-[400px] gap-2">
+            <div class="flex flex-col lg:max-w-[400px] gap-2">
                 <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
                     <div class="flex flex-row justify-between w-full gap-[64px] h-[86px] border-b-2 border-[#EFEFEF] font-[700] text-[24px]">
                         Популярные вопросы и ответы на них
@@ -144,152 +144,7 @@
                             class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
                         />
                         {% for faq in side_faqs %}
-                        <div class="border-b-1 border-[#EFEFEF] py-3 px-3 pb-6 gap-[10px] flex flex-col">
-                            <div class="flex flex-col w-full gap-[10px]">
-                                <div class="flex item-center gap-[10px] w-full">
-                                    <img class="w-[24px] h-[24px]" src="{% static 'img/_src/icons/mode_heat.svg' %}">
-                                    <text class="font-[700] text-[16px]">{{ faq.question }}</text>
-                                </div>
-                            </div>
-                            <div class="flex flex-col w-full h-auto gap-2">
-                                <div class="flex flex-col gap-[10px]">
-                                    <div class="flex flex-row justify-start items-center">
-                                        <div class="flex flex-col ml-[9px] gap-1.5">
-                                                <text class="font-[700] text-[14px] leading-3 ">{{ faq.author }}</text>
-                                            {% if faq.author_profession %}
-                                                <text class="text-[14px] leading-3 ">{{ faq.author_profession }}</text>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="text-[14px] font-[400] text-[#444444] flex justify-end">{{ faq.created_at|date:"d.m.Y" }}</div>
-
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-{# mobile #}
-<div class="lg:hidden flex flex-col justify-center p-6 bg-[#FFFFFF]">
-        <div class="flex flex-col gap-2 justify-center pt-3">
-            <div class="flex flex-col max-w-[1312px] w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white pb-6 rounded-[16px]">
-                <div class="flex flex-row w-full gap-6 pb-3 border-b-3 border-[#EFEFEF] items-center">
-                    <a href="{% url 'news:index' %}" class="h-[29px] flex justify-center">
-                        <img class="w-[36px] h-[36px] min-w-9 min-h-9" src="{% static 'img/_src/icons/Frame 115.svg' %}">
-                    </a>
-                    <div class="flex flex-col">
-                        <text class="font-[700] text-[24px]">Ответы-вопросы</text>
-                        <text class="font-[500] text-[16px]">Популярные вопросы и ответы на часто задаваемые вопросы</text>
-                    </div>
-                </div>
-                <div class="flex items-center py-6 gap-6">
-                    <form method="get" class="w-full">
-                        <label>
-                            <input
-                                    onchange="this.form.submit()"
-                                    type="text"
-                                    name="search"
-                                    value="{{ request.GET.search }}"
-                                    placeholder="Быстрый поиск информации по ключевым словам..."
-                                    class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
-                            />
-                        </label>
-                    </form>
-                </div>
-                <div class="flex mb-6 overflow-x-auto w-full ">
-                      <a href="{% url 'news:faqs' %}"
-                           class="shrink-0 tab-button text-xs p-[10px] font-medium pb-2 border-b-3
-                           {% if not selected_category %}
-                               border-red-600 text-red-600
-                           {% else %}
-                               border-transparent text-gray-600
-                           {% endif %}">
-                            Все
-                        </a>
-                        {% for key, label in categories %}
-                            <a href="?category={{ key }}"
-                               class="shrink-0 tab-button text-xs p-[10px] font-medium pb-2 border-b-3
-                               {% if selected_category == key %}
-                                   border-red-600 text-red-600
-                               {% else %}
-                                   border-transparent text-gray-600
-                               {% endif %}">
-                                {{ label }}
-                            </a>
-                        {% endfor %}
-                </div>
-                <div class="flex flex-col w-full h-auto p-2">
-                    <div class="main-news flex flex-col gap-4 pt-[10px]">
-                        {% for category in categorized_faqs  %}
-                            <div class="flex flex-col">
-                                <div class="flex flex-row justify-between mb-3">
-                                    <h2 class="font-bold text-2xl">{{ category.title }}</h2>
-                                </div>
-                                <div class="flex flex-row">
-                                    <div class="border-b-1 flex flex-wrap flex-row border-[#EFEFEF] w-full">
-                                        {% for faq in category.faqs %}
-
-                                        <div class="flex flex-col  h-fit px-3 py-3 pb-6 gap-3 w-full">
-                                            <div class="flex items-center justify-between w-full">
-                                                <div class="flex flex-col gap-[10px] w-full">
-                                                    <div class="flex flex-row justify-between w-full">
-                                                        <div class="flex flex-col w-full gap-[10px]">
-                                                            <p class="text-[14px]">{{ faq.created_at|date:"d.m.Y" }}</p>
-                                                            <div class="flex item-center gap-[10px] w-full">
-                                                                <img class="w-[24px] h-[24px] mt-1" src="{% static 'img/_src/icons/help.svg' %}">
-                                                                <text class="font-bold text-[20px]">{{ faq.question }}</text>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex  items-center gap-3">
-                                                            {% if faq.answer %}
-                                                                <a href="{{ law.file_url }}" class="cursor-pointer bg-[#F5F5F5] rounded-lg flex items-center justify-center p-[6px] w-[36px] h-[36px]">
-                                                                    <img src="{% static 'img/_src/icons/visibility.svg' %}"
-                                                                         alt="details"/>
-                                                                </a>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                    <p class="text-sm text-[#787878] text-wrap flex">{{ faq.answer }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="flex flex-col w-full h-auto gap-2">
-                                                <div class="flex flex-col">
-                                                    <div class="flex flex-row justify-start items-center">
-                                                        <div class="flex flex-col gap-[2px]">
-                                                            <text class="font-[700] text-[14px] ">{{faq.author}}</text>
-                                                            {% if faq.author_profession %}
-                                                                <text class="text-[14px] leading-3 ">{{ faq.author_profession }}</text>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% endfor %}
-                                        </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-col w-full gap-2">
-                <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] bg-white p-6 rounded-[16px]">
-                    <div class="flex flex-row justify-between w-full gap-[64px] h-[86px] border-b-2 border-[#EFEFEF] font-[700] text-[24px]">
-                        Популярные вопросы и ответы на них
-                    </div>
-                    <div class="flex flex-col w-full h-auto py-2">
-                        <input
-                            placeholder="Задать свой вопрос..."
-                            class="h-[39px] font-[600] text-[12px] text-black bg-[#F5F5F5] rounded-[16px] placeholder:text-[12px] px-3 py-2 focus:outline-none focus:ring-0 placeholder:text-[#1E1E1E] w-full"
-                        />
-                        {% for faq in side_faqs %}
-                        <div class="border-b-1 border-[#EFEFEF] py-3 px-3 pb-6 gap-[10px] flex flex-col">
+                        <div class="border-b-1 border-[#EFEFEF] py-3 lg:px-3 pb-6 gap-[10px] flex flex-col">
                             <div class="flex flex-col w-full gap-[10px]">
                                 <div class="flex item-center gap-[10px] w-full">
                                     <img class="w-[24px] h-[24px]" src="{% static 'img/_src/icons/mode_heat.svg' %}">

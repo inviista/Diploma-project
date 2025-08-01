@@ -2,158 +2,188 @@
 {% load static %}
 
 {% block content %}
-<div class="flex flex-col mx-6 max-lg:bg-white mb-6 justify-center">
-    <div class="flex flex-col max-lg:flex-col gap-2 pt-[5px]">
-        <div class="flex lg:flex-row flex-col gap-2">
-            <div class="flex flex-col h-auto lg:shadow-[0px_4px_4px_0px_#0000001A] lg:bg-white mt-3 lg:px-6 pt-5 rounded-[16px] lg:max-w-[662px] w-full gap-6 pb-3 items-start">
-                <div class="hidden lg:flex flex-row justify-center items-center gap-2">
-                    <a href="{% url 'news:index' %}" class=" flex justify-center">
-                        <img class="w-[36px] h-[36px] min-w-9 min-h-9"
-                             src="{% static 'img/_src/icons/Frame 115.svg' %}">
-                    </a>
-                    <p class="font-[500]">Вернуться на главную</p>
-                </div>
-                <div class="flex flex-col gap-1 w-full" >
-                    <div class="flex flex-col gap-1 w-full">
-                        <text class="font-[700] text-2xl">Эксперты нашего портала</text>
-                        <text class="font-[500]">Читайте работы наших экспертов</text>
+    <div class="flex flex-col mx-6 max-lg:bg-white mb-6 justify-center">
+        <div class="flex flex-col max-lg:flex-col gap-2 pt-[5px]">
+            <div class="flex lg:flex-row flex-col gap-2">
+                <div class="flex flex-col h-auto lg:shadow-[0px_4px_4px_0px_#0000001A] lg:bg-white mt-3 lg:px-6 pt-5 rounded-[16px] lg:max-w-[662px] w-full gap-6 pb-3 items-start">
+                    <div class="hidden lg:flex flex-row justify-center items-center gap-2">
+                        <a href="{% url 'news:index' %}" class=" flex justify-center">
+                            <img class="w-[36px] h-[36px] min-w-9 min-h-9"
+                                 src="{% static 'img/_src/icons/Frame 115.svg' %}">
+                        </a>
+                        <p class="font-[500]">Вернуться на главную</p>
                     </div>
-                    <div class="lg:grid lg:grid-cols-2 gap-3 pt-8 flex overflow-x-auto w-full">
-                        {% for author in authors %}
-                        <div onclick="window.location.href='?author_id={{ author.id }}'"
-                             class="flex min-w-[301px] max-lg:shrink-0 gap-3 p-3 bg-[#F5F5F5] justify-start items-center rounded-[16px] cursor-pointer {% if selected_author and author.id == selected_author.id %} border-[4px] border-red-600 {% else %} bg-[#F5F5F5] {% endif %}">
-                            <img class="max-w-[84px] max-h-[84px]" src="{{ author.image.url }}" alt="photo">
-                            <div class="flex gap-3 flex-col">
-                                <div class="flex flex-col gap-0">
-                                    <p class="text-[10px] font-[700]">{{author.name}}</p>
-                                    <p class="text-[10px] font-[400]">{{author.profession}}</p>
-                                    <p class="text-[10px] font-[400]">{{author.article_count}} -статьи</p>
+                    <div class="flex flex-col gap-1 w-full">
+                        <div class="flex flex-col gap-1 w-full">
+                            <text class="font-[700] text-2xl">Эксперты нашего портала</text>
+                            <text class="font-[500]">Читайте работы наших экспертов</text>
+                        </div>
+                        <div class="lg:grid lg:grid-cols-2 gap-3 pt-8 flex overflow-x-auto w-full">
+                            {% for author in authors %}
+                                <div onclick="window.location.href='?author_id={{ author.id }}'"
+                                     class="flex min-w-[301px] max-lg:shrink-0 gap-3 p-3 bg-[#F5F5F5] justify-start items-center rounded-[16px] cursor-pointer {% if selected_author and author.id == selected_author.id %} border-[4px] border-red-600 {% else %} bg-[#F5F5F5] {% endif %}">
+                                    <img class="max-w-[84px] max-h-[84px]" src="{{ author.image.url }}" alt="photo">
+                                    <div class="flex gap-3 flex-col">
+                                        <div class="flex flex-col gap-0">
+                                            <p class="text-[10px] font-[700]">{{ author.name }}</p>
+                                            <p class="text-[10px] font-[400]">{{ author.profession }}</p>
+                                            <p class="text-[10px] font-[400]">{{ author.article_count }} -статьи</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex max-lg:order-first flex-col h-auto max-lg:p-2 shadow-[0px_4px_4px_0px_#0000001A] lg:bg-white mt-3 lg:px-6 pt-5 rounded-[16px] max-w-[1200px] w-full gap-6 max-lg:gap-4 pb-3 items-start">
+                    <div class="hidden max-lg:flex flex-row justify-center items-center gap-2">
+                        <a href="{% url 'news:index' %}" class=" flex justify-center">
+                            <img class="w-[36px] h-[36px] min-w-9 min-h-9"
+                                 src="{% static 'img/_src/icons/Frame 115.svg' %}" alt="back">
+                        </a>
+                        <p class="font-[500]">Вернуться на главную</p>
+                    </div>
+                    <p class="font-[700] text-[20px] border-b-1 border-b-[#EFEFEF] pb-2 w-full">Форум для всех
+                        зарегистрированных пользователей</p>
+                    <div id='messagesContainer' class="flex flex-col w-full gap-4 max-h-[500px] overflow-y-auto">
+                        {% for message in chat_messages %}
+                            {% if message.user.id == request.user.id %}
+                                <div class="bg-[#170406] p-4 flex flex-col rounded-lg self-end">
+                                    <span class="text-xs text-white">{{ message.user.profile.full_name }}</span>
+                                    <span class="text-sm font-semibold text-white">{{ message.text }}</span>
+                                </div>
+                            {% else %}
+                                <div class="bg-[#F5F5F5] p-4 flex flex-col rounded-lg self-start">
+                                    <span class="text-xs">{{ message.user.profile.full_name }}</span>
+                                    <span class="text-sm font-semibold">{{ message.text }}</span>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <form method="post" action="{% url 'forum:forum' %}" class="w-full">
+                        {% csrf_token %}
+                        <label class="bg-[#F5F5F5] flex p-3 w-full rounded-lg justify-between">
+                            <input name="text" placeholder="Напишите ваш комментарии" class="focus:outline-none"/>
+                            <button type="submit"><img src="{% static 'img/24/send.svg' %}" alt="send"/></button>
+                        </label>
+                    </form>
+                </div>
+            </div>
+            {% if selected_author %}
+                <div class="flex flex-col h-auto max-lg:pb-4 max-lg:p-2 shadow-[0px_4px_4px_0px_#0000001A] lg:bg-white lg:p-5 pt-3 rounded-[16px] w-full pb-3 lg:items-start">
+                    <div class="flex flex-row max-lg:flex-col gap-3 justify-center items-center">
+                        <img class="lg:max-w-[194px] lg:max-h-[194px] max-lg:max-w-[352px] max-lg:max-h-[352px] h-full w-full"
+                             src="{{ selected_author.image.url }}" alt="photo">
+                        <div class="flex gap-3 flex-col">
+                            <div class="flex flex-col gap-0">
+                                <p class="text-lg font-[700]">{{ selected_author.name }}</p>
+                                <p class="text-lg font-[400]">{{ selected_author.profession }}</p>
+                            </div>
+                            <div class="flex flex-row gap-3">
+                                <a href="{{ selected_author.linkedin_url }}"
+                                   class="text-white py-3 px-6 rounded-[8px] bg-[#3F8CFF] font-[600] text-xs">LinkedIn</a>
+                                <a href="{{ selected_author.whatsapp_url }}"
+                                   class="text-white py-3 px-6 rounded-[8px] bg-[#3F8CFF] font-[600] text-xs">WhatsApp</a>
+                            </div>
+                        </div>
+                        <div class="sm:pl-6 font-[400] max-lg:mt-3 leading-5">{{ selected_author.description|safe }}</div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="flex flex-row max-lg:flex-col gap-2">
+            <div class="max-w-[1376px] w-full">
+                <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] max-lg:pb-6 pb-6 bg-white mt-3 p-4 max-lg:p-3 rounded-[16px]">
+                    <div class="flex flex-col w-full border-b-3 border-[#EFEFEF] pb-3">
+                        <div class="flex justify-between">
+                            <h2 class="font-bold text-2xl">Авторские статьи</h2>
+                        </div>
+                        <p class="font-[500] max-md:text-sm">{{ selected_author.name }}</p>
+                    </div>
+                    <div class="flex flex-col w-full h-auto">
+                        <div class="main-news flex flex-col gap-4 pt-[10px]">
+                            {% for article in articles|slice:":10" %}
+                                <a href="{% url 'news:news_detail' article.alias %}">
+                                    {% include 'includes/news/card.html' %}
+                                </a>
+                            {% empty %}
+                                <p>Нет новостей</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col lg:max-w-[486px] w-full">
+                <div class="flex flex-col w-full shadow-[0px_4px_4px_0px_#0000001A] max-lg:pb-6 pb-6 bg-white mt-3 p-4 max-lg:p-3 rounded-2xl">
+                    <div class="flex flex-col w-full border-b-3 border-[#EFEFEF] pb-3">
+                        <div class="flex justify-between">
+                            <text class="font-bold text-2xl">Документы</text>
+                        </div>
+                        <text class="font-medium max-md:text-sm">Акты, журналы, приказы, инструкции</text>
+                    </div>
+                    {% for document in documents %}
+                        <div class="flex flex-col w-full p-3 border-b-1 border-[#EFEFEF] gap-[10px]">
+                            {% if document.is_new %}
+                                <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">
+                                    Новое
+                                </div>
+                            {% endif %}
+                            <div class="flex flex-row gap-[10px]">
+                                <img class="w-6 h-6 mt-1" src="{% static 'img/_src/icons/article.svg' %}"
+                                     alt="document">
+                                <text class="font-bold">{{ document.title }}</text>
+                            </div>
+                            <div class="text-sm text-[#444444] flex justify-end">{{ document.created_date|date:"d.m.Y" }}</div>
+                        </div>
+                    {% empty %}
+                        <p class="pt-2">Нет документов</p>
+                    {% endfor %}
+                </div>
+                <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] max-lg:pb-6 pb-6 bg-white mt-3 p-4 max-lg:p-3 rounded-[16px]">
+                    <div class="flex flex-col w-full border-b-3 border-[#EFEFEF] pb-3">
+                        <div class="flex justify-between">
+                            <text class="font-[700] text-[24px]">Чек-листы</text>
+                        </div>
+                        <text class="font-medium max-lg:text-sm">Быстрый контроль техники безопасности
+                        </text>
+                    </div>
+                    {% for category_name, checklists in grouped_checklists.items %}
+                        <div class="flex flex-col w-full h-auto p-3 border-b-2 border-[#EFEFEF] gap-2">
+                            <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">
+                                Новое
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="flex flex-row justify-between items-center">
+                                    <div class="flex flex-row justify-start items-center">
+                                        <img class="w-[24px] h-[24px] mt-1"
+                                             src="{% static 'img/_src/icons/integration_instructions.svg' %}">
+                                        <text class="font-[700] text-[16px] ml-[9px]">{{ category_name }}</text>
+                                    </div>
+                                    <img class="w-[24px] h-[24px] "
+                                         src="{% static 'img/_src/icons/double_arrow.svg' %}">
                                 </div>
                             </div>
+                            <ul class="font-medium text-[14px] font-[400] flex flex-col gap-1.5">
+                                {% for item in checklists %}
+                                    <li class="flex items-start">
+                                        <span class="">{{ item.title }}</span>
+                                    </li>
+                                {% empty %}
+                                    <p>Нет чеклистов</p>
+                                {% endfor %}
+                            </ul>
                         </div>
-                        {% endfor %}
-                    </div>
+                    {% empty %}
+                        <p class="pt-2">Нет чеклистов</p>
+                    {% endfor %}
                 </div>
-            </div>
-            <div class="flex max-lg:order-first flex-col h-auto max-lg:p-2 shadow-[0px_4px_4px_0px_#0000001A] lg:bg-white mt-3 lg:px-6 pt-5 rounded-[16px] max-w-[1200px] w-full gap-6 max-lg:gap-4 pb-3 items-start">
-                <div class="hidden max-lg:flex flex-row justify-center items-center gap-2">
-                    <a href="{% url 'news:index' %}" class=" flex justify-center">
-                        <img class="w-[36px] h-[36px] min-w-9 min-h-9"
-                             src="{% static 'img/_src/icons/Frame 115.svg' %}">
-                    </a>
-                    <p class="font-[500]">Вернуться на главную</p>
-                </div>
-                <p class="font-[700] text-[20px]">Форум для всех зарегистрированных пользователей</p>
-            </div>
-        </div>
-        {% if selected_author %}
-        <div class="flex flex-col h-auto max-lg:pb-4 max-lg:p-2 shadow-[0px_4px_4px_0px_#0000001A] lg:bg-white lg:p-5 pt-3 rounded-[16px] w-full pb-3 lg:items-start">
-            <div class="flex flex-row max-lg:flex-col gap-3 justify-center items-center">
-                <img class="lg:max-w-[194px] lg:max-h-[194px] max-lg:max-w-[352px] max-lg:max-h-[352px] h-full w-full" src="{{ selected_author.image.url }}" alt="photo">
-                <div class="flex gap-3 flex-col">
-                    <div class="flex flex-col gap-0">
-                        <p class="text-lg font-[700]">{{selected_author.name}}</p>
-                        <p class="text-lg font-[400]">{{selected_author.profession}}</p>
-                    </div>
-                    <div class="flex flex-row gap-3">
-                        <a href="{{selected_author.linkedin_url}}"
-                           class="text-white py-3 px-6 rounded-[8px] bg-[#3F8CFF] font-[600] text-xs">LinkedIn</a>
-                        <a href="{{selected_author.whatsapp_url}}"
-                           class="text-white py-3 px-6 rounded-[8px] bg-[#3F8CFF] font-[600] text-xs">WhatsApp</a>
-                    </div>
-                </div>
-                <div class="sm:pl-6 font-[400] max-lg:mt-3 leading-5">{{selected_author.description|safe}}</div>
-            </div>
-        </div>
-        {% endif %}
-    </div>
-    <div class="flex flex-row max-lg:flex-col gap-2">
-        <div class="max-w-[1376px] w-full">
-            <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] max-lg:pb-6 pb-6 bg-white mt-3 p-4 max-lg:p-3 rounded-[16px]">
-                <div class="flex flex-col w-full border-b-3 border-[#EFEFEF] pb-3">
-                    <div class="flex justify-between">
-                        <h2 class="font-bold text-2xl">Авторские статьи</h2>
-                    </div>
-                    <p class="font-[500] max-md:text-sm">{{selected_author.name}}</p>
-                </div>
-                <div class="flex flex-col w-full h-auto">
-                    <div class="main-news flex flex-col gap-4 pt-[10px]">
-                        {% for article in articles|slice:":10" %}
-                        <a href="{% url 'news:news_detail' article.alias %}">
-                            {% include 'includes/news/card.html' %}
-                        </a>
-                        {% empty %}
-                        <p>Нет новостей</p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="flex flex-col lg:max-w-[486px] w-full">
-            <div class="flex flex-col w-full shadow-[0px_4px_4px_0px_#0000001A] max-lg:pb-6 pb-6 bg-white mt-3 p-4 max-lg:p-3 rounded-2xl">
-                <div class="flex flex-col w-full border-b-3 border-[#EFEFEF] pb-3">
-                    <div class="flex justify-between">
-                        <text class="font-bold text-2xl">Документы</text>
-                    </div>
-                    <text class="font-medium max-md:text-sm">Акты, журналы, приказы, инструкции</text>
-                </div>
-                {% for document in documents %}
-                <div class="flex flex-col w-full p-3 border-b-1 border-[#EFEFEF] gap-[10px]">
-                    {% if document.is_new %}
-                    <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">
-                        Новое
-                    </div>
-                    {% endif %}
-                    <div class="flex flex-row gap-[10px]">
-                        <img class="w-6 h-6 mt-1" src="{% static 'img/_src/icons/article.svg' %}" alt="document">
-                        <text class="font-bold">{{ document.title }}</text>
-                    </div>
-                    <div class="text-sm text-[#444444] flex justify-end">{{document.created_date|date:"d.m.Y"}}</div>
-                </div>
-                {% empty %}
-                <p class="pt-2">Нет документов</p>
-                {% endfor %}
-            </div>
-            <div class="flex flex-col w-full h-auto shadow-[0px_4px_4px_0px_#0000001A] max-lg:pb-6 pb-6 bg-white mt-3 p-4 max-lg:p-3 rounded-[16px]">
-                <div class="flex flex-col w-full border-b-3 border-[#EFEFEF] pb-3">
-                    <div class="flex justify-between">
-                        <text class="font-[700] text-[24px]">Чек-листы</text>
-                    </div>
-                    <text class="font-medium max-lg:text-sm">Быстрый контроль техники безопасности
-                    </text>
-                </div>
-                {% for category_name, checklists in grouped_checklists.items %}
-                <div class="flex flex-col w-full h-auto p-3 border-b-2 border-[#EFEFEF] gap-2">
-                    <div class="flex justify-center items-center text-[10px] text-white rounded-[16px] bg-[#DF3131] py-1 px-2 w-fit h-4">
-                        Новое
-                    </div>
-                    <div class="flex flex-col">
-                        <div class="flex flex-row justify-between items-center">
-                            <div class="flex flex-row justify-start items-center">
-                                <img class="w-[24px] h-[24px] mt-1"
-                                     src="{% static 'img/_src/icons/integration_instructions.svg' %}">
-                                <text class="font-[700] text-[16px] ml-[9px]">{{category_name }}</text>
-                            </div>
-                            <img class="w-[24px] h-[24px] " src="{% static 'img/_src/icons/double_arrow.svg' %}">
-                        </div>
-                    </div>
-                    <ul class="font-medium text-[14px] font-[400] flex flex-col gap-1.5">
-                        {% for item in checklists %}
-                        <li class="flex items-start">
-                            <span class="">{{item.title}}</span>
-                        </li>
-                        {% empty %}
-                        <p>Нет чеклистов</p>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% empty %}
-                <p class="pt-2">Нет чеклистов</p>
-                {% endfor %}
             </div>
         </div>
     </div>
-</div>
-</div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById("messagesContainer");
+            container.scrollTop = container.scrollHeight;
+        });
+    </script>
 {% endblock %}

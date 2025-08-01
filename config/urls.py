@@ -7,6 +7,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', include('news.urls')),
     path('auth/', include('users.urls')),
+    path('forum/', include('forum.urls')),
     path('admin/', admin.site.urls),
     # password reset form submission
     path('reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),

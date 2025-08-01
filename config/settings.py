@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'news.apps.NewsConfig',
     'users.apps.UsersConfig',
+    'forum.apps.ForumConfig',
     'trix_editor',
 ]
 

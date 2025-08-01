@@ -1,5 +1,5 @@
-asgiref==3.7.2
-async-timeout==4.0.2
+asgiref==3.9.1
+async-timeout==5.0.1
 Django==4.2.23
 django-cacheops==7.0.1
 django-cors-headers==4.0.0
@@ -11,6 +11,7 @@ django-trix-editor==0.3
 funcy==1.18
 gunicorn==20.0.4
 icalendar==6.3.1
+msgpack==1.1.1
 pillow==11.2.1
 psycopg2-binary==2.9.6
 PyJWT==1.7.1
@@ -18,7 +19,7 @@ python-dateutil==2.8.2
 python-dotenv==1.1.0
 python-slugify==8.0.1
 pytz==2023.3
-redis==4.5.5
+redis==6.2.0
 six==1.16.0
 slugify==0.0.1
 sqlparse==0.4.4

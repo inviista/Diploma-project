@@ -38,7 +38,6 @@ urlpatterns = [
     path('automation_cases/', views.automation_cases, name='automation_cases'),
     path('risk_management/', views.risk_management, name='risk_management'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
-    path('forum/', views.forum, name='forum'),
 
     # AMP
     path('amp/<str:alias>/', views.amp_views, name='amp'),

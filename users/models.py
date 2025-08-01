@@ -48,3 +48,29 @@ class Answer(models.Model):
 
     def __str__(self):
         return f"{self.author.get_full_name()}: {self.content[:30]}..."
+
+
+
+class Author(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField("ФИО", max_length=255)
+    profession = models.TextField(verbose_name='Профессия', null=True, blank=True)
+    description = models.TextField(verbose_name='Полное описание')
+    linkedin_url = models.URLField("Ссылка на LinkedIn", null=True, blank=True)
+    whatsapp_url = models.URLField("Ссылка на WhatsApp", null=True, blank=True)
+    image = models.ImageField(
+        upload_to='authors/',
+        blank=True,
+        verbose_name='Фото автора'
+    )
+
+    @property
+    def article_count(self):
+        return self.articles.count()
+
+    class Meta:
+        verbose_name = "Автор"
+        verbose_name_plural = "Авторы"
+
+    def __str__(self):
+        return self.name

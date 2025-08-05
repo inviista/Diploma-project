@@ -46,7 +46,6 @@ def publish_draft_articles(modeladmin, request, queryset):
             alias=draft.alias,
             description=draft.description,
             content=draft.content,
-            author=draft.author,
             image=draft.image or {},
         )
 
